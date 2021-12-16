@@ -1,0 +1,23 @@
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition-delay: 9999s;
+    transition: color 9999s ease-out, background-color 9999s ease-out;
+}
+
+body {
+    overflow-y: scroll;
+}
+
+.img-thumbnail {
+    object-fit: cover;
+    height: 100px;
+    margin: 16px;
+}
+
+.thumb-screen {
+    cursor: pointer;
+    object-position: top;
+    border-radius: 7px;
+}

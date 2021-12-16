@@ -1,0 +1,96 @@
+import {
+    Container, Heading, SimpleGrid, Divider, Flex, Button,
+    Input,
+    FormControl,
+    FormLabel,
+    FormErrorMessage,
+    FormHelperText,
+} from '@chakra-ui/react'
+import Section from '../components/section'
+import { PostGridItem } from '../components/grid-item'
+import thumbInkdrop from '../public/images/works/work_1-1.png'
+import Layout from '../components/layouts/article'
+import { server } from '../components/api/api'
+import { useEffect } from 'react'
+import useStore from '../state/useStore'
+import ModalWindow from '../components/modalWindow'
+import { AddIcon } from '@chakra-ui/icons'
+
+
+const Posts = () => {
+    const isAuth = useStore(state => state.authInfo.isAuth)
+    const posts = useStore(state => state.posts)
+    const setPosts = useStore(state => state.setPosts)
+    const setErrors = useStore(state => state.setErrors)
+    const clearErrors = useStore(state => state.clearErrors)
+
+
+    const handleSubmit = async (values) => {
+        await server.post('/posts', values)
+            .then(function (res) {
+                if (res.status === 200) {
+                    fetchPosts()
+                }
+            })
+            .catch(function (error) {
+                console.log('ERROR!!!' + error);
+            })
+    }
+    const fetchPosts = async () => {
+        server.defaults.headers.common['auth-token'] = localStorage.getItem('token');
+        await server.get('/posts')
+            .then((res) => {
+                clearErrors()
+                setPosts(res.data);
+            })
+            .catch(err => {
+                const error = err.toJSON()
+                if (error.status === 400) setErrors('Access denied. Please Authorize')
+                else setErrors(error.message)
+            })
+    }
+
+    useEffect(() => {
+        fetchPosts()
+    }, [])
+
+
+    return (
+        <Layout title='Posts'>
+            <Container>
+                <Flex justify='space-between' align='center'>
+                    <Heading as='h3' fontSize={20} mb={4} mt={4}>
+                        Popular Posts
+                    </Heading>
+                    {isAuth && (
+                        <ModalWindow callbackHook={data => handleSubmit(data)} isCentered title='Add New Post' icon={<AddIcon />} isRound={true}></ModalWindow>
+                    )
+                    }
+                </Flex>
+
+                <Divider mb={3} />
+
+
+                <Section delay={0.2}>
+                    <SimpleGrid columns={[1, 1, 2]} gap={6}>
+                        {posts ? (posts.map((post, index) => (
+
+                            <PostGridItem key={index} id={post._id} title={post.title} text={post.description} thumbnail={thumbInkdrop} />
+
+                        )
+
+                        )) : (
+                            <p>
+                                No Posts
+                            </p>
+                        )}
+
+                    </SimpleGrid>
+                </Section>
+
+            </Container>
+        </Layout>
+    )
+}
+
+export default Posts
