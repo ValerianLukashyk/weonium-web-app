@@ -265,7 +265,7 @@ const Work = () => {
                                     </Modal>
                                 )}
                                 <Box>
-                                    <form method='post' action='http://localhost:5000/uploadVideo'>
+                                    {/* <form method='post' action='http://localhost:5000/uploadVideo'>
                                         <label for="videos" class="videoUploader">
                                             <IconContext.Provider value={{ size: "4em" }}>
                                                 <Box
@@ -293,7 +293,7 @@ const Work = () => {
                                             </IconContext.Provider >
                                         </label>
                                         <input onChange={null} style={{ display: 'none' }} type="file" name="videos" multiple id="videos" />
-                                    </form>
+                                    </form> */}
 
                                     {/* <video controls autoPlay loop width={1200} height={700}>
                                         <source type="video/mp4" src="/video.mp4" />

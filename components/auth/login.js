@@ -112,7 +112,7 @@ const Login = () => {
                         </Formik>
                         <Button
                             onClick={() => {
-                                openGoogleSignIn('http://localhost:5000/auth/google')
+                                openGoogleSignIn(`http://localhost:5000/auth/google`)
                             }}
                             variant='solid'
                             background='blue'

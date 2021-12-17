@@ -1,14 +1,12 @@
 import { useEffect, useState } from 'react'
 import { server } from '../components/api/api'
-import { Container, Flex, Heading, SimpleGrid, Divider, Spinner, Center } from '@chakra-ui/react'
+import { Container, Flex, Heading, SimpleGrid, Divider } from '@chakra-ui/react'
 import Section from '../components/section'
 import { WorkGridItem } from '../components/grid-item'
-import thumbInkdrop from '../public/images/works/work_1-1.png'
 import Layout from '../components/layouts/article'
 import useStore from '../state/useStore'
 import { AddIcon } from '@chakra-ui/icons'
 import ModalWindow from '../components/modalWindow'
-import WorkModal from '../components/work-modal'
 import Loading from './../utils/loading'
 
 

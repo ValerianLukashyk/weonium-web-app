@@ -4,7 +4,7 @@ import Logo from './logo'
 import {
     Container,
     Box,
-
+    Text,
     Heading,
     Flex,
 
@@ -32,10 +32,11 @@ const Footer = (props) => {
                 justify="space-between"
             >
                 <Flex align="center" mr={5}>
-                    <Logo />
-                    <Heading as="h1" size="lg" letterSpacing={'tighter'}>
-                        FOOTER
+
+                    <Heading as="h1" size="lg" letterSpacing={'tighter'} mr={5}>
+                        Valerian Lukashyk
                     </Heading>
+                    <Text>Full stack developer</Text>
                 </Flex>
             </Container>
         </Box>

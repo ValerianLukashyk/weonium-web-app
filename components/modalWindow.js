@@ -28,10 +28,6 @@ import useStore from '../state/useStore'
 const ModalWindow = ({ title = 'Add New Post', icon, isRound = false, fields, iValues, callbackHook, children, ...restProps }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [hovered, setHovered] = useState(false)
-    const isActive = useStore(state => state.isDragActive)
-    const toggleDragActive = useStore(state => state.toggleDragActive)
-    // const formData = useStore(state => state.formData)
-    // const setFormData = useStore(state => state.setFormData)
     const setFormDataImages = useStore(state => state.setFormDataImages)
 
     const toggleHover = () => {
