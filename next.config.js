@@ -1,7 +1,7 @@
 module.exports = {
   reactStrictMode: true,
   images: {
-    domains: ['localhost'],
+    domains: ['3.70.207.36'],
     disableStaticImages: false,
   },
 }
