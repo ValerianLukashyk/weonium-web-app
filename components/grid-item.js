@@ -16,9 +16,9 @@ export const GridItem = ({ children, href, title, thumbnail }) => (
 )
 
 
-export const WorkGridItem = ({ title, thumbnail }) => (
+export const WorkGridItem = ({ slug, title, thumbnail }) => (
     <Box w='100%' align='center'>
-        <NextLink href={`/works/${title}`}>
+        <NextLink href={`/works/${slug}`}>
             <LinkBox cursor='pointer'>
                 <Image width='230' height='130' src={thumbnail} alt={title} className='grid-item-thumbnail' />
                 <LinkOverlay href={`/works/${title.toLowerCase()}`}>
@@ -36,7 +36,7 @@ export const PostGridItem = ({ children, id, title, thumbnail }) => {
         <Box w='100%' align='center' >
             <NextLink href={`/posts/${title}?id=${id}`}>
                 <LinkBox cursor='pointer'>
-                    <Image src={thumbnail} alt={title} className='grid-item-thumbnail' placeholder="blur" />
+                    <Image height='300' width='400' src={thumbnail} alt={title} className='grid-item-thumbnail' />
                     <LinkOverlay href={`/posts/${title}?id=${id}`}>
                         <Text mt={2} fontSize={20}>
                             {title}

@@ -1,7 +1,6 @@
 import { Container, Heading, SimpleGrid, Divider, Flex } from '@chakra-ui/react'
 import Section from '../components/section'
 import { PostGridItem } from '../components/grid-item'
-import thumbInkdrop from '../public/images/works/work_1-1.png'
 import Layout from '../components/layouts/article'
 import { server } from '../components/api/api'
 import { useEffect } from 'react'
@@ -15,8 +14,6 @@ const Posts = () => {
     const posts = useStore(state => state.posts)
     const getAllPosts = useStore(state => state.getAllPosts)
 
-
-
     const handleSubmit = async (values) => {
         await server.post('/posts', values)
             .then(function (res) {
@@ -28,12 +25,10 @@ const Posts = () => {
                 console.log('ERROR!!!' + error);
             })
     }
-    // 
 
     useEffect(() => {
         getAllPosts()
     }, [getAllPosts])
-
 
     return (
         <Layout title='Posts'>
@@ -55,7 +50,7 @@ const Posts = () => {
                     <SimpleGrid columns={[1, 1, 2]} gap={6}>
                         {posts ? (posts.map((post, index) => (
 
-                            <PostGridItem key={index} id={post._id} title={post.title} text={post.description} thumbnail={thumbInkdrop} />
+                            <PostGridItem key={index} id={post._id} title={post.title} text={post.description} thumbnail={post.picture} />
 
                         )
 

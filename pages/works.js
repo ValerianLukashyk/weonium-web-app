@@ -91,7 +91,7 @@ const Works = () => {
                         {works && (
                             [...works].reverse().map((work, index) => (
                                 <Section key={index}>
-                                    <WorkGridItem key={index} title={work.title} thumbnail={work.screenshots[0]} />
+                                    <WorkGridItem key={index} title={work.title} slug={work.slug} thumbnail={work.screenshots[0]} />
                                 </Section>
                             ))
                         )}

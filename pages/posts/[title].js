@@ -5,7 +5,7 @@ import { server } from '../../components/api/api'
 import { Title, Meta } from '../../components/work'
 import P from '../../components/paragraph'
 import Layout from '../../components/layouts/article'
-import { Container, Badge, List, ListItem } from '@chakra-ui/react'
+import { Container, Badge, List, Image, ListItem } from '@chakra-ui/react'
 
 
 const Post = () => {
@@ -27,9 +27,10 @@ const Post = () => {
             <Container>
                 <Title>{post.title} <Badge>{post.period}</Badge>
                 </Title>
-                <P>
+                <P >
                     {post.description}
                 </P>
+                <Image mt={6} src={post.picture} alt={post.title} />
                 <List ml={4} my={4}>
                     <ListItem>
                         <Meta>Author</Meta>
