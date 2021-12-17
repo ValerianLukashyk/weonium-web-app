@@ -41,7 +41,7 @@ const Posts = () => {
                 if (error.status === 400) setErrors('Access denied. Please Authorize')
                 else setErrors(error.message)
             })
-    })
+    }, [])
 
     useEffect(() => {
         fetchPosts()
