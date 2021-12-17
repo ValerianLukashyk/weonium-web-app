@@ -2,7 +2,5 @@ import axios from 'axios'
 
 
 export const server = axios.create({
-    baseURL: 'http://localhost:5000',
-
-
+    baseURL: `${process.env.SERVER_URL}`,
 });
