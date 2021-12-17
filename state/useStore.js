@@ -38,10 +38,20 @@ const useStore = create(set => ({
     time: 0,
     setTime: () => set((state) => ({ time: state.time + 0.01 })),
     resetTime: set(() => ({ time: 0 })),
-    // POSTS SECTION / / / / / / / / / / / / / / / /
+
+    // POSTS SECTION
     posts: [],
     post: {},
     setPost: (data) => set(() => ({ post: data })),
+    getAllPosts: async () => {
+        const token = getCookie('token')
+        server.defaults.headers.common["auth-token"] = token
+        server('/posts')
+            .then(res => {
+                set({ posts: res.data })
+            })
+            .catch(err => console.log(err))
+    },
     showButtons: false,
     onPostHover: () => set((value) => ({ showButtons: value })),
     setPosts: (data) => set(() => ({ posts: data })),
@@ -77,6 +87,9 @@ const useStore = create(set => ({
             })
             .catch(err => console.log(err))
     },
+
+    // POSTS SECTION
+
 
     // ADD WORK FORM
     newWorkForm: {

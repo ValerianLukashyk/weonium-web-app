@@ -4,7 +4,7 @@ import { PostGridItem } from '../components/grid-item'
 import thumbInkdrop from '../public/images/works/work_1-1.png'
 import Layout from '../components/layouts/article'
 import { server } from '../components/api/api'
-import { useEffect, useCallback } from 'react'
+import { useEffect } from 'react'
 import useStore from '../state/useStore'
 import ModalWindow from '../components/modalWindow'
 import { AddIcon } from '@chakra-ui/icons'
@@ -13,9 +13,8 @@ import { AddIcon } from '@chakra-ui/icons'
 const Posts = () => {
     const isAuth = useStore(state => state.authInfo.isAuth)
     const posts = useStore(state => state.posts)
-    const setPosts = useStore(state => state.setPosts)
-    const setErrors = useStore(state => state.setErrors)
-    const clearErrors = useStore(state => state.clearErrors)
+    const getAllPosts = useStore(state => state.getAllPosts)
+
 
 
     const handleSubmit = async (values) => {
@@ -29,23 +28,11 @@ const Posts = () => {
                 console.log('ERROR!!!' + error);
             })
     }
-    const fetchPosts = useCallback(async () => {
-        server.defaults.headers.common['auth-token'] = localStorage.getItem('token');
-        await server.get('/posts')
-            .then((res) => {
-                clearErrors()
-                setPosts(res.data);
-            })
-            .catch(err => {
-                const error = err.toJSON()
-                if (error.status === 400) setErrors('Access denied. Please Authorize')
-                else setErrors(error.message)
-            })
-    }, [])
+    // 
 
     useEffect(() => {
-        fetchPosts()
-    }, [fetchPosts])
+        getAllPosts()
+    }, [getAllPosts])
 
 
     return (
