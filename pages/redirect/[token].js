@@ -1,10 +1,9 @@
-import { memo } from 'react'
 import { useRouter } from 'next/router'
 import useStore from '../../state/useStore'
 import { server } from '../../components/api/api'
 import { useEffect } from 'react'
 
-const loginRedirect = ({ href }) => {
+const LoginRedirect = ({ href }) => {
     const setAuthInfo = useStore(state => state.setAuthInfo)
     const router = useRouter()
     const { token } = router.query
@@ -34,4 +33,4 @@ const loginRedirect = ({ href }) => {
     )
 }
 
-export default loginRedirect
+export default LoginRedirect

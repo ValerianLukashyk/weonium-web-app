@@ -4,7 +4,7 @@ import { PostGridItem } from '../components/grid-item'
 import thumbInkdrop from '../public/images/works/work_1-1.png'
 import Layout from '../components/layouts/article'
 import { server } from '../components/api/api'
-import { useEffect } from 'react'
+import { useEffect, useCallback } from 'react'
 import useStore from '../state/useStore'
 import ModalWindow from '../components/modalWindow'
 import { AddIcon } from '@chakra-ui/icons'
@@ -29,7 +29,7 @@ const Posts = () => {
                 console.log('ERROR!!!' + error);
             })
     }
-    const fetchPosts = async () => {
+    const fetchPosts = useCallback(async () => {
         server.defaults.headers.common['auth-token'] = localStorage.getItem('token');
         await server.get('/posts')
             .then((res) => {
@@ -41,7 +41,7 @@ const Posts = () => {
                 if (error.status === 400) setErrors('Access denied. Please Authorize')
                 else setErrors(error.message)
             })
-    }
+    })
 
     useEffect(() => {
         fetchPosts()

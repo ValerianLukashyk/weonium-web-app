@@ -127,7 +127,9 @@ const Work = () => {
                                             name="description"
                                         />
                                         <InputGroup>
-                                            <InputLeftAddon children={<Meta>Website</Meta>} />
+                                            <InputLeftAddon>
+                                                <Meta>Website</Meta>
+                                            </InputLeftAddon>
                                             <Input
                                                 type="text"
                                                 onChange={props.handleChange}
@@ -260,7 +262,7 @@ const Work = () => {
                                         <ModalContent>
                                             <ModalCloseButton position='fixed' w={50} h={50} right={50} top={4} />
                                             <ModalBody>
-                                                <Image onDoubleClick={onClose} w='full' src={work.screenshots[0]} />
+                                                <Image onDoubleClick={onClose} w='full' alt={'screenshot main'} src={work.screenshots[0]} />
                                             </ModalBody>
                                         </ModalContent>
                                     </Modal>
