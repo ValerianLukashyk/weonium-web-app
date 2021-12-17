@@ -4,7 +4,7 @@ import useStore from '../../state/useStore'
 import { server } from '../../components/api/api'
 import { useEffect } from 'react'
 
-const loginRedirect = memo(({ href }) => {
+const loginRedirect = ({ href }) => {
     const setAuthInfo = useStore(state => state.setAuthInfo)
     const router = useRouter()
     const { token } = router.query
@@ -27,11 +27,11 @@ const loginRedirect = memo(({ href }) => {
             }, 500)
 
         }
-    }, [token])
+    }, [token, href, router, setAuthInfo])
 
     return (
         <>Redirecting to your profile...</>
     )
-})
+}
 
 export default loginRedirect

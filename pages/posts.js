@@ -1,11 +1,4 @@
-import {
-    Container, Heading, SimpleGrid, Divider, Flex, Button,
-    Input,
-    FormControl,
-    FormLabel,
-    FormErrorMessage,
-    FormHelperText,
-} from '@chakra-ui/react'
+import { Container, Heading, SimpleGrid, Divider, Flex } from '@chakra-ui/react'
 import Section from '../components/section'
 import { PostGridItem } from '../components/grid-item'
 import thumbInkdrop from '../public/images/works/work_1-1.png'
@@ -52,7 +45,7 @@ const Posts = () => {
 
     useEffect(() => {
         fetchPosts()
-    }, [])
+    }, [fetchPosts])
 
 
     return (

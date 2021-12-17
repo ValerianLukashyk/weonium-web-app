@@ -7,15 +7,12 @@ import {
     FormControl,
     FormLabel,
     FormErrorMessage,
-    Flex,
-    Center,
     Heading
 } from '@chakra-ui/react'
 import { server } from '../api/api'
 // import { useRouter } from 'next/router';
 import { IoIosCheckmarkCircleOutline } from 'react-icons/io'
 import { IconContext } from 'react-icons'
-import Paragraph from '../paragraph'
 import NextLink from 'next/link'
 
 const RegisterForm = () => {
@@ -27,6 +24,7 @@ const RegisterForm = () => {
             .then(function (res) {
                 if (res.status === 200) {
                     console.log(res)
+                    setConfirm(true)
 
                 }
             })

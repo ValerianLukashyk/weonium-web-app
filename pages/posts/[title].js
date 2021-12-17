@@ -2,15 +2,15 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import useStore from '../../state/useStore'
 import { server } from '../../components/api/api'
-import { Title, WorkImage, Meta } from '../../components/work'
+import { Title, Meta } from '../../components/work'
 import P from '../../components/paragraph'
 import Layout from '../../components/layouts/article'
-import { Container, Badge, Link, List, ListItem } from '@chakra-ui/react'
+import { Container, Badge, List, ListItem } from '@chakra-ui/react'
 
 
 const Post = () => {
     const router = useRouter()
-    const { title, id } = router.query
+    const { id } = router.query
     const post = useStore(state => state.post)
     const setPost = useStore(state => state.setPost)
 
@@ -21,7 +21,7 @@ const Post = () => {
                 console.log(res.data);
                 setPost(res.data);
             })
-    }, [])
+    }, [id, setPost])
     return (
         <Layout title={post.title}>
             <Container>

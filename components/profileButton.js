@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router'
 import { Button } from '@chakra-ui/react'
-import { SettingsIcon } from '@chakra-ui/icons'
 import { IoIosPerson } from 'react-icons/io'
 import { IconContext } from 'react-icons'
 

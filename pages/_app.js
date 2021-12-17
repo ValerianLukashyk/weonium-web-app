@@ -8,7 +8,6 @@ import theme from '../libs/theme'
 import '../styles/styles.css'
 import { AnimatePresence } from 'framer-motion'
 
-const apiUrl = 'http://localhost:5000';
 
 const Website = ({ Component, pageProps, router }) => {
   const setAuthInfo = useStore(state => state.setAuthInfo)
@@ -25,7 +24,7 @@ const Website = ({ Component, pageProps, router }) => {
           console.log(error);
         })
     }
-  }, [])
+  }, [setAuthInfo])
 
   return (
     <ChakraProvider theme={theme}>

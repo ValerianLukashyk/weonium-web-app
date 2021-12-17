@@ -1,5 +1,4 @@
 import useStore from '../state/useStore'
-import Logo from './logo'
 import Login from './auth/login'
 import Logout from './auth/logout'
 import { LinkItem } from './link-item'

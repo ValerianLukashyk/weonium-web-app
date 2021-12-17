@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Spinner } from "@chakra-ui/react";
+import { Box, Spinner, Image } from "@chakra-ui/react";
 
 export default class Thumb extends React.Component {
     state = {
@@ -52,7 +52,7 @@ export default class Thumb extends React.Component {
                         size='xl'
                     /> : (
                         <>
-                            {thumb && <img src={thumb}
+                            {thumb && <Image src={thumb}
                                 alt={file.name}
                                 className="img-thumbnail mt-2"
                                 height={'100px'}

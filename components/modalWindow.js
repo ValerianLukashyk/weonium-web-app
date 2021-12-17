@@ -1,11 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import {
     Button,
     Input,
     FormControl,
     FormLabel,
-    FormErrorMessage,
-    FormHelperText,
     IconButton,
     Modal,
     ModalOverlay,
@@ -25,7 +23,7 @@ import DragText from './styled/drag-text'
 import useStore from '../state/useStore'
 
 
-const ModalWindow = ({ title = 'Add New Post', icon, isRound = false, fields, iValues, callbackHook, children, ...restProps }) => {
+const ModalWindow = ({ title = 'Add New Post', icon, isRound = false, fields, iValues, callbackHook, ...restProps }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [hovered, setHovered] = useState(false)
     const setFormDataImages = useStore(state => state.setFormDataImages)
@@ -63,7 +61,7 @@ const ModalWindow = ({ title = 'Add New Post', icon, isRound = false, fields, iV
                                     {fields && fields.map((f, i) => {
                                         return (
                                             <Field key={i} name={f.name}>
-                                                {({ field, form }) => (
+                                                {({ field }) => (
                                                     <FormControl>
                                                         <FormLabel style={{ marginTop: 8 }} htmlFor={f.name}>{f.displayName}</FormLabel>
                                                         <Input onChange={handleChange} {...field} id={f.id} placeholder={f.placeholder} />
@@ -87,7 +85,7 @@ const ModalWindow = ({ title = 'Add New Post', icon, isRound = false, fields, iV
                                             setFormDataImages(files)
                                         }}
                                     >
-                                        {({ getRootProps, getInputProps, isDragActive, isDragReject, acceptedFiles, rejectedFiles }) => {
+                                        {({ getRootProps, getInputProps, isDragActive, isDragReject }) => {
                                             let message
 
                                             if (isDragActive) {

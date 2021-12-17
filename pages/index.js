@@ -108,7 +108,7 @@ const Page = () => {
           </BioSection>
           <BioSection>
             <BioYear>2019 to present</BioYear>
-            Works in Digital Studio "Weonium"
+            Works in Digital Studio Weonium
           </BioSection>
         </Section>
         <Section delay={0.3}>

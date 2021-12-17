@@ -7,7 +7,6 @@ import {
 import RegisterForm from '../components/auth/register'
 import Section from '../components/section'
 import Layout from '../components/layouts/article'
-import useStore from '../state/useStore'
 
 const Register = () => {
 

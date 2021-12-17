@@ -15,7 +15,7 @@ const Logout = () => {
         router.push('/')
     }
 
-    const handleLogout = (e) => {
+    const handleLogout = () => {
         server.get('/auth/logout')
             .then(function (res) {
                 console.log('--------->>>', res)

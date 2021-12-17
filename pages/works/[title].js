@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import {
-    Container, Badge, Link, List, ListItem, Flex, IconButton, Divider, Box, Input, Textarea, Spacer, Button, Stack, InputGroup, InputLeftAddon, FormLabel, Modal, ModalOverlay, ModalContent, Image, ModalBody, ModalCloseButton, useDisclosure, Center, Text
+    Container, Badge, Link, List, ListItem, Flex, IconButton, Divider, Box, Input, Textarea, Spacer, Button, Stack, InputGroup, InputLeftAddon, FormLabel, Modal, ModalOverlay, ModalContent, Image, ModalBody, ModalCloseButton, useDisclosure,
 } from '@chakra-ui/react'
 import { ExternalLinkIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons'
 import { Title, WorkImage, Meta } from '../../components/work'
@@ -16,15 +16,12 @@ import Dropzone from 'react-dropzone'
 import Thumb from '../../components/thumb'
 import { values } from '../../utils/formValues'
 import DragText from '../../components/styled/drag-text'
-import { IoAddCircleOutline } from "react-icons/io5";
-import { IconContext } from "react-icons";
 
 
 const Work = () => {
     const [loaded, setLoaded] = useState(true)
     const [editMode, setEditMode] = useState(false)
     const [hovered, setHovered] = useState(false)
-    const [open, setOpen] = useState(false)
     const { isOpen, onOpen, onClose } = useDisclosure()
     const isAuth = useStore(state => state.authInfo.isAuth)
     const work = useStore(state => state.currentWork)
@@ -40,7 +37,7 @@ const Work = () => {
             return;
         }
         workFetch(query.title)
-    }, [query]);
+    }, [query, workFetch]);
 
     const handleEdit = () => {
         if (editMode) setEditMode(false)
@@ -140,7 +137,9 @@ const Work = () => {
                                             />
                                         </InputGroup>
                                         <InputGroup>
-                                            <InputLeftAddon children={<Meta>Stack</Meta>} />
+                                            <InputLeftAddon >
+                                                <Meta>Stack</Meta>
+                                            </InputLeftAddon >
                                             <Input
                                                 type="text"
                                                 onChange={props.handleChange}
@@ -164,7 +163,7 @@ const Work = () => {
                                                 setFormDataImages(files)
                                             }}
                                         >
-                                            {({ getRootProps, getInputProps, isDragActive, isDragReject, acceptedFiles, rejectedFiles }) => {
+                                            {({ getRootProps, getInputProps, isDragActive, isDragReject }) => {
                                                 let message
                                                 if (isDragActive) {
                                                     message = 'Drop here...'
@@ -189,9 +188,11 @@ const Work = () => {
                                                     <Box transition='all 0.2s' height={'100%'} minH={50} position='relative' border={'1px dashed'} borderColor={hovered ? 'yellow' : 'inherit'} borderRadius={8} onMouseEnter={toggleHover} onMouseLeave={toggleHover} {...getRootProps()}>
                                                         <input type="file" name="files" multiple id="files" {...getInputProps()} />
                                                         <Flex justify='flex-start' wrap='wrap' >
-                                                            {work.screenshots && work.screenshots.map(img => (
+                                                            {work.screenshots && work.screenshots.map(img, i => (
                                                                 <Box display='flex' alignItems='center' justifyContent="center" width={'120px'} height={'120px'}>
-                                                                    <img src={img}
+                                                                    <Image
+                                                                        key={i}
+                                                                        src={img}
                                                                         alt='thumbnails'
                                                                         className="img-thumbnail mt-2 thumb-screen"
                                                                         height={'100px'}
@@ -266,7 +267,7 @@ const Work = () => {
                                 )}
                                 <Box>
                                     {/* <form method='post' action='http://localhost:5000/uploadVideo'>
-                                        <label for="videos" class="videoUploader">
+                                        <label htmlFor="videos" className="videoUploader">
                                             <IconContext.Provider value={{ size: "4em" }}>
                                                 <Box
                                                     transition='all 0.2s'

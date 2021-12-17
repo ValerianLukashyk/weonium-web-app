@@ -1,11 +1,5 @@
-import { useEffect, useCallback } from 'react'
+import { useEffect } from 'react'
 import {
-    // Button,
-    // Input,
-    // FormControl,
-    // FormLabel,
-    // FormErrorMessage,
-    // FormHelperText,
     IconButton,
     Modal,
     ModalOverlay,
@@ -16,12 +10,10 @@ import {
     ModalCloseButton,
     useDisclosure,
     Box,
-    Flex
 } from '@chakra-ui/react'
 import useStore from '../state/useStore'
-import { server } from './api/api'
 
-const WorkModal = ({ title = 'Add New Post', icon, isRound = false, fields, iValues, callbackHook, children, ...restProps }) => {
+const WorkModal = ({ title = 'Add New Post', icon, isRound = false, ...restProps }) => {
     const formData = useStore(state => state.formData)
     const setFormData = useStore(state => state.setFormData)
     const setFormDataImages = useStore(state => state.setFormDataImages)
@@ -76,7 +68,7 @@ const WorkModal = ({ title = 'Add New Post', icon, isRound = false, fields, iVal
                     <ModalHeader>{title}</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        <form onSubmit={handleSubmit} enctype="multipart/form-data" method="post">
+                        <form onSubmit={handleSubmit} encType="multipart/form-data" method="post">
                             <Box display='flex' flexDirection='column' mb={3}>
                                 <label htmlFor="title">Title:</label>
                                 <input type="text" name="title" id="title" onChange={handleChange} />

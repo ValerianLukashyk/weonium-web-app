@@ -11,7 +11,6 @@ import {
     ModalOverlay,
     ModalContent,
     ModalHeader,
-    ModalFooter,
     ModalBody,
     ModalCloseButton,
     useDisclosure,
@@ -95,7 +94,7 @@ const Login = () => {
                                                 <FormLabel htmlFor="password">Password</FormLabel>
                                                 <Input {...field} type="password" id="password" placeholder="Enter a password" />
                                                 <FormErrorMessage>{form.errors.password}</FormErrorMessage>
-                                                <FormHelperText>We'll never share your email and password.</FormHelperText>
+                                                <FormHelperText>We&apos;ll never share your email and password.</FormHelperText>
                                             </FormControl>
                                         )}
                                     </Field>

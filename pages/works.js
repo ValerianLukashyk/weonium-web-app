@@ -52,7 +52,7 @@ const Works = () => {
 
     useEffect(() => {
         getAllWorks()
-    }, [])
+    }, [getAllWorks])
 
     const fields = [
         { name: 'title', displayName: 'Title', id: 'work-title', placeholder: 'Enter work title' },
