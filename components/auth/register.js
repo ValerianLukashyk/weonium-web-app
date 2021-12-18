@@ -33,6 +33,29 @@ const RegisterForm = () => {
             })
     }
 
+    const sendConfirmEmail = async () => {
+        const values = {
+            from: "admin@weonium.com",
+            to: "weonium@gmail.com",
+            subject: "Hello World!",
+            text: "Welcome to mail server, God!",
+            html: "<h1>Ye hoo hooo ho</h1>",
+        }
+
+        const formData = new FormData();
+        formData.append('from', values.from);
+        formData.append('to', values.to);
+        formData.append('subject', values.subject);
+        formData.append('text', values.text);
+        formData.append('html', values.html);
+
+
+        await server.post('/mail', formData, (req, res) => {
+            console.log(res)
+        })
+    }
+
+
     return (
         <Box>
             {confirm ? <Formik
@@ -126,6 +149,7 @@ const RegisterForm = () => {
                         </Heading>
                         <NextLink href="/">
                             <Button color='black' bg={'lightblue'}>Go to home</Button>
+                            <Button onClick={sendConfirmEmail} color='white' bg={'red'}>SEND TEST EMAIL</Button>
                         </NextLink>
 
                     </Box>

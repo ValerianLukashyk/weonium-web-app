@@ -14,14 +14,15 @@ const Post = () => {
     const post = useStore(state => state.post)
     const setPost = useStore(state => state.setPost)
 
+    //TODO: Migrate api request to useStore api
     useEffect(() => {
         server.defaults.headers.common['auth-token'] = localStorage.getItem('token');
         server.get(`/posts/${id}`)
             .then((res) => {
-                console.log(res.data);
                 setPost(res.data);
             })
     }, [id, setPost])
+
     return (
         <Layout title={post.title}>
             <Container>

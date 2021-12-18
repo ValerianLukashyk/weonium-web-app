@@ -31,7 +31,6 @@ const Login = () => {
                     const token = res.data
                     localStorage.setItem('token', token);
                     document.cookie = `token=${token}; path=/; max-age=${60 * 60 * 24 * 7};`;
-                    // setHeaders(localStorage)
                     server.defaults.headers.common['auth-token'] = token
                     router.push(`/redirect/${token}`)
                 }
@@ -41,9 +40,6 @@ const Login = () => {
             })
     }
 
-    const openGoogleSignIn = (url) => {
-        window.location = url
-    }
 
     return (
         <>
@@ -111,7 +107,7 @@ const Login = () => {
                         </Formik>
                         <Button
                             onClick={() => {
-                                openGoogleSignIn(`http://localhost:5000/auth/google`)
+                                openGoogleSignIn(() => { process.env.SERVER_URL + '/auth/google' })
                             }}
                             variant='solid'
                             background='blue'
