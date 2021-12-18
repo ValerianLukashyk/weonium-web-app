@@ -15,19 +15,21 @@ import {
     ModalCloseButton,
     useDisclosure,
 } from '@chakra-ui/react'
-import { LockIcon } from '@chakra-ui/icons'
 import { Form, Field, Formik } from 'formik'
+import { IoLockClosed, IoLockOpen } from "react-icons/io5";
+import useStore from '../../state/useStore'
+
+
 
 const Login = () => {
     const router = useRouter()
     const { isOpen, onOpen, onClose } = useDisclosure()
-
+    const isAuth = useStore(state => state.authInfo.isAuth)
 
     const handleSubmit = async (values) => {
         await server.post('/auth/login', values)
             .then(function (res) {
                 if (res.status === 200) {
-                    console.log(res.data)
                     const token = res.data
                     localStorage.setItem('token', token);
                     document.cookie = `token=${token}; path=/; max-age=${60 * 60 * 24 * 7};`;
@@ -43,7 +45,7 @@ const Login = () => {
 
     return (
         <>
-            <Button mr={4} onClick={onOpen}><LockIcon mr={1} />Sign In</Button>
+            <Button mr={4} onClick={onOpen}>{isAuth ? <IoLockOpen /> : <><IoLockClosed />&nbsp;Sign-in</>}</Button>
 
             <Modal isOpen={isOpen} onClose={onClose} isCentered>
                 <ModalOverlay />
@@ -79,7 +81,7 @@ const Login = () => {
                                         {({ field, form }) => (
                                             <FormControl isInvalid={form.errors.email && form.touched.email}>
                                                 <FormLabel htmlFor="email">Email</FormLabel>
-                                                <Input {...field} id="email" placeholder="Email" />
+                                                <Input {...field} id="email" placeholder="Email" autocomplete="email" />
                                                 <FormErrorMessage>{form.errors.email}</FormErrorMessage>
                                             </FormControl>
                                         )}
@@ -88,7 +90,7 @@ const Login = () => {
                                         {({ field, form }) => (
                                             <FormControl isInvalid={form.errors.password && form.touched.password}>
                                                 <FormLabel htmlFor="password">Password</FormLabel>
-                                                <Input {...field} type="password" id="password" placeholder="Enter a password" />
+                                                <Input {...field} type="password" id="password" placeholder="Enter a password" autocomplete="current-password" />
                                                 <FormErrorMessage>{form.errors.password}</FormErrorMessage>
                                                 <FormHelperText>We&apos;ll never share your email and password.</FormHelperText>
                                             </FormControl>

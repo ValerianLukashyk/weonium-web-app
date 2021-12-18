@@ -18,7 +18,6 @@ const Logout = () => {
     const handleLogout = () => {
         server.get('/auth/logout')
             .then(function (res) {
-                console.log('--------->>>', res)
                 if (res.status === 200) {
                     setLogout()
                 } else {

@@ -12,7 +12,6 @@ const LoginRedirect = ({ href }) => {
         if (token) {
             localStorage.setItem('token', token)
             document.cookie = `token=${token}; path=/`;
-            console.log('we have token');
             server.defaults.headers.common["auth-token"] = localStorage.getItem('token');
             setTimeout(() => {
                 server.get('/auth/me')

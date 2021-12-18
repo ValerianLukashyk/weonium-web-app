@@ -10,20 +10,17 @@ import {
     Heading
 } from '@chakra-ui/react'
 import { server } from '../api/api'
-// import { useRouter } from 'next/router';
 import { IoIosCheckmarkCircleOutline } from 'react-icons/io'
 import { IconContext } from 'react-icons'
 import NextLink from 'next/link'
 
 const RegisterForm = () => {
     const [confirm, setConfirm] = useState(false)
-    // const router = useRouter()
 
     const handleRegister = async (values) => {
         await server.post('/auth/register', values)
             .then(function (res) {
                 if (res.status === 200) {
-                    console.log(res)
                     setConfirm(true)
 
                 }
@@ -59,11 +56,13 @@ const RegisterForm = () => {
     return (
         <Box>
             {confirm ? <Formik
-                initialValues={{ email: '', password: '', confirmPassword: '' }}
+                initialValues={{ name: '', email: '', password: '', confirmPassword: '' }}
                 validate={values => {
                     const errors = {};
                     if (!values.email) {
                         errors.email = 'Required';
+                    } else if (!values.name) {
+                        errors.name = 'It would be better to know your name'
                     } else if (
                         !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
                     ) {
@@ -93,7 +92,7 @@ const RegisterForm = () => {
                             {({ field, form }) => (
                                 <FormControl isInvalid={form.errors.name && form.touched.name}>
                                     <FormLabel htmlFor="name">Your name</FormLabel>
-                                    <Input {...field} id="name" placeholder="Enter your name" />
+                                    <Input {...field} id="name" placeholder="Enter your name" autocomplete="username" />
                                     <FormErrorMessage>{form.errors.name}</FormErrorMessage>
                                 </FormControl>
                             )}
@@ -102,7 +101,7 @@ const RegisterForm = () => {
                             {({ field, form }) => (
                                 <FormControl isInvalid={form.errors.email && form.touched.email}>
                                     <FormLabel htmlFor="email">Email</FormLabel>
-                                    <Input {...field} id="email" placeholder="Enter Email" />
+                                    <Input {...field} id="email" placeholder="Enter Email" autocomplete="email" />
                                     <FormErrorMessage>{form.errors.email}</FormErrorMessage>
                                 </FormControl>
                             )}
@@ -111,7 +110,7 @@ const RegisterForm = () => {
                             {({ field, form }) => (
                                 <FormControl isInvalid={form.errors.password && form.touched.password || form.errors.confirmPassword}>
                                     <FormLabel htmlFor="password">Password</FormLabel>
-                                    <Input {...field} type="password" id="password" placeholder="Enter a password" />
+                                    <Input {...field} type="password" id="password" placeholder="Enter a password" autocomplete="new-password" />
                                     <FormErrorMessage>{form.errors.password}</FormErrorMessage>
                                     {/* <FormHelperText>We'll never share your email and password.</FormHelperText> */}
                                 </FormControl>
@@ -121,7 +120,7 @@ const RegisterForm = () => {
                             {({ field, form }) => (
                                 <FormControl isInvalid={form.errors.confirmPassword && form.touched.confirmPassword}>
                                     <FormLabel htmlFor="confirmPassword">Confirm password</FormLabel>
-                                    <Input {...field} type="password" id="confirmPassword" placeholder="Confirm a password" />
+                                    <Input {...field} type="password" id="confirmPassword" placeholder="Confirm a password" autocomplete="new-password" />
                                     <FormErrorMessage>{form.errors.confirmPassword}</FormErrorMessage>
                                 </FormControl>
                             )}
@@ -132,7 +131,8 @@ const RegisterForm = () => {
                             colorScheme="teal"
                             isLoading={props.isSubmitting}
                             type="submit"
-                        // isDisabled={props.errors ? true : false}
+                            isDisabled={props.errors ? true : false}
+
                         >
                             Register
                         </Button>
