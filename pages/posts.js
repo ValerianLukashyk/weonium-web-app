@@ -18,7 +18,7 @@ const Posts = () => {
         await server.post('/posts', values)
             .then(function (res) {
                 if (res.status === 200) {
-                    fetchPosts()
+                    getAllPosts()
                 }
             })
             .catch(function (error) {

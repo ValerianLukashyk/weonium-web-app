@@ -148,7 +148,7 @@ const Page = () => {
             </ListItem>
           </List>
           <SimpleGrid columns={[1, 2, 2]} gap={6}>
-            <GridItem href='https://www.youtube.com/' title="Space Onion" thumbnail='/public/images/youtube.png'>
+            <GridItem href='https://www.youtube.com/' title="Code Madness" thumbnail='/images/youtube.png'>
               My Youtube channel
             </GridItem>
           </SimpleGrid>

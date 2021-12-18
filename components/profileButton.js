@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import { Button } from '@chakra-ui/react'
-import { IoIosPerson } from 'react-icons/io'
+import { IoLockClosed } from 'react-icons/io'
 import { IconContext } from 'react-icons'
 
 const ProfileButton = () => {
@@ -11,8 +11,8 @@ const ProfileButton = () => {
     }
 
     return (
-        <IconContext.Provider value={{ size: '1.8em' }}>
-            <Button onClick={profile} mr={3} p={1}><IoIosPerson /></Button>
+        <IconContext.Provider value={{ size: '1.8em', color: 'red.800' }}>
+            <Button onClick={profile} mr={3} p={1}><IoLockClosed /></Button>
         </IconContext.Provider>
     )
 }
