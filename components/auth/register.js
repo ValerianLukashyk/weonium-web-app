@@ -149,9 +149,9 @@ const RegisterForm = () => {
                         </Heading>
                         <NextLink href="/">
                             <Button color='black' bg={'lightblue'}>Go to home</Button>
-                            <Button onClick={sendConfirmEmail} color='white' bg={'red'}>SEND TEST EMAIL</Button>
-                        </NextLink>
 
+                        </NextLink>
+                        <Button onClick={sendConfirmEmail} color='white' bg={'red'}>SEND TEST EMAIL</Button>
                     </Box>
                 </IconContext.Provider>
 
