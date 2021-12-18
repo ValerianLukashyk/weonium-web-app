@@ -108,7 +108,7 @@ const Login = () => {
                             )}
                         </Formik>
                         <Button
-                            onClick={() => { process.env.SERVER_URL + '/auth/google' }}
+                            onClick={() => { window.location = process.env.SERVER_URL + '/auth/google' }}
                             variant='solid'
                             background='blue'
                             mt={6}
