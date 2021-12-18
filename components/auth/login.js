@@ -81,7 +81,7 @@ const Login = () => {
                                         {({ field, form }) => (
                                             <FormControl isInvalid={form.errors.email && form.touched.email}>
                                                 <FormLabel htmlFor="email">Email</FormLabel>
-                                                <Input {...field} id="email" placeholder="Email" autocomplete="email" />
+                                                <Input {...field} id="email" placeholder="Email" autoComplete="email" />
                                                 <FormErrorMessage>{form.errors.email}</FormErrorMessage>
                                             </FormControl>
                                         )}
@@ -90,7 +90,7 @@ const Login = () => {
                                         {({ field, form }) => (
                                             <FormControl isInvalid={form.errors.password && form.touched.password}>
                                                 <FormLabel htmlFor="password">Password</FormLabel>
-                                                <Input {...field} type="password" id="password" placeholder="Enter a password" autocomplete="current-password" />
+                                                <Input {...field} type="password" id="password" placeholder="Enter a password" autoComplete="current-password" />
                                                 <FormErrorMessage>{form.errors.password}</FormErrorMessage>
                                                 <FormHelperText>We&apos;ll never share your email and password.</FormHelperText>
                                             </FormControl>
@@ -108,9 +108,7 @@ const Login = () => {
                             )}
                         </Formik>
                         <Button
-                            onClick={() => {
-                                openGoogleSignIn(() => { process.env.SERVER_URL + '/auth/google' })
-                            }}
+                            onClick={() => { process.env.SERVER_URL + '/auth/google' }}
                             variant='solid'
                             background='blue'
                             mt={6}

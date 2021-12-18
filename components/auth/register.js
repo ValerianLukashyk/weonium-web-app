@@ -92,7 +92,7 @@ const RegisterForm = () => {
                             {({ field, form }) => (
                                 <FormControl isInvalid={form.errors.name && form.touched.name}>
                                     <FormLabel htmlFor="name">Your name</FormLabel>
-                                    <Input {...field} id="name" placeholder="Enter your name" autocomplete="username" />
+                                    <Input {...field} id="name" placeholder="Enter your name" autoComplete="username" />
                                     <FormErrorMessage>{form.errors.name}</FormErrorMessage>
                                 </FormControl>
                             )}
@@ -101,7 +101,7 @@ const RegisterForm = () => {
                             {({ field, form }) => (
                                 <FormControl isInvalid={form.errors.email && form.touched.email}>
                                     <FormLabel htmlFor="email">Email</FormLabel>
-                                    <Input {...field} id="email" placeholder="Enter Email" autocomplete="email" />
+                                    <Input {...field} id="email" placeholder="Enter Email" autoComplete="email" />
                                     <FormErrorMessage>{form.errors.email}</FormErrorMessage>
                                 </FormControl>
                             )}
@@ -110,7 +110,7 @@ const RegisterForm = () => {
                             {({ field, form }) => (
                                 <FormControl isInvalid={form.errors.password && form.touched.password || form.errors.confirmPassword}>
                                     <FormLabel htmlFor="password">Password</FormLabel>
-                                    <Input {...field} type="password" id="password" placeholder="Enter a password" autocomplete="new-password" />
+                                    <Input {...field} type="password" id="password" placeholder="Enter a password" autoComplete="new-password" />
                                     <FormErrorMessage>{form.errors.password}</FormErrorMessage>
                                     {/* <FormHelperText>We'll never share your email and password.</FormHelperText> */}
                                 </FormControl>
@@ -120,7 +120,7 @@ const RegisterForm = () => {
                             {({ field, form }) => (
                                 <FormControl isInvalid={form.errors.confirmPassword && form.touched.confirmPassword}>
                                     <FormLabel htmlFor="confirmPassword">Confirm password</FormLabel>
-                                    <Input {...field} type="password" id="confirmPassword" placeholder="Confirm a password" autocomplete="new-password" />
+                                    <Input {...field} type="password" id="confirmPassword" placeholder="Confirm a password" autoComplete="new-password" />
                                     <FormErrorMessage>{form.errors.confirmPassword}</FormErrorMessage>
                                 </FormControl>
                             )}
