@@ -48,7 +48,7 @@ const useStore = create(set => ({
         server.defaults.headers.common["auth-token"] = token
         server('/posts')
             .then(res => {
-                console.log(res)
+                // console.log(res)
                 set({ posts: res.data })
             })
             .catch(err => console.log(err))

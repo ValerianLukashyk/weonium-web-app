@@ -20,8 +20,7 @@ import Section from '../components/section'
 import Paragraph from '../components/paragraph'
 import { BioSection, BioYear } from '../components/bio'
 import { GridItem } from '../components/grid-item'
-import { IoLogoInstagram, IoLogoGithub } from 'react-icons/io5'
-import thumbYoutube from '../public/images/youtube.png'
+import { IoLogoLinkedin, IoLogoGithub, IoLogoStackoverflow } from 'react-icons/io5'
 
 
 const Page = () => {
@@ -127,22 +126,29 @@ const Page = () => {
           </Heading>
           <List spacing={2} mb={4}>
             <ListItem>
-              <Link href='https://github.com/darksparkweb' target='_blank'>
+              <Link href='https://github.com/weonium' target='_blank'>
                 <Button p={5} lineHeight={1} variant='ghost' colorScheme='teal' leftIcon={<Icon as={IoLogoGithub} />}>
                   @weonium
                 </Button>
               </Link>
             </ListItem>
             <ListItem>
-              <Link href='https://instagram.com/spaceonion' target='_blank'>
-                <Button p={5} lineHeight={1} variant='ghost' colorScheme='teal' leftIcon={<Icon as={IoLogoInstagram} />}>
+              <Link href='https://stackoverflow.com/v.lukashyk' target='_blank'>
+                <Button p={5} lineHeight={1} variant='ghost' colorScheme='teal' leftIcon={<Icon as={IoLogoStackoverflow} />}>
+                  @weonium
+                </Button>
+              </Link>
+            </ListItem>
+            <ListItem>
+              <Link href='https://linkedin.com/valerian.lukashyk' target='_blank'>
+                <Button p={5} lineHeight={1} variant='ghost' colorScheme='teal' leftIcon={<Icon as={IoLogoLinkedin} />}>
                   @weonium
                 </Button>
               </Link>
             </ListItem>
           </List>
           <SimpleGrid columns={[1, 2, 2]} gap={6}>
-            <GridItem href='https://www.youtube.com/spaceonion' title="Space Onion" thumbnail={thumbYoutube}>
+            <GridItem href='https://www.youtube.com/' title="Space Onion" thumbnail='/public/images/youtube.png'>
               My Youtube channel
             </GridItem>
           </SimpleGrid>
