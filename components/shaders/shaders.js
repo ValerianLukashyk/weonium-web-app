@@ -1,18 +1,13 @@
 export const fragment = `
-uniform float time;
 uniform sampler2D uTexture;
 uniform sampler2D uDisplacement;
-uniform vec4 resolution;
-// varying vec2 vUv;
-// varying vec3 vPosition;
+uniform vec2 resolution;
 
 float PI = 3.141592653589793238;
 
 void main(){
-    // vec2 newUV = (vUv - vec2(0.5))*resolution.zw + vec2(0.5);
     
     
-    // vec2 highRes = vec2(1200.0, 640.0);
     vec2 st = gl_FragCoord.xy / resolution.xy;
     
     vec4 disp = texture2D(uDisplacement, st);
@@ -29,7 +24,6 @@ void main(){
 `
 
 export const vertex = `
-uniform float time;
 
 void main(){
     gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);

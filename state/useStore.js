@@ -124,7 +124,15 @@ const useStore = create(set => ({
     setFormDataImages: (data) => set(() => ({ formData: { images: data } })),
     // UploadForm
     isDragActive: false,
-    toggleDragActive: (value) => set(() => ({ isDragActive: value }))
+    toggleDragActive: (value) => set(() => ({ isDragActive: value })),
+
+
+    // STYLES
+    styles: {
+        theme: 'dark',
+        toggleTheme: () => set((state) => ({ styles: { theme: state.styles.theme === 'dark' ? 'light' : 'dark' } })),
+
+    }
 }))
 
 export default useStore

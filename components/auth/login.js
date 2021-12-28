@@ -1,8 +1,15 @@
+import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { server } from '../api/api'
 import {
     Button,
+    Box,
+    Flex,
+    Center,
+    Text,
+    Link,
     Input,
+    Divider,
     FormControl,
     FormLabel,
     FormErrorMessage,
@@ -14,17 +21,22 @@ import {
     ModalBody,
     ModalCloseButton,
     useDisclosure,
+    useColorModeValue
 } from '@chakra-ui/react'
 import { Form, Field, Formik } from 'formik'
-import { IoLockClosed, IoLockOpen } from "react-icons/io5";
+import { IoLockClosed, IoLockOpen, IoLogoGoogle, IoLogoGithub } from "react-icons/io5";
 import useStore from '../../state/useStore'
-
-
+import NextLink from 'next/link'
 
 const Login = () => {
     const router = useRouter()
     const { isOpen, onOpen, onClose } = useDisclosure()
     const isAuth = useStore(state => state.authInfo.isAuth)
+    const { events } = useRouter();
+
+    const handleClose = () => {
+        onClose()
+    }
 
     const handleSubmit = async (values) => {
         await server.post('/auth/login', values)
@@ -42,10 +54,17 @@ const Login = () => {
             })
     }
 
+    useEffect(() => {
+        events.on('routeChangeStart', handleClose);
+        return () => {
+            events.off('routeChangeStart', handleClose);
+        };
+
+    }, [close, events]);
 
     return (
         <>
-            <Button mr={4} onClick={onOpen}>{isAuth ? <IoLockOpen /> : <><IoLockClosed />&nbsp;Sign-in</>}</Button>
+            <Button mr={4} onClick={onOpen}>{isAuth ? <IoLockOpen /> : <><IoLockClosed />&nbsp;Login</>}</Button>
 
             <Modal isOpen={isOpen} onClose={onClose} isCentered>
                 <ModalOverlay />
@@ -96,26 +115,63 @@ const Login = () => {
                                             </FormControl>
                                         )}
                                     </Field>
-                                    <Button
-                                        mt={4}
-                                        colorScheme="teal"
-                                        isLoading={props.isSubmitting}
-                                        type="submit"
-                                    >
-                                        Login
-                                    </Button>
+                                    <Center alignItems={'center'} mt={5}>
+                                        <Button
+                                            px={6}
+                                            colorScheme="teal"
+                                            isLoading={props.isSubmitting}
+                                            type="submit"
+                                        >
+                                            Login
+                                        </Button>
+                                        <Text fontSize={13} ml={3}>
+                                            if you dont have account, please
+                                            <NextLink href={'/register'} >
+                                                <Link
+
+                                                    ml={2}
+                                                    p={2}
+                                                    bg={'red'}
+                                                    color={useColorModeValue('whiteAlpha.900', 'whiteAlpha.900')}
+                                                    borderRadius={5}
+                                                >
+                                                    Register
+                                                </Link>
+                                            </NextLink>
+
+                                        </Text>
+                                    </Center>
+
                                 </Form>
                             )}
                         </Formik>
-                        <Button
-                            onClick={() => { window.location = process.env.SERVER_URL + '/auth/google' }}
-                            variant='solid'
-                            background='blue'
-                            mt={6}
-                            mb={6}
-                        >
-                            Google
-                        </Button>
+                        <Flex justifyContent={'center'} alignItems={'center'}>
+                            <Divider width='40%' my={6} mr={2} />
+                            <Text>or use</Text>
+                            <Divider width='40%' my={6} ml={2} />
+                        </Flex>
+
+                        <Center flexDirection={'column'}>
+                            <Button
+                                onClick={() => { window.location = process.env.SERVER_URL + '/auth/google' }}
+                                variant='solid'
+                                mb={6}
+                                colorScheme={'blue'}
+                                leftIcon={<IoLogoGoogle />}
+                            >
+                                Google
+                            </Button>
+                            <Button
+                                onClick={() => { window.location = process.env.SERVER_URL + '/auth/google' }}
+                                variant='solid'
+                                mb={6}
+                                colorScheme={'orange'}
+                                leftIcon={<IoLogoGithub />}
+                            >
+                                GitHub
+                            </Button>
+                        </Center>
+
                     </ModalBody>
 
 

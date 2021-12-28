@@ -1,12 +1,13 @@
 export const vertex = `
-uniform float time;
+precision mediump float;
+
+uniform float uTime;
 uniform float pointSize;
 uniform float freq;
 uniform float ampl;
 uniform float maxDist;
+uniform vec2 resolution;
 varying vec2 vUv;
-uniform sampler2D positionTexture;
-attribute vec2 reference;
 
 vec3 mod289(vec3 x){
     return x-floor(x*(1./289.))*289.;
@@ -75,9 +76,9 @@ vec3 curl(float x,float y,float z)
 float eps=1.,eps2=2.*eps;
 float n1,n2,a,b;
 
-x+=time*.05;
-y+=time*.05;
-z+=time*.05;
+x+=uTime*.08;
+y+=uTime*.08;
+z+=uTime*.05;
 
 vec3 curl=vec3(0.);
 
@@ -115,17 +116,11 @@ return curl;
 }
 
 void main(){
-
-// vUv=reference;
-
-// vec2 highRes = vec2(640.0, 640.0);
-// vec2 vUv = gl_FragCoord.xy / highRes;
-
+vUv=uv;
 float f=freq;
 float amplitude=ampl;
 float maxDistance=maxDist;
 
-// vec3 pos=texture(positionTexture,vUv).xyz;
 vec3 newpos=position;
 
 vec3 target=position+curl(newpos.x*f,newpos.y*f,newpos.z*f)*amplitude;

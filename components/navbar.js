@@ -7,6 +7,7 @@ import NextLink from 'next/link'
 import {
   Container,
   Box,
+  Button,
   Link,
   Stack,
   Heading,
@@ -20,7 +21,7 @@ import {
 } from '@chakra-ui/react'
 import { HamburgerIcon } from '@chakra-ui/icons'
 import ThemeToggleButton from './theme-toggle-button'
-
+import { IoFingerPrintOutline } from "react-icons/io5";
 
 
 const Navbar = props => {
@@ -74,41 +75,59 @@ const Navbar = props => {
           </LinkItem>}
         </Stack>
         <Box flex={1} align="right">
-          {authInfo.isAuth ? (
-            <>
-              <ProfileButton />
-              <Logout />
-            </>
-          ) : <Login />}
-          <ThemeToggleButton />
+          <Box>
+            {authInfo.isAuth ? (
+              <Box ml={2} display={{ base: 'none', md: 'inline-block' }}>
+                <ProfileButton />
+                <Logout />
+              </Box>
+            ) : (
+              <Box ml={2} display={{ base: 'none', md: 'inline-block' }}>
+                <Login />
+              </Box>
+            )}
+            <ThemeToggleButton />
 
-          <Box ml={2} display={{ base: 'inline-block', md: 'none' }}>
-            <Menu isLazy id='1'>
-              <MenuButton
-                as={IconButton}
-                icon={<HamburgerIcon />}
-                variant="outline"
-                aria-label="Options"
-              />
-              <MenuList >
-                <NextLink href="/" passHref>
-                  <MenuItem as={Link}>Home</MenuItem>
-                </NextLink>
-                <NextLink href="/works" passHref>
-                  <MenuItem as={Link}>Works</MenuItem>
-                </NextLink>
-                <NextLink href="/posts" passHref>
-                  <MenuItem as={Link}>Posts</MenuItem>
-                </NextLink>
-                <NextLink href="https://weonium.space/" passHref>
-                  <MenuItem as={Link}>View source</MenuItem>
-                </NextLink>
-              </MenuList>
-            </Menu>
+
+
+            <Box ml={2} display={{ base: 'inline-block', md: 'none' }}>
+              <Menu isLazy id='1'>
+                <MenuButton
+                  as={IconButton}
+                  icon={<HamburgerIcon />}
+                  variant="outline"
+                  aria-label="Options"
+                />
+                <MenuList >
+                  <NextLink href="/" passHref>
+                    <MenuItem as={Link}>Home</MenuItem>
+                  </NextLink>
+                  <NextLink href="/works" passHref>
+                    <MenuItem as={Link}>Works</MenuItem>
+                  </NextLink>
+                  <NextLink href="/posts" passHref>
+                    <MenuItem as={Link}>Posts</MenuItem>
+                  </NextLink>
+                  {authInfo.isAuth ? (<>
+                    <MenuItem as={<ProfileButton />}>My Profile</MenuItem>
+                    <MenuItem as={<Logout />}>Logout</MenuItem>
+                  </>
+                  ) : (<>
+                    <NextLink href="/register" passHref>
+                      <MenuItem as={<Button mr={4}><IoFingerPrintOutline />&nbsp;Register</Button>}></MenuItem>
+                    </NextLink>
+                    <Login />
+                  </>
+                  )}
+
+
+                </MenuList>
+              </Menu>
+            </Box>
           </Box>
         </Box>
-      </Container>
-    </Box>
+      </Container >
+    </Box >
   )
 }
 

@@ -4,7 +4,7 @@ import { Link, useColorModeValue } from '@chakra-ui/react'
 export const LinkItem = ({ href, path, children }) => {
 
     const active = path === href
-    const inactiveColor = useColorModeValue('red300', 'whiteAlpha.900')
+    const inactiveColor = useColorModeValue('red.300', 'whiteAlpha.900')
 
     return (
         <NextLink href={href}>

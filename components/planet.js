@@ -1,24 +1,20 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { Box, Spinner, Center } from '@chakra-ui/react'
+import { Box, Spinner, Center, useColorMode, useColorModeValue } from '@chakra-ui/react'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { loadGLTFModel } from '../libs/model'
-import { GPUComputationRenderer } from 'three/examples/jsm/misc/GPUComputationRenderer.js'
 import { fragment } from '../components/Scene/shaders/fragment'
 import { vertex } from '../components/Scene/shaders/vertex'
-import { fragmentSimulation } from '../components/Scene/shaders/fragmentSimulation'
 import { fragment as fr, vertex as vx } from './shaders/shaders'
 import gsap from 'gsap'
-
 
 function easeOutCirc(x) {
   return Math.sqrt(1 - Math.pow(x - 1, 4))
 }
 
-const WIDTH = 1
 
 const settings = {
-  pointSize: 300,
+  pointSize: 510,
   freq: 10,
   ampl: 3,
   maxDist: 2,
@@ -28,8 +24,10 @@ const settings = {
     red: 1,
     green: 1,
     blue: 1,
-  }
+  },
+  activeColor: 1
 }
+
 
 const Planet = () => {
 
@@ -39,6 +37,23 @@ const Planet = () => {
   const [loading, setLoading] = useState(true)
   const [renderer, setRenderer] = useState()
   const [_camera, setCamera] = useState()
+
+  const [settings] = useState({
+    pointSize: 2310,
+    freq: 10,
+    ampl: 3,
+    maxDist: 2,
+    opacity: 1,
+    colorProgress: 0,
+    color: {
+      red: 1,
+      green: 1,
+      blue: 1,
+    },
+    activeColor: 1,
+    colorMode: null,
+    clicked: false,
+  })
 
   const [target] = useState(new THREE.Vector3(0, 0, 0))
   const [initialCameraPosition] = useState(
@@ -54,21 +69,20 @@ const Planet = () => {
 
   const [meshes] = useState([])
 
+
   const [mat] = useState(new THREE.ShaderMaterial(
     {
       side: THREE.DoubleSide,
       fragmentShader: fr,
       vertexShader: vx,
       uniforms: {
-        time: { value: 0 },
+        uuTime: { value: 0 },
         uDisplacement: { value: null },
         uTexture: { value: null },
-        resolution: { value: new THREE.Vector4() },
+        resolution: { value: new THREE.Vector2() },
       },
     }
   ))
-  const [pointColor] = useState(new THREE.Color(1, 1, 1))
-  // const pointColor = useColorModeValue(new THREE.Vector4(0, 0, 0, 1), new THREE.Vector4(1, 1, 1, 1))
 
   const [material] = useState(new THREE.ShaderMaterial(
     {
@@ -76,63 +90,78 @@ const Planet = () => {
       fragmentShader: fragment,
       vertexShader: vertex,
       uniforms: {
-        time: { value: 0 },
+        uTime: { value: 0 },
         pointSize: { value: settings.pointSize },
         opacity: { value: 1 },
+        pointText: { value: new THREE.TextureLoader().load('/texture/point.svg') },
         freq: { value: 0 },
         ampl: { value: 0 },
         maxDist: { value: 0 },
-        positionTexture: { value: null },
+        progress: { value: 1 },
         colorProgress: { value: 0 },
         uColor: { value: { x: 1, y: 1, z: 1 } }
       },
+      transparent: true,
+      blending: THREE.NormalBlending,
+      depthTest: false,
+      depthWrite: false
+
     }
   ))
+
+  const [_textureA, setRtTextureA] = useState()
+  const [_textureB, setRtTextureB] = useState()
 
   const [mouse] = useState(new THREE.Vector2(0, 0))
   const [prevMouse] = useState(new THREE.Vector2(0, 0))
 
-  // const pointColor = useColorModeValue(new THREE.Vector4(0, 0, 0, 1), new THREE.Vector4(1, 1, 1, 1))
+  const { colorMode } = useColorMode()
+
+  useEffect(() => {
+    settings.colorMode = colorMode
+  }, [colorMode, settings])
+
 
   // SET RESIZE FUNCTION
   const handleWindowResize = useCallback(() => {
+
     const { current: container } = refContainer
     if (container && renderer) {
+
       const scW = container.clientWidth
       const scH = container.clientHeight
-      renderer.setSize(scW, scH)
-
-      const imageAspect = 1080 / 1920;
-      let a1; let a2;
-      if (scH / scW > imageAspect) {
-        a1 = (scW / scH) * imageAspect;
-        a2 = 1;
-      } else {
-        a1 = 1;
-        a2 = (scH / scW) / imageAspect;
-      }
 
       mat.uniforms.resolution.value.x = scW;
       mat.uniforms.resolution.value.y = scH;
-      mat.uniforms.resolution.value.z = a1;
-      mat.uniforms.resolution.value.w = a2;
-
-      _camera.updateProjectionMatrix();
+      _textureA.setSize(scW, scH)
+      _textureB.setSize(scW, scH)
+      renderer.setSize(scW, scH)
     }
-  }, [renderer, _camera, mat])
+  }, [renderer, _camera, mat, scene1, _textureA, _textureA])
+
 
   // SET MOUSE POSITION TO STATE
   const mouseEvents = (e) => {
+    const { current: container } = refContainer
+
+    const rect = container.getBoundingClientRect();
+
     const width = window.innerWidth
     const height = window.innerHeight
+    const scaleX = width / rect.width
+    const scaleY = height / rect.height
+
     mouse.x = -(e.clientX - width / 2)
-    mouse.y = height / 2 - e.clientY - e.view.scrollY
+    mouse.y = -(e.clientY - rect.top - container.clientHeight / 2) - e.view.scrollY
+
+    if (settings.clicked) scene2.children[0].rotateY(Math.PI * 2 * mouse.x)
 
   }
 
   // SET ANIMATION ON CLICK
   const handleClick = (e) => {
     if (e.type === 'mousedown' || e.type === 'touchstart') {
+      settings.clicked = true
       gsap.to(scene2.children[0].material.uniforms.uColor.value, {
         x: 0.8,
         y: 1,
@@ -153,16 +182,8 @@ const Planet = () => {
         z: 1,
         duration: 0.5,
       })
-
-      // gsap.to(settings, {
-      //   // pointSize: 3000,
-      //   ampl: 0,
-      //   maxDist: 1,
-      //   duration: 1,
-
-      // })
-
     } else if (e.type === 'mouseup' || e.type === 'touchend') {
+      settings.clicked = false
       gsap.to(scene2.children[0].material.uniforms.uColor.value, {
         x: 1,
         y: 1,
@@ -171,9 +192,9 @@ const Planet = () => {
       })
 
       gsap.to(scene2.children[0].scale, {
-        x: 1,
-        y: 1,
-        z: 1,
+        x: 0.7,
+        y: 0.7,
+        z: 0.7,
         duration: 0.5,
       })
       gsap.to(scene2.children[1].scale, {
@@ -182,12 +203,7 @@ const Planet = () => {
         z: 0,
         duration: 0.5,
       })
-      // gsap.to(settings, {
-      //   freq: 10,
-      //   ampl: 3,
-      //   maxDist: 2,
-      //   duration: 1,
-      // })
+
     }
 
   }
@@ -207,10 +223,12 @@ const Planet = () => {
     if (container && !renderer) {
       const scW = container.clientWidth
       const scH = container.clientHeight
+
       mat.uniforms.resolution.value.x = scW;
       mat.uniforms.resolution.value.y = scH;
+      mat.uniformsNeedUpdate = true
 
-      // SET RENDERER
+
       const renderer = new THREE.WebGLRenderer({
         antialias: true,
         alpha: true
@@ -221,56 +239,42 @@ const Planet = () => {
       container.appendChild(renderer.domElement)
       setRenderer(renderer)
 
-      // SET RENDER TARGET
-      const aTexture = new THREE.WebGLRenderTarget(scW, scH, {
-        minFilter: THREE.LinearFilter,
-        magFilter: THREE.LinearFilter,
-        format: THREE.RGBAFormat
-      })
 
-      // SET RENDER TARGET2
-      const bTexture = new THREE.WebGLRenderTarget(scW, scH, {
-        minFilter: THREE.LinearFilter,
-        magFilter: THREE.LinearFilter,
-        format: THREE.RGBAFormat
-      })
-
-      // SET CAMERA
-      // const scale = scH * 0.5
+      const scale = scH * 0.7
       const camera = new THREE.OrthographicCamera(
-        scW / -2,
-        scW / 2,
-        scH / 2,
-        scH / -2,
+        -scale,
+        scale,
+        scale,
+        -scale,
         -200000,
         200000
       )
-      camera.position.set(0, 300, 5500)
-
+      camera.position.set(0, 300, 1500)
       camera.lookAt(target)
       setCamera(camera)
 
+      // SET RenderTargets
+      const textureA = new THREE.WebGLRenderTarget(scW, scH, {
+        minFilter: THREE.LinearFilter,
+        magFilter: THREE.LinearFilter,
+        format: THREE.RGBAFormat
+      })
+      setRtTextureA(textureA)
+      const textureB = new THREE.WebGLRenderTarget(scW, scH, {
+        minFilter: THREE.LinearFilter,
+        magFilter: THREE.LinearFilter,
+        format: THREE.RGBAFormat
+      })
+      setRtTextureB(textureB)
+
+
       // SET Orbit Controls
-      const controls = new OrbitControls(camera, renderer.domElement)
-      controls.enableZoom = false
-      controls.enablePan = false
-      controls.rotateSpeed = 0
-      controls.target = target
-      setControls(controls)
-
-      const gpuCompute = new GPUComputationRenderer(WIDTH, WIDTH, renderer)
-
-      const texture = gpuCompute.createTexture()
-
-      const positionVariable = gpuCompute.addVariable(
-        'texturePosition',
-        fragmentSimulation,
-        texture
-      )
-      positionVariable.material.uniforms['time'] = { value: 0 }
-      positionVariable.wrapS = THREE.RepeatWrapping
-      positionVariable.wrapT = THREE.RepeatWrapping
-
+      // const controls = new OrbitControls(camera, renderer.domElement)
+      // controls.enableZoom = false
+      // controls.enablePan = false
+      // controls.rotateSpeed = 0
+      // controls.target = target
+      // setControls(controls)
 
 
       const geometry = new THREE.PlaneGeometry(64, 64, 1, 1);
@@ -303,9 +307,16 @@ const Planet = () => {
       }
 
       const geometryFullScr = new THREE.PlaneGeometry(scW, scH, 1, 1);
-      scene1.add(new THREE.Mesh(geometryFullScr, mat))
+      const displacementScreen = new THREE.Mesh(geometryFullScr, mat)
 
-      loadGLTFModel(scene2, gpuCompute, texture, material).then(() => {
+      scene1.add(displacementScreen)
+
+      loadGLTFModel(scene2, scW, scH, material).then(() => {
+
+        scene2.children[0].scale.x = 0.7
+        scene2.children[0].scale.y = 0.7
+        scene2.children[0].scale.z = 0.7
+
         startAnim()
       })
 
@@ -355,9 +366,7 @@ const Planet = () => {
       const setNewWave = () => {
         if (meshes) {
 
-          // console.log(currentWave)
           let m = meshes[currentWave]
-          // console.log(m)
           m.visible = true
           m.position.x = mouse.x
           m.position.y = mouse.y
@@ -373,12 +382,11 @@ const Planet = () => {
         const p = initialCameraPosition
         const rotSpeed = -easeOutCirc(frame / 200) * Math.PI
 
-        material.uniforms.pointSize.value = settings.pointSize
-        // material.uniforms.opacity.value = settings.opacity
+        material.uniforms.pointSize.value = settings.pointSize * (Math.sin(time) + 2) / 4
+        material.uniforms.progress.value = (Math.sin(time) + 1) / 2
         material.uniforms.freq.value = settings.freq
         material.uniforms.ampl.value = settings.ampl
         material.uniforms.maxDist.value = settings.maxDist
-        // material.uniforms.colorProgress.value = settings.colorProgress
 
         if (frame <= 200) {
           camera.position.x =
@@ -387,30 +395,29 @@ const Planet = () => {
             p.z * Math.cos(rotSpeed) - p.x * Math.sin(rotSpeed)
           camera.lookAt(target)
         } else {
-          controls.update()
+          // controls.update()
         }
-        // console.log(gpuCompute)
-        gpuCompute.compute()
-        material.uniforms.positionTexture.value =
-          gpuCompute.getCurrentRenderTarget(positionVariable).texture
-        material.uniforms.time.value = time
 
+        material.uniforms.uTime.value = time
+        // material.uniforms.uColor.value = settings.colorMode == 'dark' ? { x: 1, y: 1, z: 1 } : { x: 0, y: 0, z: 0 }
+        // console.log(settings.colorMode)
+        // console.log(material.uniforms.uColor.value.x);
         trackRipples()
 
 
-        renderer.setRenderTarget(bTexture)
+        renderer.setRenderTarget(textureB)
         renderer.render(scene, camera);
-        bTexture.texture.encoding = THREE.sRGBEncoding;
-        mat.uniforms.uDisplacement.value = bTexture.texture
-        renderer.setRenderTarget(aTexture)
+        textureB.texture.encoding = THREE.sRGBEncoding;
+
+        mat.uniforms.uDisplacement.value = textureB.texture
+        renderer.setRenderTarget(textureA)
         renderer.render(scene2, camera)
-        aTexture.texture.encoding = THREE.sRGBEncoding;
-        mat.uniforms.uTexture.value = aTexture.texture
+        textureA.texture.encoding = THREE.sRGBEncoding;
+        mat.uniforms.uTexture.value = textureA.texture
 
         renderer.setRenderTarget(null)
         renderer.clear()
         renderer.render(scene1, camera);
-
         frameRender(time, color)
       }
 
@@ -419,11 +426,10 @@ const Planet = () => {
       setLoading(false)
 
       return () => {
-        cancelAnimationFrame(req)
-        renderer.dispose()
+        console.log('unmount Planet')
       }
     }
-  }, [mat, meshes, mouse, prevMouse, material, pointColor])
+  }, [mat, meshes, mouse, prevMouse, material, settings])
 
   // START RESIZE EVENTS
   useEffect(() => {
@@ -437,8 +443,10 @@ const Planet = () => {
   // START MOUSE EVENTS
   useEffect(() => {
     refContainer.current.addEventListener('mousemove', mouseEvents, false)
+    refContainer.current.addEventListener('touchmove', mouseEvents, false)
     return () => {
       refContainer.current.removeEventListener('mousemove', mouseEvents, false)
+      refContainer.current.removeEventListener('touchmove', mouseEvents, false)
     }
   }, [refContainer, renderer])
 
@@ -448,15 +456,18 @@ const Planet = () => {
       <Box
         onMouseDown={handleClick}
         onMouseUp={handleClick}
-        onTouchStart={handleClick}
+        // onMouseMove={handleMove}
+        onTouchMove={handleClick}
         onTouchEnd={handleClick}
         ref={refContainer}
         className="planet"
+        cursor={'pointer'}
         // m="0 -100px 50px -100px"
         at={['-20px', '-60px', '-120px']}
         mb={['20px', '20px', '20px']}
+        mt={['0', '0', '0']}
         // mt={['20px', '50px', '0']}
-        w={[280, 480, 1200]}
+        w={[280, 480, 800]}
         h={[280, 480, 800]}
         position="relative"
       >

@@ -1,30 +1,25 @@
 export const fragment = `
-#ifdef GL_ES
 precision mediump float;
-#endif
 
-uniform float time;
 uniform float opacity;
-uniform float colorProgress;
-uniform vec4 resolution;
+uniform float progress;
+uniform float uTime;
 uniform vec3 uColor;
+uniform vec2 resolution;
+uniform sampler2D pointText;
 varying vec2 vUv;
 
 float PI = 3.141592653589793238;
 
-float draw_circle(vec2 coord, float radius) {
-    return step(length(coord), radius);
-}
-
 void main(){
-    vec2 coord = gl_FragCoord.xy / resolution.xy;
-    // vec4 color = vec4(1.,1.,colorProgress, 1.);
-    float circle = draw_circle(coord, 0.3);
-    
-    vec3 color = step(vec3(circle), uColor);
-    
-    // gl_FragColor = vec4(color, 1.);
+    vec2 coord = vec2(gl_PointCoord.x, gl_PointCoord.y );
 
-    gl_FragColor = vec4(uColor, opacity);
+    float disc=1.-smoothstep(-.2,.5,length(gl_PointCoord-vec2(.5)));
+
+
+    vec4 point = texture2D(pointText, coord);
+    vec4 finalPoint = mix(point, point*(sin(uTime/2.)+1.)*0.5, progress );
+    gl_FragColor = vec4(uColor*vec3(coord,(sin(uTime/2.)+1.)*0.5), disc);
+    gl_FragColor *= finalPoint;
 }
 `

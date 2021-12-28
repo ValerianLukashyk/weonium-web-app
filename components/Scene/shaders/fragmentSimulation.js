@@ -1,5 +1,7 @@
 export const fragmentSimulation = `
-uniform float time;
+precision mediump float;
+
+uniform float uTime;
 uniform float delta;
 uniform sampler2D texturePosition;
 
@@ -70,9 +72,9 @@ vec3 curl(float x,float y,float z)
 float eps=1.,eps2=2.*eps;
 float n1,n2,a,b;
 
-x+=time*.05;
-y+=time*.05;
-z+=time*.05;
+x+=uTime*.05;
+y+=uTime*.05;
+z+=uTime*.05;
 
 vec3 curl=vec3(0.);
 
