@@ -5,3 +5,5 @@ dist
 .env
 .vscode
 _backup_temp
+.env.development_back
+.env.production_back
