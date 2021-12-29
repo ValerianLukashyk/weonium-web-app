@@ -8,7 +8,7 @@ import useStore from '../state/useStore'
 import { AddIcon } from '@chakra-ui/icons'
 import ModalWindow from '../components/modalWindow'
 import Loading from './../utils/loading'
-
+import { worksFields, values } from '../libs/formsFields'
 
 const Works = () => {
     const [loaded, setLoaded] = useState(true)
@@ -54,24 +54,6 @@ const Works = () => {
         getAllWorks()
     }, [getAllWorks])
 
-    const fields = [
-        { name: 'title', displayName: 'Title', id: 'work-title', placeholder: 'Enter work title' },
-        { name: 'period', displayName: 'Period', id: 'work-period', placeholder: 'Enter a year or years period' },
-        { name: 'description', displayName: 'Description', id: 'work-description', placeholder: 'Leave description' },
-        { name: 'url', displayName: 'Url to website', id: 'work-url', placeholder: "Enter your work's website url" },
-        { name: 'stack', displayName: 'Stack', id: 'work-stack', placeholder: 'JS, PHP, REACT, NODE.js etc...' },
-    ]
-
-    const values = {
-        title: '',
-        period: '',
-        description: '',
-        url: '',
-        stack: '',
-        files: [],
-        videos: [],
-    }
-
 
 
     return (
@@ -82,7 +64,7 @@ const Works = () => {
                         Works
                     </Heading>
 
-                    {isAuth && <ModalWindow title='Add new Work' callbackHook={(data) => handleSubmit(data)} fields={fields} iValues={values} isCentered icon={<AddIcon />} isRound={true} />}
+                    {isAuth && <ModalWindow title='Add new Work' callbackHook={(data) => handleSubmit(data)} fields={worksFields} iValues={values} isCentered icon={<AddIcon />} isRound={true} />}
                     {/* {isAuth && <WorkModal title='Add new Work' callbackHook={(data) => handleSubmit(data)} isCentered icon={<AddIcon />} isRound={true} />} */}
                 </Flex>
                 <Divider mb={6} />

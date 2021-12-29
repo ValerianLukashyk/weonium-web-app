@@ -62,20 +62,18 @@ const Navbar = props => {
           width={{ base: 'full', md: 'auto' }}
           alignItems="center"
           flexGrow={1}
-          mt={{ base: 4, nmd: 0 }}
+          mt={{ base: 4, md: 0 }}
         >
           <LinkItem href="/works" path={path}>
             Works
           </LinkItem>
-          <LinkItem href="/posts" path={path}>
-            Posts
+          <LinkItem href="/glworks" path={path}>
+            WebGL
           </LinkItem>
-          {!authInfo.isAuth && <LinkItem href="/register" path={path}>
-            Register
-          </LinkItem>}
+
         </Stack>
         <Box flex={1} align="right">
-          <Box>
+          <Box >
             {authInfo.isAuth ? (
               <Box ml={2} display={{ base: 'none', md: 'inline-block' }}>
                 <ProfileButton />
@@ -83,6 +81,9 @@ const Navbar = props => {
               </Box>
             ) : (
               <Box ml={2} display={{ base: 'none', md: 'inline-block' }}>
+                <LinkItem href="/register" path={path} color={useColorModeValue('red.500', 'black.800')} textDecoration='none'>
+                  <Button mr={4} colorScheme={'blue'} ><IoFingerPrintOutline />&nbsp;Register</Button>
+                </LinkItem>
                 <Login />
               </Box>
             )}
@@ -106,7 +107,7 @@ const Navbar = props => {
                     <MenuItem as={Link}>Works</MenuItem>
                   </NextLink>
                   <NextLink href="/posts" passHref>
-                    <MenuItem as={Link}>Posts</MenuItem>
+                    <MenuItem as={Link}>WebGL</MenuItem>
                   </NextLink>
                   {authInfo.isAuth ? (<>
                     <MenuItem as={<ProfileButton />}>My Profile</MenuItem>

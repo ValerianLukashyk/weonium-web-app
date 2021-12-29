@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import { server } from '../api/api'
 import {
     Button,
-    Box,
     Flex,
     Center,
     Text,
@@ -24,14 +23,14 @@ import {
     useColorModeValue
 } from '@chakra-ui/react'
 import { Form, Field, Formik } from 'formik'
-import { IoLockClosed, IoLockOpen, IoLogoGoogle, IoLogoGithub } from "react-icons/io5";
-import useStore from '../../state/useStore'
+import { IoLockClosed, IoLogoGoogle, IoLogoGithub } from "react-icons/io5";
 import NextLink from 'next/link'
 
 const Login = () => {
     const router = useRouter()
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const isAuth = useStore(state => state.authInfo.isAuth)
+    const clr = useColorModeValue('whiteAlpha.900', 'whiteAlpha.900')
+
     const { events } = useRouter();
 
     const handleClose = () => {
@@ -60,11 +59,11 @@ const Login = () => {
             events.off('routeChangeStart', handleClose);
         };
 
-    }, [close, events]);
+    }, [handleClose, events]);
 
     return (
         <>
-            <Button mr={4} onClick={onOpen}>{isAuth ? <IoLockOpen /> : <><IoLockClosed />&nbsp;Login</>}</Button>
+            <Button mr={4} onClick={onOpen}><><IoLockClosed />&nbsp;Login</></Button>
 
             <Modal isOpen={isOpen} onClose={onClose} isCentered>
                 <ModalOverlay />
@@ -118,7 +117,7 @@ const Login = () => {
                                     <Center alignItems={'center'} mt={5}>
                                         <Button
                                             px={6}
-                                            colorScheme="teal"
+                                            colorScheme="lime"
                                             isLoading={props.isSubmitting}
                                             type="submit"
                                         >
@@ -128,11 +127,10 @@ const Login = () => {
                                             if you dont have account, please
                                             <NextLink href={'/register'} >
                                                 <Link
-
                                                     ml={2}
                                                     p={2}
-                                                    bg={'red'}
-                                                    color={useColorModeValue('whiteAlpha.900', 'whiteAlpha.900')}
+                                                    bg={'red.700'}
+                                                    color={clr}
                                                     borderRadius={5}
                                                 >
                                                     Register

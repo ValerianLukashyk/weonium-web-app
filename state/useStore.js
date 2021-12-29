@@ -19,7 +19,9 @@ const useStore = create(set => ({
         password: "",
         date: "",
         isAuth: false,
-        token: ""
+        token: "",
+        picture: null,
+        accessLevel: 1,
     },
     setAuthInfo: (user) => set(() => ({ authInfo: user })),
     setTempAuthInfo: (user) => set(() => ({ authInfo: { name: user.name, email: user.email } })),
@@ -88,9 +90,6 @@ const useStore = create(set => ({
             })
             .catch(err => console.log(err))
     },
-
-    // POSTS SECTION
-
 
     // ADD WORK FORM
     newWorkForm: {

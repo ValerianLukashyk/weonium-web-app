@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { Box, Spinner, Center, useColorMode, useColorModeValue } from '@chakra-ui/react'
+import { Box, Spinner, Center, useColorMode } from '@chakra-ui/react'
 import * as THREE from 'three'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+// import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { loadGLTFModel } from '../libs/model'
 import { fragment } from '../components/Scene/shaders/fragment'
 import { vertex } from '../components/Scene/shaders/vertex'
@@ -10,22 +10,6 @@ import gsap from 'gsap'
 
 function easeOutCirc(x) {
   return Math.sqrt(1 - Math.pow(x - 1, 4))
-}
-
-
-const settings = {
-  pointSize: 510,
-  freq: 10,
-  ampl: 3,
-  maxDist: 2,
-  opacity: 1,
-  colorProgress: 0,
-  color: {
-    red: 1,
-    green: 1,
-    blue: 1,
-  },
-  activeColor: 1
 }
 
 
@@ -65,7 +49,7 @@ const Planet = () => {
   const [scene1] = useState(new THREE.Scene())
   const [scene2] = useState(new THREE.Scene())
 
-  const [_controls, setControls] = useState()
+  const [_controls] = useState()
 
   const [meshes] = useState([])
 
@@ -137,7 +121,7 @@ const Planet = () => {
       _textureB.setSize(scW, scH)
       renderer.setSize(scW, scH)
     }
-  }, [renderer, _camera, mat, scene1, _textureA, _textureA])
+  }, [renderer, _camera, mat, scene1, _textureA, _textureB])
 
 
   // SET MOUSE POSITION TO STATE
@@ -148,8 +132,7 @@ const Planet = () => {
 
     const width = window.innerWidth
     const height = window.innerHeight
-    const scaleX = width / rect.width
-    const scaleY = height / rect.height
+
 
     mouse.x = -(e.clientX - width / 2)
     mouse.y = -(e.clientY - rect.top - container.clientHeight / 2) - e.view.scrollY
@@ -176,7 +159,6 @@ const Planet = () => {
         duration: 0.5,
       })
       gsap.to(scene2.children[1].scale, {
-        // onStart: () => scene2.children[1].visible = true,
         x: 1,
         y: 1,
         z: 1,
@@ -229,14 +211,14 @@ const Planet = () => {
       mat.uniformsNeedUpdate = true
 
 
-      const renderer = new THREE.WebGLRenderer({
+      const glRenderer = new THREE.WebGLRenderer({
         antialias: true,
         alpha: true
       })
-      renderer.setPixelRatio(window.devicePixelRatio)
-      renderer.setSize(scW, scH)
-      renderer.outputEncoding = THREE.sRGBEncoding
-      container.appendChild(renderer.domElement)
+      glRenderer.setPixelRatio(window.devicePixelRatio)
+      glRenderer.setSize(scW, scH)
+      glRenderer.outputEncoding = THREE.sRGBEncoding
+      container.appendChild(glRenderer.domElement)
       setRenderer(renderer)
 
 
@@ -399,9 +381,7 @@ const Planet = () => {
         }
 
         material.uniforms.uTime.value = time
-        // material.uniforms.uColor.value = settings.colorMode == 'dark' ? { x: 1, y: 1, z: 1 } : { x: 0, y: 0, z: 0 }
-        // console.log(settings.colorMode)
-        // console.log(material.uniforms.uColor.value.x);
+
         trackRipples()
 
 
@@ -426,10 +406,13 @@ const Planet = () => {
       setLoading(false)
 
       return () => {
-        console.log('unmount Planet')
+        console.log('unmount Planet', '<br>Your webGL capabilities:<br>', renderer.capabilities)
+        console.log('Current ViewPort: ', renderer.getCurrentViewport(new THREE.Vector4()))
+        cancelAnimationFrame(req)
+        renderer.dispose()
       }
     }
-  }, [mat, meshes, mouse, prevMouse, material, settings])
+  }, [mat, renderer, meshes, mouse, prevMouse, material, settings])
 
   // START RESIZE EVENTS
   useEffect(() => {
@@ -438,7 +421,7 @@ const Planet = () => {
     return () => {
       window.removeEventListener('resize', handleWindowResize, false)
     }
-  }, [renderer, handleWindowResize])
+  }, [handleWindowResize])
 
   // START MOUSE EVENTS
   useEffect(() => {

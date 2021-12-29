@@ -8,7 +8,6 @@ import {
   Image,
   Button,
   Link,
-  SimpleGrid,
   Icon,
   List,
   ListItem,
@@ -19,8 +18,7 @@ import Layout from '../components/layouts/article'
 import Section from '../components/section'
 import Paragraph from '../components/paragraph'
 import { BioSection, BioYear } from '../components/bio'
-import { GridItem } from '../components/grid-item'
-import { IoLogoLinkedin, IoLogoGithub, IoLogoStackoverflow } from 'react-icons/io5'
+import { IoLogoLinkedin, IoLogoGithub, IoLogoStackoverflow, IoLogoFacebook } from 'react-icons/io5'
 
 
 const Page = () => {
@@ -126,26 +124,34 @@ const Page = () => {
           </Heading>
           <List spacing={2} mb={4}>
             <ListItem>
+              <Link href='https://facebook.com/lukashyk.v' target='_blank'>
+                <Button p={5} lineHeight={1} variant='ghost' colorScheme='facebook' leftIcon={<Icon as={IoLogoFacebook} />}>
+                  @lukashyk.v
+                </Button>
+              </Link>
+            </ListItem>
+            <ListItem>
+              <Link href='https://linkedin.com/valerian.lukashyk' target='_blank'>
+                <Button p={5} lineHeight={1} variant='ghost' colorScheme='linkedin' leftIcon={<Icon as={IoLogoLinkedin} />}>
+                  @weonium
+                </Button>
+              </Link>
+            </ListItem>
+            <ListItem>
               <Link href='https://github.com/weonium' target='_blank'>
-                <Button p={5} lineHeight={1} variant='ghost' colorScheme='teal' leftIcon={<Icon as={IoLogoGithub} />}>
+                <Button p={5} lineHeight={1} variant='ghost' colorScheme='#161B22' leftIcon={<Icon as={IoLogoGithub} />}>
                   @weonium
                 </Button>
               </Link>
             </ListItem>
             <ListItem>
               <Link href='https://stackoverflow.com/v.lukashyk' target='_blank'>
-                <Button p={5} lineHeight={1} variant='ghost' colorScheme='teal' leftIcon={<Icon as={IoLogoStackoverflow} />}>
+                <Button p={5} lineHeight={1} variant='ghost' colorScheme='stackoverflow' leftIcon={<Icon as={IoLogoStackoverflow} />}>
                   @weonium
                 </Button>
               </Link>
             </ListItem>
-            <ListItem>
-              <Link href='https://linkedin.com/valerian.lukashyk' target='_blank'>
-                <Button p={5} lineHeight={1} variant='ghost' colorScheme='teal' leftIcon={<Icon as={IoLogoLinkedin} />}>
-                  @weonium
-                </Button>
-              </Link>
-            </ListItem>
+
           </List>
 
         </Section>
