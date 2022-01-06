@@ -79,7 +79,7 @@ const Navbar = props => {
           </LinkItem>
 
         </Stack>
-        <Box flex={1} align="right">
+        <Box flexGrow={1} align="right">
           <Box >
             {authInfo.isAuth ? (
               <Box ml={2} display={{ base: 'none', md: 'inline-block' }}>

@@ -8,7 +8,7 @@ import useStore from '../state/useStore'
 import { AddIcon } from '@chakra-ui/icons'
 import ModalWindow from '../components/modalWindow'
 import Loading from './../utils/loading'
-import { worksFields, values } from '../libs/formsFields'
+import { workFields, values } from '../libs/formsFields'
 
 const Works = () => {
     const [loaded, setLoaded] = useState(true)
@@ -64,7 +64,7 @@ const Works = () => {
                         Works
                     </Heading>
 
-                    {isAuth && <ModalWindow title='Add new Work' callbackHook={(data) => handleSubmit(data)} fields={worksFields} iValues={values} isCentered icon={<AddIcon />} isRound={true} />}
+                    {isAuth && <ModalWindow title='Add new Work' callbackHook={(data) => handleSubmit(data)} fields={workFields} iValues={values} isCentered icon={<AddIcon />} isRound={true} />}
                     {/* {isAuth && <WorkModal title='Add new Work' callbackHook={(data) => handleSubmit(data)} isCentered icon={<AddIcon />} isRound={true} />} */}
                 </Flex>
                 <Divider mb={6} />

@@ -124,7 +124,7 @@ const Planet = () => {
       renderer.setScissor(0, 0, window.innerWidth, window.innerHeight)
       renderer.setViewport(0, 0, window.innerWidth, window.innerHeight)
     }
-  }, [renderer, _camera, mat, scene1, _textureA, _textureB])
+  }, [renderer, mat, _textureA, _textureB])
 
 
   // SET MOUSE POSITION TO STATE
