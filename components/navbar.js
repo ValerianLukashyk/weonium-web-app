@@ -31,7 +31,6 @@ const Navbar = props => {
   const router = useRouter()
   const { path } = props
 
-  const clrLnk = useColorModeValue('red.500', 'black.800')
   const clrBox = useColorModeValue('#ffffff40', '#20202380')
 
   const redirect = () => {

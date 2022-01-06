@@ -1,8 +1,7 @@
 import { useRouter } from 'next/router'
-import { Button, Avatar, AvatarBadge, AvatarGroup } from '@chakra-ui/react'
-// import { IoLockClosed } from 'react-icons/io'
+import { Button, Avatar, AvatarBadge } from '@chakra-ui/react'
 import { IconContext } from 'react-icons'
-import { IoLockClosed, IoLockOpen, IoPersonOutline } from "react-icons/io5";
+import { IoPersonOutline } from "react-icons/io5";
 import useStore from '../state/useStore'
 
 

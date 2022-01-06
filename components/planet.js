@@ -134,7 +134,6 @@ const Planet = () => {
     const rect = container.getBoundingClientRect();
 
     const width = window.innerWidth
-    const height = window.innerHeight
 
 
     mouse.x = -(e.clientX - width / 2)
@@ -266,7 +265,6 @@ const Planet = () => {
 
       const geometry = new THREE.PlaneGeometry(64, 64, 1, 1);
       const max = 50
-      let req = null
       let frame = 0
       let time = 0
       let currentWave = 0
@@ -363,7 +361,7 @@ const Planet = () => {
       }
 
       const animate = () => {
-        req = requestAnimationFrame(animate)
+        requestAnimationFrame(animate)
         time += 0.01
         frame = frame <= 200 ? frame + 1 : frame
         const p = initialCameraPosition
@@ -415,7 +413,7 @@ const Planet = () => {
       return () => {
         // console.log('unmount Planet', '<br>Your webGL capabilities:<br>', renderer.capabilities)
         // console.log('Current ViewPort: ', renderer.getCurrentViewport(new THREE.Vector4()))
-        // glRenderer.dispose()
+        glRenderer.dispose()
         // cancelAnimationFrame(req)
 
       }

@@ -7,7 +7,6 @@ import Paragraph from '../components/paragraph'
 const Profile = () => {
     const authProfile = useStore(state => state.authInfo)
     const nameColor = useColorModeValue('gray.700', 'yellow.300')
-    const dividerColor = useColorModeValue('gray.500', 'whiteAlpha.500')
     return (
         <Layout>
             <Container>

@@ -59,7 +59,7 @@ const Login = () => {
             events.off('routeChangeStart', handleClose);
         };
 
-    }, [events]);
+    }, [events, onClose]);
 
     return (
         <>
