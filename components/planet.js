@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Box, Spinner, Center, useColorMode } from '@chakra-ui/react'
 import * as THREE from 'three'
-// import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { loadGLTFModel } from '../libs/model'
 import { fragment } from '../components/Scene/shaders/fragment'
 import { vertex } from '../components/Scene/shaders/vertex'
@@ -19,7 +19,7 @@ const Planet = () => {
   const refContainer = useRef()
 
   const [loading, setLoading] = useState(true)
-  const [renderer, setRenderer] = useState()
+  const [renderer, setRenderer] = useState(null)
   const [_camera, setCamera] = useState()
 
   const [settings] = useState({
@@ -47,6 +47,7 @@ const Planet = () => {
   )
   const [scene] = useState(new THREE.Scene())
   const [scene1] = useState(new THREE.Scene())
+  scene1.background = new THREE.Color('black')
   const [scene2] = useState(new THREE.Scene())
 
   const [_controls] = useState()
@@ -111,7 +112,7 @@ const Planet = () => {
 
     const { current: container } = refContainer
     if (container && renderer) {
-
+      console.log(renderer)
       const scW = container.clientWidth
       const scH = container.clientHeight
 
@@ -120,6 +121,8 @@ const Planet = () => {
       _textureA.setSize(scW, scH)
       _textureB.setSize(scW, scH)
       renderer.setSize(scW, scH)
+      renderer.setScissor(0, 0, window.innerWidth, window.innerHeight)
+      renderer.setViewport(0, 0, window.innerWidth, window.innerHeight)
     }
   }, [renderer, _camera, mat, scene1, _textureA, _textureB])
 
@@ -194,8 +197,6 @@ const Planet = () => {
   const frameRender = (time) => {
     scene2.children[0].rotation.y = time / 16;
     scene2.children[1].rotation.y = -time / 16;
-
-
   }
 
   // START EVERYTHING
@@ -219,7 +220,7 @@ const Planet = () => {
       glRenderer.setSize(scW, scH)
       glRenderer.outputEncoding = THREE.sRGBEncoding
       container.appendChild(glRenderer.domElement)
-      setRenderer(renderer)
+      setRenderer(glRenderer)
 
 
       const scale = scH * 0.7
@@ -236,26 +237,30 @@ const Planet = () => {
       setCamera(camera)
 
       // SET RenderTargets
-      const textureA = new THREE.WebGLRenderTarget(scW, scH, {
+      const textureA = new THREE.WebGLRenderTarget(scW * 1.4, scH * 1.4, {
         minFilter: THREE.LinearFilter,
         magFilter: THREE.LinearFilter,
         format: THREE.RGBAFormat
       })
+      textureA.depthBuffer = true;
+      textureA.depthTexture = new THREE.DepthTexture();
       setRtTextureA(textureA)
-      const textureB = new THREE.WebGLRenderTarget(scW, scH, {
+      const textureB = new THREE.WebGLRenderTarget(scW * 1.4, scH * 1.4, {
         minFilter: THREE.LinearFilter,
         magFilter: THREE.LinearFilter,
         format: THREE.RGBAFormat
       })
+      textureB.depthBuffer = true;
+      textureB.depthTexture = new THREE.DepthTexture();
       setRtTextureB(textureB)
 
 
       // SET Orbit Controls
-      // const controls = new OrbitControls(camera, renderer.domElement)
+      const controls = new OrbitControls(camera, glRenderer.domElement)
       // controls.enableZoom = false
       // controls.enablePan = false
       // controls.rotateSpeed = 0
-      // controls.target = target
+      controls.target = target
       // setControls(controls)
 
 
@@ -288,16 +293,16 @@ const Planet = () => {
         meshes.push(mesh)
       }
 
-      const geometryFullScr = new THREE.PlaneGeometry(scW, scH, 1, 1);
+      const geometryFullScr = new THREE.PlaneGeometry(scW * 1.4, scH * 1.45, 2, 2);
       const displacementScreen = new THREE.Mesh(geometryFullScr, mat)
 
       scene1.add(displacementScreen)
 
       loadGLTFModel(scene2, scW, scH, material).then(() => {
 
-        scene2.children[0].scale.x = 0.7
-        scene2.children[0].scale.y = 0.7
-        scene2.children[0].scale.z = 0.7
+        scene2.children[0].scale.x = 1
+        scene2.children[0].scale.y = 1
+        scene2.children[0].scale.z = 1
 
         startAnim()
       })
@@ -385,19 +390,21 @@ const Planet = () => {
         trackRipples()
 
 
-        renderer.setRenderTarget(textureB)
-        renderer.render(scene, camera);
+
+        glRenderer.setRenderTarget(textureB)
+        glRenderer.render(scene, camera);
         textureB.texture.encoding = THREE.sRGBEncoding;
 
         mat.uniforms.uDisplacement.value = textureB.texture
-        renderer.setRenderTarget(textureA)
-        renderer.render(scene2, camera)
+        glRenderer.setRenderTarget(textureA)
+        glRenderer.render(scene2, camera)
         textureA.texture.encoding = THREE.sRGBEncoding;
         mat.uniforms.uTexture.value = textureA.texture
 
-        renderer.setRenderTarget(null)
-        renderer.clear()
-        renderer.render(scene1, camera);
+        glRenderer.setRenderTarget(null)
+        glRenderer.clear()
+        glRenderer.render(scene1, camera);
+
         frameRender(time, color)
       }
 
@@ -406,10 +413,11 @@ const Planet = () => {
       setLoading(false)
 
       return () => {
-        console.log('unmount Planet', '<br>Your webGL capabilities:<br>', renderer.capabilities)
-        console.log('Current ViewPort: ', renderer.getCurrentViewport(new THREE.Vector4()))
-        cancelAnimationFrame(req)
-        renderer.dispose()
+        // console.log('unmount Planet', '<br>Your webGL capabilities:<br>', renderer.capabilities)
+        // console.log('Current ViewPort: ', renderer.getCurrentViewport(new THREE.Vector4()))
+        // glRenderer.dispose()
+        // cancelAnimationFrame(req)
+
       }
     }
   }, [mat, renderer, meshes, mouse, prevMouse, material, settings])
@@ -426,12 +434,10 @@ const Planet = () => {
   // START MOUSE EVENTS
   useEffect(() => {
     refContainer.current.addEventListener('mousemove', mouseEvents, false)
-    refContainer.current.addEventListener('touchmove', mouseEvents, false)
     return () => {
       refContainer.current.removeEventListener('mousemove', mouseEvents, false)
-      refContainer.current.removeEventListener('touchmove', mouseEvents, false)
     }
-  }, [refContainer, renderer])
+  }, [refContainer])
 
 
   return (
@@ -439,9 +445,6 @@ const Planet = () => {
       <Box
         onMouseDown={handleClick}
         onMouseUp={handleClick}
-        // onMouseMove={handleMove}
-        onTouchMove={handleClick}
-        onTouchEnd={handleClick}
         ref={refContainer}
         className="planet"
         cursor={'pointer'}

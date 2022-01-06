@@ -6,15 +6,15 @@ export const LinkItem = (props) => {
 
     const { href, path, color, inactiveColor = iaCol, activeBG, children } = props
     const active = path === href
-
+    const activeColor = useColorModeValue('whiteAlpha.900', 'gray.800')
     const glassTealC = '#202023'
 
     return (
         <NextLink href={href}>
             <Link
                 p={2}
-                bg={active ? activeBG ? activeBG : glassTealC : undefined}
-                color={active ? color : inactiveColor}
+                bg={active ? (activeBG ? activeBG : 'glassTeal') : undefined}
+                color={active ? color || activeColor : inactiveColor}
                 {...props}
             >
                 {children}

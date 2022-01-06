@@ -27,6 +27,11 @@ const components = {
       color: mode('#3d7aed', '#ff63c3')(props),
       textUnderlineOffset: 3
     })
+  },
+  Divider: {
+    baseStyle: props => ({
+      borderColor: mode('#718096', '#ffffff5c')(props),
+    })
   }
 }
 

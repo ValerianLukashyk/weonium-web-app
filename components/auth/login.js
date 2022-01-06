@@ -33,13 +33,10 @@ const Login = () => {
 
     const { events } = useRouter();
 
-    const handleClose = () => {
-        onClose()
-    }
-
     const handleSubmit = async (values) => {
         await server.post('/auth/login', values)
             .then(function (res) {
+                console.log(res)
                 if (res.status === 200) {
                     const token = res.data
                     localStorage.setItem('token', token);
@@ -54,12 +51,15 @@ const Login = () => {
     }
 
     useEffect(() => {
+        const handleClose = () => {
+            onClose()
+        }
         events.on('routeChangeStart', handleClose);
         return () => {
             events.off('routeChangeStart', handleClose);
         };
 
-    }, [handleClose, events]);
+    }, [events]);
 
     return (
         <>

@@ -4,6 +4,7 @@ import Logout from './auth/logout'
 import { LinkItem } from './link-item'
 import ProfileButton from './profileButton'
 import NextLink from 'next/link'
+import { useRouter } from 'next/router'
 import {
   Container,
   Box,
@@ -27,15 +28,22 @@ import { IoFingerPrintOutline } from "react-icons/io5";
 const Navbar = props => {
 
   const authInfo = useStore(state => state.authInfo)
-
+  const router = useRouter()
   const { path } = props
+
+  const clrLnk = useColorModeValue('red.500', 'black.800')
+  const clrBox = useColorModeValue('#ffffff40', '#20202380')
+
+  const redirect = () => {
+    router.push('/register')
+  }
 
   return (
     <Box
       position="fixed"
       as="nav"
       w="100%"
-      bg={useColorModeValue('#ffffff40', '#20202380')}
+      bg={clrBox}
       style={{ backdropFilter: 'blur(10px)' }}
       zIndex={1}
       {...props}
@@ -81,9 +89,7 @@ const Navbar = props => {
               </Box>
             ) : (
               <Box ml={2} display={{ base: 'none', md: 'inline-block' }}>
-                <LinkItem href="/register" path={path} color={useColorModeValue('red.500', 'black.800')} textDecoration='none'>
-                  <Button mr={4} colorScheme={'blue'} ><IoFingerPrintOutline />&nbsp;Register</Button>
-                </LinkItem>
+                <Button mr={4} onClick={redirect} colorScheme={'blue'} ><IoFingerPrintOutline />&nbsp;Register</Button>
                 <Login />
               </Box>
             )}
@@ -115,7 +121,7 @@ const Navbar = props => {
                   </>
                   ) : (<>
                     <NextLink href="/register" passHref>
-                      <MenuItem as={<Button mr={4}><IoFingerPrintOutline />&nbsp;Register</Button>}></MenuItem>
+                      <Button mx={4}><IoFingerPrintOutline />&nbsp;Register</Button>
                     </NextLink>
                     <Login />
                   </>

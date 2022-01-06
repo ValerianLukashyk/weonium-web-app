@@ -1,4 +1,4 @@
-import { Container, Image, Flex, Box, Heading, Divider } from '@chakra-ui/react'
+import { Container, Image, Flex, Box, Heading, Divider, useColorModeValue } from '@chakra-ui/react'
 import Section from '../components/section'
 import Layout from '../components/layouts/article'
 import useStore from '../state/useStore'
@@ -6,7 +6,8 @@ import Paragraph from '../components/paragraph'
 
 const Profile = () => {
     const authProfile = useStore(state => state.authInfo)
-
+    const nameColor = useColorModeValue('gray.700', 'yellow.300')
+    const dividerColor = useColorModeValue('gray.500', 'whiteAlpha.500')
     return (
         <Layout>
             <Container>
@@ -19,7 +20,7 @@ const Profile = () => {
                         <Flex align="center" justify='space-between'>
 
                             <Flex>
-                                <Heading mb={3} color={'yellow.300'} as="h3" size={'md'}>{authProfile.displayName} </Heading>
+                                <Heading mb={3} color={nameColor} as="h3" size={'md'}>{authProfile.displayName} </Heading>
                             </Flex>
                             <Image
                                 borderColor="whiteAlpha.800"

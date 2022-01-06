@@ -41,6 +41,7 @@ const useStore = create(set => ({
     setTime: () => set((state) => ({ time: state.time + 0.01 })),
     resetTime: set(() => ({ time: 0 })),
 
+    //TODO: RENAME TO WEBGL WORKS
     // POSTS SECTION
     posts: [],
     post: {},
@@ -60,7 +61,6 @@ const useStore = create(set => ({
     setPosts: (data) => set(() => ({ posts: data })),
 
     // WORKS SECTION / / / / / / / / / / / / / / / /
-
     currentWork: {
         title: '',
         period: '',
@@ -112,6 +112,7 @@ const useStore = create(set => ({
             updatingWork: work
         }))
     },
+
     // ERROR SECTION / / / / / / / / / / / / / / / /
     errors: null,
     setErrors: (error) => set(() => ({ errors: error })),
@@ -121,6 +122,7 @@ const useStore = create(set => ({
     formData: null,
     setFormData: (data) => set(() => ({ formData: { [data.name]: data.value } })),
     setFormDataImages: (data) => set(() => ({ formData: { images: data } })),
+
     // UploadForm
     isDragActive: false,
     toggleDragActive: (value) => set(() => ({ isDragActive: value })),
