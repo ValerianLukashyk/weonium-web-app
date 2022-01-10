@@ -27,11 +27,15 @@ const Footer = (props) => {
                 justify="space-between"
             >
                 <Flex align="center" mr={5}>
-
-                    <Heading as="h1" size="lg" letterSpacing={'tighter'} mr={5}>
-                        Valerian Lukashyk
-                    </Heading>
-                    <Text>Full stack developer</Text>
+                    <Box>
+                        <Heading as="h1" size="md" letterSpacing={'tighter'} mr={5}>
+                            Valerian Lukashyk
+                        </Heading>
+                        <Text>Full-stack Interactive Developer</Text>
+                    </Box>
+                    <Box>
+                        <Text ml={10}>All rights reserved. 2022</Text>
+                    </Box>
                 </Flex>
             </Container>
         </Box>

@@ -13,7 +13,10 @@ const useStore = create(set => ({
     setLoading: (value) => set(() => ({ loading: value })),
     //Auth Section / / / / / / / / / / / / /
     authInfo: {
-        id: "",
+        _id: "",
+        localId: "",
+        given_name: "",
+        family_name: "",
         displayName: "",
         email: "",
         password: "",
@@ -21,9 +24,25 @@ const useStore = create(set => ({
         isAuth: false,
         token: "",
         picture: null,
-        accessLevel: 1,
+        superuser: false,
+        status: "",
+        language: 'eng',
+        provider: "",
+        date: "",
+        confirmationCode: "",
+
+    },
+    fetchAuthInfo: async () => {
+        const token = getCookie('token')
+        server.defaults.headers.common["auth-token"] = token
+        server('/auth/me')
+            .then(res => {
+                set({ authInfo: res.data })
+            })
+            .catch(err => console.log(err))
     },
     setAuthInfo: (user) => set(() => ({ authInfo: user })),
+    setProfilePicture: (photo) => set((state) => ({ authInfo: {picture: photo} })),
     setTempAuthInfo: (user) => set(() => ({ authInfo: { name: user.name, email: user.email } })),
     setIsAuth: () => set(() => ({ authInfo: { isAuth: true } })),
     setNotIsAuth: () => set(() => ({ authInfo: { isAuth: false } })),
@@ -65,7 +84,7 @@ const useStore = create(set => ({
     },
     showButtons: false,
     onPostHover: () => set((value) => ({ showButtons: value })),
-    
+
 
     // WORKS SECTION / / / / / / / / / / / / / / / /
     currentWork: {

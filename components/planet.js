@@ -129,7 +129,6 @@ const Planet = () => {
   // SET MOUSE POSITION TO STATE
   const mouseEvents = (e) => {
     const { current: container } = refContainer
-    const scW = container.clientWidth
     const rect = container.getBoundingClientRect();
     const width = window.innerWidth
 

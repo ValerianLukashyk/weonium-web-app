@@ -1,22 +1,18 @@
 import { useRouter } from 'next/router'
 import { Button, Avatar, AvatarBadge } from '@chakra-ui/react'
 import { IconContext } from 'react-icons'
-import { IoPersonOutline } from "react-icons/io5";
 import useStore from '../state/useStore'
 
 
 const ProfileButton = () => {
     const router = useRouter()
     const authProfile = useStore(state => state.authInfo)
-    const profile = () => {
-        router.push('/profile')
-    }
-
+        
     return (
         <IconContext.Provider value={{ size: '1.8em', color: 'red.800' }}>
 
-            <Button onClick={profile} mr={3} p={4}>
-                <Avatar showBorder ml={-6} onClick={profile} name='Valerian Lukashyk' src={authProfile.picture ? authProfile.picture : <IoPersonOutline />} >
+            <Button onClick={()=>router.push('/profile')} mr={3} p={4}>
+                <Avatar showBorder ml={-6} name={authProfile.displayName} src={authProfile.picture || null} >
                     <AvatarBadge borderColor='papayawhip' border bg='green' boxSize='0.8em' />
                 </Avatar>
                 &nbsp;Profile

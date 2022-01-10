@@ -7,12 +7,8 @@ import {
     FormControl,
     FormLabel,
     FormErrorMessage,
-    Heading
 } from '@chakra-ui/react'
 import { server } from '../api/api'
-import { IoIosCheckmarkCircleOutline } from 'react-icons/io'
-import { IconContext } from 'react-icons'
-import NextLink from 'next/link'
 import Loading from '../../utils/loading'
 
 const RegisterForm = () => {

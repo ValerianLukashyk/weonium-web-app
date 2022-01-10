@@ -3,15 +3,16 @@ import useStore from '../../state/useStore'
 import { TitleGL, WorkImage, Meta } from '../../components/work'
 import P from '../../components/paragraph'
 import Layout from '../../components/layouts/article'
-import { Divider, Container, IconButton, List, Link, Box, Flex, ListItem, useDisclosure } from '@chakra-ui/react'
+import { Image, Divider, Container, IconButton, List, Link, Box, Flex, ListItem, useDisclosure, Modal, ModalOverlay, ModalContent, ModalBody, ModalCloseButton  } from '@chakra-ui/react'
 import { ExternalLinkIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons'
 import useQuery from '../../libs/useQuery'
 import { server } from '../../components/api/api'
 import { useRouter } from 'next/router';
+import Loading from '../../utils/loading'
 
-
-const glWork = () => {
-    const [loaded, setLoaded] = useState(false)
+const GlWork = () => {
+    const [isLoading, setIsLoading] = useState(true)
+    const [openedImg, setOpenedImg] = useState()
     const post = useStore(state => state.post)
     const router = useRouter()
     const query = useQuery()
@@ -25,10 +26,13 @@ const glWork = () => {
             return;
         }
         postFetch(query.slug)
-        setLoaded(true)
+        setIsLoading(false)
     }, [query, postFetch]);
 
-    
+    const handleOpen = (e) => {
+        setOpenedImg(e.target.attributes.src.value)
+        onOpen()
+    }
 
     const handleEdit = () => {
         if (editMode) setEditMode(false)
@@ -36,12 +40,12 @@ const glWork = () => {
     }
 
     const handleDelete = () => {
-        setLoaded(false)
+        setIsLoading(true)
         server.delete(`/posts/${query.slug}`)
             .then((res) => {
                 if (res.status === 200) {
                     router.back()
-                    setLoaded(true)
+                    setIsLoading(false)
                 }
             })
             .catch(err => console.log(err))
@@ -49,65 +53,77 @@ const glWork = () => {
 
     return (
         <Layout title={post && post.title}>
-            <Container>
-            <Flex justify='space-between'>
-                <TitleGL lineHeight={2}>
-                    {post && post.title}
-                </TitleGL>
-                {
-                    isAuth && !editMode &&
-                    <Box>
-                        <IconButton
-                            mr={1}
-                            isRound={true}
-                            aria-label="Edit Item"
-                            icon={<EditIcon />}
-                            onClick={handleEdit}
-                        ></IconButton>
-                        <IconButton
+            {isLoading ? <Loading /> :
+                <Container>
+                    <Flex justify='space-between'>
+                        <TitleGL lineHeight={2}>
+                            {post && post.title}
+                        </TitleGL>
+                        {
+                            isAuth && !editMode &&
+                            <Box>
+                                <IconButton
+                                    mr={1}
+                                    isRound={true}
+                                    aria-label="Edit Item"
+                                    icon={<EditIcon />}
+                                    onClick={handleEdit}
+                                ></IconButton>
+                                <IconButton
 
-                            isRound={true}
-                            aria-label="Remove Item"
-                            icon={<DeleteIcon />}
-                            onClick={handleDelete}
-                        ></IconButton>
-                    </Box>
-                }
-                </Flex>
-                <Divider my={4} />
-                <P >
-                    {post && post.description}
-                </P>
-
-                <List ml={4} my={4}>
-                    <ListItem>
-                        <Meta>Url</Meta>
-
-                        <Link href={post && post.url}>
-                            {post && post.url}
-                            <ExternalLinkIcon mx='2px' />
-                        </Link>
-
-
-                    </ListItem>
-                </List>
-                {
-                    post && post.screenshots && [...post.screenshots].reverse().map(
-                        (img, i) => {
-                            return (
-                                <Box key={i}>
-                                    < WorkImage key={i} src={process.env.NEXT_PUBLIC_SERVER_URL + ':' + process.env.NEXT_PUBLIC_SERVER_PORT + img} alt='SweetGlass' clk={onOpen} />
-                                </Box>
-                            )
+                                    isRound={true}
+                                    aria-label="Remove Item"
+                                    icon={<DeleteIcon />}
+                                    onClick={handleDelete}
+                                ></IconButton>
+                            </Box>
                         }
-                    )
-                }
+                    </Flex>
+                    <Divider my={4} />
+                    <P >
+                        {post && post.description}
+                    </P>
+
+                    <List ml={4} my={4}>
+                        <ListItem>
+                            <Meta>Url</Meta>
+
+                            <Link href={post && post.url}>
+                                {post && post.url}
+                                <ExternalLinkIcon mx='2px' />
+                            </Link>
 
 
+                        </ListItem>
+                    </List>
+                    {
+                        post && post.screenshots && [...post.screenshots].reverse().map(
+                            (img, i) => {
+                                return (
+                                    <Box key={i}>
+                                        < WorkImage key={i} src={process.env.NEXT_PUBLIC_SERVER_URL + ':' + process.env.NEXT_PUBLIC_SERVER_PORT + img} alt='SweetGlass' clk={handleOpen} />
+                                    </Box>
+                                )
+                            }
+                        )
+                    }
+                    {post && post.screenshots && (
+                        <Modal onClose={onClose} size='full' isOpen={isOpen} >
+                            <ModalOverlay />
+                            <ModalContent>
+                                <ModalCloseButton position='fixed' w={50} h={50} right={50} top={4} />
+                                <ModalBody>
+                                    <Image onDoubleClick={onClose} w='full' alt={'screenshot main'} src={openedImg} />
+                                </ModalBody>
+                            </ModalContent>
+                        </Modal>
+                    )}
 
-            </Container>
+
+                </Container>
+            }
         </Layout>
     )
 }
 
-export default glWork
+export default GlWork

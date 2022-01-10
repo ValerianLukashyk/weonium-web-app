@@ -1,5 +1,3 @@
-import { useState, useEffect } from 'react'
-import { server } from "../components/api/api"
 import NextLink from 'next/link'
 import {
   Container,
@@ -22,18 +20,6 @@ import { IoLogoLinkedin, IoLogoGithub, IoLogoStackoverflow, IoLogoFacebook } fro
 
 
 const Page = () => {
-  const [data, setData] = useState({})
-
-  // useEffect(() => {
-  //   server.get('/settings')
-  //     .then(function (res) {
-  //       setData(res.data[0])
-  //     })
-  //     .catch(function (error) {
-  //       console.log(error);
-  //     })
-
-  // }, [])
 
   return (
     <Layout>
@@ -45,7 +31,7 @@ const Page = () => {
           mb={6}
           align="center"
         >
-          Hello, I'm a full-stack developer based in Ukraine!
+          Hello, I&apos;m a full-stack developer based in Ukraine!
         </Box>
         <Box display={{ md: 'flex' }}>
           <Box flexGrow={1}>
@@ -77,7 +63,7 @@ const Page = () => {
             Work
           </Heading>
           <Paragraph>
-          I am a freelance and a full-stack developer based in Ukraine (L'viv) with a passion for building interactive websites. In addition to interactive websites I am expert in creating SPA with React(Next.js) and have an intermediate skill in building back-end part with Node.js. When I'm not writing code I spend time in my audio recording studio.
+          I am a freelance and a full-stack developer based in Ukraine (L&apos;viv) with a passion for building interactive websites. In addition to interactive websites I am expert in creating SPA with React(Next.js) and have an intermediate skill in building back-end part with Node.js. When I&apos;m not writing code I spend time in my audio recording studio.
           </Paragraph>
           <Box align='center' my={4}>
             <NextLink href="/works">
@@ -90,11 +76,11 @@ const Page = () => {
         </Section>
         <Section delay={0.2}>
           <Heading as="h3" variant="section-title">
-            {data.bioTitle}
+            Bio
           </Heading>
           <BioSection>
             <BioYear>1990</BioYear>
-            Born in Lviv, Ukraine.
+            Born in L&apos;viv, Ukraine.
           </BioSection>
           <BioSection>
             <BioYear>2012</BioYear>

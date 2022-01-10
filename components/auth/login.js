@@ -27,7 +27,6 @@ import { IoLockClosed, IoLogoGoogle, IoLogoGithub } from "react-icons/io5";
 import NextLink from 'next/link'
 
 const Login = () => {
-    const [message, setMessage] = useState('')
     const [error, setError] = useState()
     const router = useRouter()
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -38,7 +37,6 @@ const Login = () => {
     const handleSubmit = async (values) => {
         await server.post('/auth/login', values)
             .then(function (res) {
-                console.log(res)
                 if (res.status === 200) {
                     const token = res.data
                     localStorage.setItem('token', token);
@@ -48,7 +46,7 @@ const Login = () => {
                 }
             })
             .catch(function (error) {
-                console.log('ERROR!!!' + error);
+                setError(error.response.data.message)
             })
     }
 
@@ -73,6 +71,9 @@ const Login = () => {
                     <ModalHeader>Login</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
+                        {error &&
+                            <Text color='red.500' my={5}>{error}</Text>
+                        }
                         <Formik
                             initialValues={{ email: '', password: '' }}
                             validate={values => {

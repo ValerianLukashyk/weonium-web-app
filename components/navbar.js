@@ -33,10 +33,6 @@ const Navbar = props => {
 
   const clrBox = useColorModeValue('#ffffff40', '#20202380')
 
-  const redirect = () => {
-    router.push('/register')
-  }
-
   return (
     <Box
       position="fixed"
@@ -88,7 +84,7 @@ const Navbar = props => {
               </Box>
             ) : (
               <Box ml={2} display={{ base: 'none', md: 'inline-block' }}>
-                <Button mr={4} onClick={redirect} colorScheme={'blue'} ><IoFingerPrintOutline />&nbsp;Register</Button>
+                <Button mr={4} onClick={()=> router.push('/register')} colorScheme={'blue'} ><IoFingerPrintOutline />&nbsp;Register</Button>
                 <Login />
               </Box>
             )}

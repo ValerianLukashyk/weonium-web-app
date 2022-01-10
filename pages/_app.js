@@ -1,6 +1,5 @@
 import { useEffect } from 'react'
 import useStore from '../state/useStore'
-import { server } from '../components/api/api'
 import { ChakraProvider } from '@chakra-ui/react'
 import Layout from '../components/layouts/main'
 import Fonts from '../components/fonts'
@@ -10,21 +9,11 @@ import { AnimatePresence } from 'framer-motion'
 
 
 const Website = ({ Component, pageProps, router }) => {
-  const setAuthInfo = useStore(state => state.setAuthInfo)
+  const fetchAuthInfo = useStore(state => state.fetchAuthInfo)
 
   useEffect(() => {
-    const token = localStorage.getItem('token')
-    if (token) {
-      server.defaults.headers.common['auth-token'] = token
-      server.get('/auth/me')
-        .then((res) => {
-          if (res.status === 200) setAuthInfo(res.data)
-        })
-        .catch(function (error) {
-          console.log(error);
-        })
-    }
-  }, [setAuthInfo])
+    fetchAuthInfo()
+  }, [fetchAuthInfo])
 
   return (
     <ChakraProvider theme={theme}>

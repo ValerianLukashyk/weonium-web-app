@@ -20,7 +20,7 @@ import DragText from '../../components/styled/drag-text'
 
 const Work = () => {
     const [loaded, setLoaded] = useState(true)
-    const [openedImg, setOpenedImg] = useState(true)
+    const [openedImg, setOpenedImg] = useState()
     const [editMode, setEditMode] = useState(false)
     const [hovered, setHovered] = useState(false)
     const { isOpen, onOpen, onClose } = useDisclosure()
