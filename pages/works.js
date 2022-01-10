@@ -40,13 +40,12 @@ const Works = () => {
         })
             .then((res) => {
                 if (res.status === 200) {
-                    console.log(res)
                     getAllWorks()
                     setLoaded(true)
                 }
             })
             .catch((error) => {
-                console.log('ERROR!!!' + error);
+                console.log( error);
             })
     }
 
@@ -65,7 +64,6 @@ const Works = () => {
                     </Heading>
 
                     {isAuth && <ModalWindow title='Add new Work' callbackHook={(data) => handleSubmit(data)} fields={workFields} iValues={values} isCentered icon={<AddIcon />} isRound={true} />}
-                    {/* {isAuth && <WorkModal title='Add new Work' callbackHook={(data) => handleSubmit(data)} isCentered icon={<AddIcon />} isRound={true} />} */}
                 </Flex>
                 <Divider mb={6} />
                 <Section delay={0.2}>

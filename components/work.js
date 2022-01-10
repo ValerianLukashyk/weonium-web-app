@@ -19,6 +19,23 @@ export const Title = ({ children }) => (
         </Heading>
     </Box>
 )
+export const TitleGL = ({ children }) => (
+    <Box>
+        <NextLink href='/glworks'>
+            <Link>WebGL Works</Link>
+        </NextLink>
+
+
+        <span>
+            &nbsp;
+            <ChevronRightIcon />
+            &nbsp;
+        </span>
+        <Heading display='inline-block' as='h3' fontSize={20} mb={4}>
+            {children}
+        </Heading>
+    </Box>
+)
 
 export const WorkImage = (props) => {
     const { src, alt, clk } = props

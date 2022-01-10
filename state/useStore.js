@@ -42,23 +42,30 @@ const useStore = create(set => ({
     resetTime: set(() => ({ time: 0 })),
 
     //TODO: RENAME TO WEBGL WORKS
-    // POSTS SECTION
+    // WEBGL WORKS SECTION
     posts: [],
-    post: {},
-    setPost: (data) => set(() => ({ post: data })),
     getAllPosts: async () => {
         const token = getCookie('token')
         server.defaults.headers.common["auth-token"] = token
-        server('/posts')
+        server.get('/posts')
             .then(res => {
-                // console.log(res)
                 set({ posts: res.data })
+            })
+            .catch(err => console.log(err))
+    },
+    post: {},
+    postFetch: async slug => {
+        const token = getCookie('token')
+        server.defaults.headers.common["auth-token"] = token
+        server(`/posts/${slug}`)
+            .then(res => {
+                set({ post: res.data })
             })
             .catch(err => console.log(err))
     },
     showButtons: false,
     onPostHover: () => set((value) => ({ showButtons: value })),
-    setPosts: (data) => set(() => ({ posts: data })),
+    
 
     // WORKS SECTION / / / / / / / / / / / / / / / /
     currentWork: {
@@ -69,7 +76,7 @@ const useStore = create(set => ({
         stack: '',
         files: [],
     },
-    setCurrentWork: (data) => set(() => ({ currentWork: data })),
+    // setCurrentWork: (data) => set(() => ({ currentWork: data })),
     workFetch: async title => {
         const token = getCookie('token')
         server.defaults.headers.common["auth-token"] = token
@@ -80,7 +87,6 @@ const useStore = create(set => ({
             .catch(err => console.log(err))
     },
     works: [],
-    setWorks: (data) => set(() => ({ works: data })),
     getAllWorks: async () => {
         const token = getCookie('token')
         server.defaults.headers.common["auth-token"] = token

@@ -24,16 +24,17 @@ import { IoLogoLinkedin, IoLogoGithub, IoLogoStackoverflow, IoLogoFacebook } fro
 const Page = () => {
   const [data, setData] = useState({})
 
-  useEffect(() => {
-    server.get('/settings')
-      .then(function (res) {
-        setData(res.data[0])
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
+  // useEffect(() => {
+  //   server.get('/settings')
+  //     .then(function (res) {
+  //       setData(res.data[0])
+  //     })
+  //     .catch(function (error) {
+  //       console.log(error);
+  //     })
 
-  }, [])
+  // }, [])
+
   return (
     <Layout>
       <Container maxW='2xl'>
@@ -44,14 +45,14 @@ const Page = () => {
           mb={6}
           align="center"
         >
-          {data.helloMessage}
+          Hello, I'm a full-stack developer based in Ukraine!
         </Box>
         <Box display={{ md: 'flex' }}>
           <Box flexGrow={1}>
             <Heading as="h2" variant="page-title">
-              {data.name}
+              Valerian Lukashyk
             </Heading>
-            <p>{data.position}</p>
+            <p>Digital Buddha (Full-stack Interactive Developer)</p>
           </Box>
           <Box
             flexShrink={0}
@@ -73,10 +74,10 @@ const Page = () => {
         </Box>
         <Section delay={0.1}>
           <Heading as="h3" variant='section-title'>
-            {data.workTitle}
+            Work
           </Heading>
           <Paragraph>
-            {data.workDescription}
+          I am a freelance and a full-stack developer based in Ukraine (L'viv) with a passion for building interactive websites. In addition to interactive websites I am expert in creating SPA with React(Next.js) and have an intermediate skill in building back-end part with Node.js. When I'm not writing code I spend time in my audio recording studio.
           </Paragraph>
           <Box align='center' my={4}>
             <NextLink href="/works">
@@ -100,12 +101,12 @@ const Page = () => {
             Completed Kyiv International Univercity, Information Science cafedra.
           </BioSection>
           <BioSection>
-            <BioYear>2014</BioYear>
+            <BioYear>2018 to present</BioYear>
             Works as a freelance
           </BioSection>
           <BioSection>
-            <BioYear>2019 to present</BioYear>
-            Works in Digital Studio Weonium
+            <BioYear>2021 to present</BioYear>
+            Works in Digital Agency Weonium
           </BioSection>
         </Section>
         <Section delay={0.3}>
@@ -113,9 +114,10 @@ const Page = () => {
             I ❤
           </Heading>
           <Paragraph>
-            Art,{' '}
-            <Link href="#">Music</Link>
-            , Coding, Traveling
+            Music, 
+            Coding,
+            Art,
+            Traveling
           </Paragraph>
         </Section>
         <Section delay={0.3}>
@@ -133,21 +135,21 @@ const Page = () => {
             <ListItem>
               <Link href='https://linkedin.com/valerian.lukashyk' target='_blank'>
                 <Button p={5} lineHeight={1} variant='ghost' colorScheme='linkedin' leftIcon={<Icon as={IoLogoLinkedin} />}>
-                  @weonium
+                  @valerian.lukashyk
                 </Button>
               </Link>
             </ListItem>
             <ListItem>
-              <Link href='https://github.com/weonium' target='_blank'>
+              <Link href='https://github.com/ValerianLukashyk' target='_blank'>
                 <Button p={5} lineHeight={1} variant='ghost' colorScheme='#161B22' leftIcon={<Icon as={IoLogoGithub} />}>
-                  @weonium
+                  @ValerianLukashyk
                 </Button>
               </Link>
             </ListItem>
             <ListItem>
-              <Link href='https://stackoverflow.com/v.lukashyk' target='_blank'>
+              <Link href='https://stackoverflow.com/story/v.lukashyk' target='_blank'>
                 <Button p={5} lineHeight={1} variant='ghost' colorScheme='stackoverflow' leftIcon={<Icon as={IoLogoStackoverflow} />}>
-                  @weonium
+                  @v.lukashyk
                 </Button>
               </Link>
             </ListItem>

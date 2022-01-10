@@ -8,7 +8,7 @@ float PI = 3.141592653589793238;
 void main(){
     
     
-    vec2 st = gl_FragCoord.xy / resolution.xy;
+    vec2 st = gl_FragCoord.xy / resolution;
     
     vec4 disp = texture2D(uDisplacement, st);
     float theta = disp.r*2.*PI;

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import {
     Button,
     Input,
+    Textarea,
     FormControl,
     FormLabel,
     IconButton,
@@ -64,7 +65,11 @@ const ModalWindow = ({ title = 'Add New Post', icon, isRound = false, fields, iV
                                                 {({ field }) => (
                                                     <FormControl>
                                                         <FormLabel style={{ marginTop: 8 }} htmlFor={f.name}>{f.displayName}</FormLabel>
-                                                        <Input onChange={handleChange} {...field} id={f.id} placeholder={f.placeholder} />
+                                                        {!f.textArea ? 
+                                                            <Input onChange={handleChange} {...field} id={f.id} placeholder={f.placeholder} /> : 
+                                                            <Textarea onChange={handleChange} {...field} id={f.id} placeholder={f.placeholder} resize='none'/>
+                                                            
+                                                        }
                                                     </FormControl>
                                                 )}
                                             </Field>

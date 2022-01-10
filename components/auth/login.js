@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { server } from '../api/api'
 import {
@@ -27,6 +27,8 @@ import { IoLockClosed, IoLogoGoogle, IoLogoGithub } from "react-icons/io5";
 import NextLink from 'next/link'
 
 const Login = () => {
+    const [message, setMessage] = useState('')
+    const [error, setError] = useState()
     const router = useRouter()
     const { isOpen, onOpen, onClose } = useDisclosure()
     const clr = useColorModeValue('whiteAlpha.900', 'whiteAlpha.900')

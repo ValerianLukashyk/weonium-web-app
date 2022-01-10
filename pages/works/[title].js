@@ -20,6 +20,7 @@ import DragText from '../../components/styled/drag-text'
 
 const Work = () => {
     const [loaded, setLoaded] = useState(true)
+    const [openedImg, setOpenedImg] = useState(true)
     const [editMode, setEditMode] = useState(false)
     const [hovered, setHovered] = useState(false)
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -42,6 +43,10 @@ const Work = () => {
     const handleEdit = () => {
         if (editMode) setEditMode(false)
         else setEditMode(true)
+    }
+    const handleOpen = (e) => {
+        setOpenedImg(e.target.attributes.src.value)
+        onOpen()
     }
 
     const handleDelete = () => {
@@ -233,9 +238,13 @@ const Work = () => {
                                 <List ml={4} my={4}>
                                     <ListItem>
                                         <Meta>Website</Meta>
+
                                         <Link href={work.url}>
-                                            {work.url} <ExternalLinkIcon mx='2px' />
+                                            {work.url}
+                                            <ExternalLinkIcon mx='2px' />
                                         </Link>
+
+
                                     </ListItem>
                                     <ListItem>
                                         <Meta>Stack</Meta>
@@ -249,7 +258,7 @@ const Work = () => {
                                         (img, i) => {
                                             return (
                                                 <Box key={i}>
-                                                    < WorkImage key={i} src={img} alt='SweetGlass' clk={onOpen} />
+                                                    < WorkImage key={i} src={process.env.NEXT_PUBLIC_SERVER_URL + ':' + process.env.NEXT_PUBLIC_SERVER_PORT + img} alt='SweetGlass' clk={handleOpen} />
                                                 </Box>
                                             )
                                         }
@@ -262,12 +271,15 @@ const Work = () => {
                                         <ModalContent>
                                             <ModalCloseButton position='fixed' w={50} h={50} right={50} top={4} />
                                             <ModalBody>
-                                                <Image onDoubleClick={onClose} w='full' alt={'screenshot main'} src={work.screenshots[0]} />
+                                                <Image onDoubleClick={onClose} w='full' alt={'screenshot main'} src={openedImg} />
                                             </ModalBody>
                                         </ModalContent>
                                     </Modal>
                                 )}
                                 <Box>
+
+                                    {/* TODO: Complete Video Uploading */}
+
                                     {/* <form method='post' action='http://localhost:5000/uploadVideo'>
                                         <label htmlFor="videos" className="videoUploader">
                                             <IconContext.Provider value={{ size: "4em" }}>

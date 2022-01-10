@@ -11,7 +11,7 @@ const Main = ({ children, router, }) => {
     <Box as="main">
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>WeOnium - Web developing studio</title>
+        <title>Valerian Lukashyk - Full-stack interactive developer</title>
       </Head>
 
       <Navbar path={router.asPath} />

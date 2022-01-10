@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Box, Spinner, Image } from "@chakra-ui/react";
 
-const Thumb = ({ file, }) => {
+const Thumb = ({ file}) => {
     const [loading, setLoading] = useState(false)
     const [thumb, setThumb] = useState(undefined)
 
     useEffect(() => {
         if (!file) { return; }
-
-        if (nextProps.file.name.startsWith("image")) {
-
+        
+        if (file.type.startsWith("image")) {
+            console.log(file)
             setLoading(true)
             let reader = new FileReader();
 
@@ -19,7 +19,7 @@ const Thumb = ({ file, }) => {
                 setLoading(false)
             };
 
-            reader.readAsDataURL(nextProps.file);
+            reader.readAsDataURL(file);
 
         } else {
             return
@@ -41,12 +41,12 @@ const Thumb = ({ file, }) => {
                             height={'100px'}
                             width={'100px'}
                         />}
-                        {video &&
+                        {/* {video &&
                             <video controls autoPlay loop width={1200} height={700}>
                                 <source type="video/mp4" src={thumb} />
                                 Your browser does not support the video tag.
                             </video>
-                        }
+                        } */}
                     </>
                 )
             }
