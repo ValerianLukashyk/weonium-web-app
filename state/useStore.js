@@ -35,27 +35,19 @@ const useStore = create(set => ({
     fetchAuthInfo: async () => {
         const token = getCookie('token')
         server.defaults.headers.common["auth-token"] = token
-        server('/auth/me')
-            .then(res => {
-                set({ authInfo: res.data })
+        server.get('/auth/me')
+            .then((res) => {
+                res.data && set({ authInfo: res.data })
             })
-            .catch(err => console.log(err))
+            .catch(() => console.log("Not authorized"))
     },
     setAuthInfo: (user) => set(() => ({ authInfo: user })),
-    setProfilePicture: (photo) => set((state) => ({ authInfo: {picture: photo} })),
+    setProfilePicture: (photo) => set(() => ({ authInfo: {picture: photo} })),
     setTempAuthInfo: (user) => set(() => ({ authInfo: { name: user.name, email: user.email } })),
     setIsAuth: () => set(() => ({ authInfo: { isAuth: true } })),
     setNotIsAuth: () => set(() => ({ authInfo: { isAuth: false } })),
 
-    // THREE JS SCENE SECTION
-    gpGpuCompute: {},
-    setGpuCompute: (data) => set(() => ({ gpGpuCompute: data })),
-
-    shadowMat: {},
-    setShadowMat: (mat) => set(() => ({ shadowMat: mat })),
-    positionVar: {},
-    setPositionVar: (posVar) => set(() => ({ positionVar: posVar })),
-
+    
     time: 0,
     setTime: () => set((state) => ({ time: state.time + 0.01 })),
     resetTime: set(() => ({ time: 0 })),
@@ -126,7 +118,7 @@ const useStore = create(set => ({
         screenshots: []
     },
     setNewWorkScreen: (data) => set(() => ({ newWorkForm: { screenshots: data } })),
-    setNewWorkForm: (data) => set((state) => ({ newWorkForm: { data } })),
+    setNewWorkForm: (data) => set(() => ({ newWorkForm: { data } })),
     updatingWork: {},
     updateWork: (data) => {
         const work = new Map();

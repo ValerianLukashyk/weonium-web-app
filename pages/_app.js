@@ -7,7 +7,6 @@ import theme from '../libs/theme'
 import '../styles/styles.css'
 import { AnimatePresence } from 'framer-motion'
 
-
 const Website = ({ Component, pageProps, router }) => {
   const fetchAuthInfo = useStore(state => state.fetchAuthInfo)
 
@@ -18,6 +17,7 @@ const Website = ({ Component, pageProps, router }) => {
   return (
     <ChakraProvider theme={theme}>
       <Fonts />
+      
       <Layout router={router}>
         <AnimatePresence exitBeforeEnter initial={true}>
           <Component {...pageProps} key={router.route} />

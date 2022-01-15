@@ -154,7 +154,7 @@ const Login = () => {
 
                         <Center flexDirection={'column'}>
                             <Button
-                                onClick={() => { window.location = process.env.SERVER_URL + '/auth/google' }}
+                                onClick={() => { window.location = process.env.NEXT_PUBLIC_SERVER_URL + ':' + process.env.NEXT_PUBLIC_SERVER_PORT + '/auth/google' }}
                                 variant='solid'
                                 mb={6}
                                 colorScheme={'blue'}
@@ -163,7 +163,7 @@ const Login = () => {
                                 Google
                             </Button>
                             <Button
-                                onClick={() => { window.location = process.env.SERVER_URL + '/auth/google' }}
+                                onClick={() => { window.location = process.env.NEXT_PUBLIC_SERVER_URL + ':' + process.env.NEXT_PUBLIC_SERVER_PORT + '/auth/github' }}
                                 variant='solid'
                                 mb={6}
                                 colorScheme={'orange'}

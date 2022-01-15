@@ -4,6 +4,7 @@ import NoSsr from '../no-ssr'
 import { Box, Container } from '@chakra-ui/react'
 import Planet from '../planet'
 import Footer from '../footer'
+import Contact from '../contact'
 
 const Main = ({ children, router, }) => {
 
@@ -20,7 +21,7 @@ const Main = ({ children, router, }) => {
         <NoSsr>
           <Planet />
         </NoSsr>
-
+        <Contact/>
         {children}
       </Container>
       <Footer />

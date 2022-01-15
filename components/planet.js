@@ -115,15 +115,13 @@ const Planet = () => {
       const scW = container.clientWidth
       const scH = container.clientHeight
 
-      mat.uniforms.resolution.value.x = scW;
-      mat.uniforms.resolution.value.y = scH;
-      _textureA.setSize(scW, scH)
-      _textureB.setSize(scW, scH)
+      mat.uniforms.resolution.value.x = scW * window.devicePixelRatio;
+      mat.uniforms.resolution.value.y = scH * window.devicePixelRatio;
+
       renderer.setSize(scW, scH)
-      renderer.setScissor(0, 0, scW,scH)
-      renderer.setViewport(0, 0, scW, scH)
+
     }
-  }, [renderer, mat, _textureA, _textureB])
+  }, [renderer, mat])
 
 
   // SET MOUSE POSITION TO STATE
@@ -131,10 +129,8 @@ const Planet = () => {
     const { current: container } = refContainer
     const rect = container.getBoundingClientRect();
     const width = window.innerWidth
-
-
-    mouse.x = -(e.clientX - width / 2)
-    mouse.y = -(e.clientY - rect.top - container.clientHeight / 2)
+    mouse.x = -(e.clientX - width / 2) * window.devicePixelRatio
+    mouse.y = -(e.clientY - rect.top - container.clientHeight / 2) * window.devicePixelRatio
 
     // if (settings.clicked) meshesScene.children[0].rotateY(Math.PI * 2 * mouse.x)
 
@@ -144,47 +140,8 @@ const Planet = () => {
   const handleClick = (e) => {
     if (e.type === 'mousedown' || e.type === 'touchstart') {
       settings.clicked = true
-      // gsap.to(meshesScene.children[0].material.uniforms.uColor.value, {
-      //   x: 0.8,
-      //   y: 1,
-      //   z: 0,
-      //   duration: 0.5,
-      // })
-      // gsap.to(meshesScene.children[0].scale, {
-
-      //   x: 0,
-      //   y: 0,
-      //   z: 0,
-      //   duration: 0.5,
-      // })
-      // gsap.to(meshesScene.children[1].scale, {
-      //   x: 1,
-      //   y: 1,
-      //   z: 1,
-      //   duration: 0.5,
-      // })
     } else if (e.type === 'mouseup' || e.type === 'touchend') {
       settings.clicked = false
-      // gsap.to(meshesScene.children[0].material.uniforms.uColor.value, {
-      //   x: 1,
-      //   y: 1,
-      //   z: 1,
-      //   duration: 0.5,
-      // })
-
-      // gsap.to(meshesScene.children[0].scale, {
-      //   x: 0.7,
-      //   y: 0.7,
-      //   z: 0.7,
-      //   duration: 0.5,
-      // })
-      // gsap.to(meshesScene.children[1].scale, {
-      //   x: 0,
-      //   y: 0,
-      //   z: 0,
-      //   duration: 0.5,
-      // })
-
     }
 
   }
@@ -200,8 +157,8 @@ const Planet = () => {
   useEffect(() => {
     const { current: container } = refContainer
     if (container && !renderer) {
-      const scW = container.clientWidth
-      const scH = container.clientHeight
+      const scW = container.clientWidth * window.devicePixelRatio
+      const scH = container.clientHeight * window.devicePixelRatio
       mat.uniforms.resolution.value.x = scW;
       mat.uniforms.resolution.value.y = scH;
       mat.uniformsNeedUpdate = true
@@ -212,13 +169,12 @@ const Planet = () => {
         alpha: true
       })
       glRenderer.setPixelRatio(window.devicePixelRatio)
-      glRenderer.setSize(scW, scH)
+      glRenderer.setSize(container.clientWidth, container.clientHeight)
       glRenderer.outputEncoding = THREE.sRGBEncoding
       container.appendChild(glRenderer.domElement)
       setRenderer(glRenderer)
 
-
-      const scale = scH* 0.5
+      const scale = scH * 0.5
       const camera = new THREE.OrthographicCamera(
         -scale,
         scale,
@@ -233,20 +189,22 @@ const Planet = () => {
 
       // SET RenderTargets
       const textureA = new THREE.WebGLRenderTarget(scW, scH, {
+        depthBuffer: false,
+        stencilBuffer: false,
         minFilter: THREE.LinearFilter,
         magFilter: THREE.LinearFilter,
         format: THREE.RGBAFormat
       })
-      textureA.depthBuffer = true;
-      textureA.depthTexture = new THREE.DepthTexture();
+
       setRtTextureA(textureA)
       const textureB = new THREE.WebGLRenderTarget(scW, scH, {
+        depthBuffer: false,
+        stencilBuffer: false,
         minFilter: THREE.LinearFilter,
         magFilter: THREE.LinearFilter,
         format: THREE.RGBAFormat
       })
-      textureB.depthBuffer = true;
-      textureB.depthTexture = new THREE.DepthTexture();
+
       setRtTextureB(textureB)
 
 
@@ -259,7 +217,7 @@ const Planet = () => {
       // setControls(controls)
 
 
-      const geometry = new THREE.PlaneGeometry(64, 64, 1, 1);
+      const geometry = new THREE.PlaneGeometry(64 * window.devicePixelRatio, 64 * window.devicePixelRatio, 1, 1);
       const max = 54
       let frame = 0
       let time = 0
@@ -287,7 +245,7 @@ const Planet = () => {
         meshes.push(mesh)
       }
 
-      const geometryFullScr = new THREE.PlaneGeometry(scW* 1.4, scH* 1.4, 1, 1);
+      const geometryFullScr = new THREE.PlaneGeometry(scW * 1.4, scH * 1.4, 1, 1);
       const displacementScreen = new THREE.Mesh(geometryFullScr, mat)
 
       dispScene.add(displacementScreen)

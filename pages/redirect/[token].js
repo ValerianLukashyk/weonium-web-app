@@ -16,7 +16,10 @@ const LoginRedirect = ({ href }) => {
             setTimeout(() => {
                 server.get('/auth/me')
                     .then((res) => {
-                        if (res.status === 200) setAuthInfo(res.data)
+                        if (res.status === 200) {
+                            console.log(res.data)
+                            setAuthInfo(res.data)
+                        }
                     })
                     .catch(function (error) {
                         console.log(error);
