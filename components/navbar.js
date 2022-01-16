@@ -18,6 +18,7 @@ import {
   IconButton,
   MenuList,
   MenuItem,
+  Tooltip,
   useColorModeValue
 } from '@chakra-ui/react'
 import { HamburgerIcon } from '@chakra-ui/icons'
@@ -83,8 +84,12 @@ const Navbar = props => {
                 <Logout />
               </Box>
             ) : (
-              <Box ml={2} display={{ base: 'none', md: 'inline-block' }}>
-                <Button mr={4} onClick={()=> router.push('/register')} colorScheme={'blue'} ><IoFingerPrintOutline />&nbsp;Register</Button>
+              <Box ml={2} display={{ base: 'none', md: 'inline-flex' }}>
+                <Tooltip label='Comming soon'>
+                  <div>
+                    <Button mr={4} isDisabled onClick={() => router.push('/register')} colorScheme={'blue'} ><IoFingerPrintOutline />&nbsp;Register</Button>
+                  </div>
+                </Tooltip>
                 <Login />
               </Box>
             )}
@@ -107,7 +112,7 @@ const Navbar = props => {
                   <NextLink href="/works" passHref>
                     <MenuItem as={Link}>Works</MenuItem>
                   </NextLink>
-                  <NextLink href="/posts" passHref>
+                  <NextLink href="/glworks" passHref>
                     <MenuItem as={Link}>WebGL</MenuItem>
                   </NextLink>
                   {authInfo.isAuth ? (<>
