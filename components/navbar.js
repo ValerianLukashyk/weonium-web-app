@@ -86,9 +86,9 @@ const Navbar = props => {
               </Box>
             ) : (
               <Box ml={2} display={{ base: 'none', md: 'inline-flex' }}>
-                <Tooltip label='Comming soon'>
+                <Tooltip label='Register new account'>
                   <div>
-                    <Button mr={4} isDisabled onClick={() => router.push('/register')} colorScheme={'red'} ><IoFingerPrintOutline />&nbsp;Register</Button>
+                    <Button mr={4} onClick={() => router.push('/register')} colorScheme={'red'} ><IoFingerPrintOutline />&nbsp;Register</Button>
                   </div>
                 </Tooltip>
                 <Login />
