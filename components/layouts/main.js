@@ -14,8 +14,9 @@ const Main = ({ children, router, }) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content={color} />
         <meta name="description" content="Hire me - Fullstack interactive web developer. I'm working with JS (node, react, next, vue) and WebGL 3D animations using three.js and GLSL."></meta>
-        <meta name="google-site-verification" content="d-pB_seNFDrB08QpbqIAyJx9Oot3VCDQ9txyzd9xGPU" /> 
-        <title>Valerian Lukashyk - Full-stack interactive developer</title>
+        <meta name="google-site-verification" content="d-pB_seNFDrB08QpbqIAyJx9Oot3VCDQ9txyzd9xGPU" />
+        <title>Full-stack interactive developer - Portfolio - Valerian Lukashyk - JS, Node, React, Next, Three, GLSL </title>
+        
       </Head>
 
       <Navbar path={router.asPath} />
@@ -24,7 +25,7 @@ const Main = ({ children, router, }) => {
         <NoSsr>
           <Planet />
         </NoSsr>
-        <Contact/>
+        <Contact />
         {children}
       </Container>
       <Footer />
