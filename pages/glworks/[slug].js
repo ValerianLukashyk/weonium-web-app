@@ -3,31 +3,32 @@ import useStore from '../../state/useStore'
 import { TitleGL, WorkImage, Meta } from '../../components/work'
 import P from '../../components/paragraph'
 import Layout from '../../components/layouts/article'
-import { Image, Divider, Container, IconButton, List, Link, Box, Flex, ListItem, useDisclosure, Modal, ModalOverlay, ModalContent, ModalBody, ModalCloseButton  } from '@chakra-ui/react'
+import { Image, Divider, Container, IconButton, List, Link, Box, Flex, ListItem, useDisclosure, Modal, ModalOverlay, ModalContent, ModalBody, ModalCloseButton } from '@chakra-ui/react'
 import { ExternalLinkIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons'
-import useQuery from '../../libs/useQuery'
+// import useQuery from '../../libs/useQuery'
 import { server } from '../../components/api/api'
 import { useRouter } from 'next/router';
 import Loading from '../../utils/loading'
 
 const GlWork = () => {
+    const isAuth = useStore(state => state.authInfo.isAuth)
+    const post = useStore(state => state.post)
+    const postFetch = useStore(state => state.postFetch)
     const [isLoading, setIsLoading] = useState(true)
     const [openedImg, setOpenedImg] = useState()
-    const post = useStore(state => state.post)
-    const router = useRouter()
-    const query = useQuery()
-    const isAuth = useStore(state => state.authInfo.isAuth)
     const [editMode, setEditMode] = useState(false)
+    const router = useRouter()
+    
+    const { slug } = router.query
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const postFetch = useStore(state => state.postFetch)
 
     useEffect(() => {
-        if (!query.slug) {
-            return;
+        if (!slug) {
+            return
         }
-        postFetch(query.slug)
+        postFetch(slug)
         setIsLoading(false)
-    }, [query.slug, postFetch]);
+    }, [slug, postFetch]);
 
     const handleOpen = (e) => {
         setOpenedImg(e.target.attributes.src.value)
@@ -68,14 +69,14 @@ const GlWork = () => {
                                     aria-label="Edit Item"
                                     icon={<EditIcon />}
                                     onClick={handleEdit}
-                                ></IconButton>
+                                />
                                 <IconButton
 
                                     isRound={true}
                                     aria-label="Remove Item"
                                     icon={<DeleteIcon />}
                                     onClick={handleDelete}
-                                ></IconButton>
+                                />
                             </Box>
                         }
                     </Flex>
@@ -118,12 +119,12 @@ const GlWork = () => {
                             </ModalContent>
                         </Modal>
                     )}
-
-
                 </Container>
             }
         </Layout>
     )
 }
+
+
 
 export default GlWork

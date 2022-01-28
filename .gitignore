@@ -1,5 +1,7 @@
 node_modules
 .next
+.idea
+_backup_temp
 dist
 .vercel
 .env.local

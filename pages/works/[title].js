@@ -7,7 +7,7 @@ import { Title, WorkImage, Meta } from '../../components/work'
 import P from '../../components/paragraph'
 import Layout from '../../components/layouts/article'
 import useStore from '../../state/useStore'
-import useQuery from '../../libs/useQuery'
+// import useQuery from '../../libs/useQuery'
 import { server } from '../../components/api/api'
 import { useRouter } from 'next/router';
 import Loading from '../../utils/loading'
@@ -30,15 +30,15 @@ const Work = () => {
     const isActive = useStore(state => state.isDragActive)
     const toggleDragActive = useStore(state => state.toggleDragActive)
     const setFormDataImages = useStore(state => state.setFormDataImages)
-    const query = useQuery()
     const router = useRouter()
-
+    const {title} = router.query
     useEffect(() => {
-        if (!query.title) {
+        if (!title) {
             return;
         }
-        workFetch(query.title)
-    }, [query.title, workFetch]);
+        console.log(title)
+        workFetch(title)
+    }, [title, workFetch]);
 
     const handleEdit = () => {
         if (editMode) setEditMode(false)
@@ -83,14 +83,14 @@ const Work = () => {
                             aria-label="Edit Item"
                             icon={<EditIcon />}
                             onClick={handleEdit}
-                        ></IconButton>
+                        />
                         <IconButton
 
                             isRound={true}
                             aria-label="Remove Item"
                             icon={<DeleteIcon />}
                             onClick={handleDelete}
-                        ></IconButton>
+                        />
                     </Box>}
 
                 </Flex>

@@ -34,6 +34,7 @@ const useStore = create(set => ({
     },
     fetchAuthInfo: async () => {
         const token = getCookie('token')
+        if(!token) return
         server.defaults.headers.common["auth-token"] = token
         server.get('/auth/me')
             .then((res) => {
@@ -56,8 +57,8 @@ const useStore = create(set => ({
     // WEBGL WORKS SECTION
     posts: [],
     getAllPosts: async () => {
-        const token = getCookie('token')
-        server.defaults.headers.common["auth-token"] = token
+        // const token = getCookie('token')
+        // server.defaults.headers.common["auth-token"] = token
         server.get('/posts')
             .then(res => {
                 set({ posts: res.data })
@@ -99,8 +100,8 @@ const useStore = create(set => ({
     },
     works: [],
     getAllWorks: async () => {
-        const token = getCookie('token')
-        server.defaults.headers.common["auth-token"] = token
+        // const token = getCookie('token')
+        // server.defaults.headers.common["auth-token"] = token
         server('/works')
             .then(res => {
                 set({ works: res.data })
@@ -153,10 +154,7 @@ const useStore = create(set => ({
     },
     // TODO: Make store part of a Contacts send message
     // CONTACT ME
-    sended: false,
-    fetchSended: ()=> {
-
-    }
+    
 }))
 
 export default useStore

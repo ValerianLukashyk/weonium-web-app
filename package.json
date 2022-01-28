@@ -30,7 +30,6 @@
     "react-dropzone": "^11.4.2",
     "react-icons": "^4.3.1",
     "react-resize-detector": "^6.7.6",
-    "telegraf": "^4.6.0",
     "three": "^0.134.0",
     "yup": "^0.23.0",
     "zustand": "^3.6.5"

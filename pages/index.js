@@ -5,7 +5,7 @@ import {
 import { ChevronRightIcon } from '@chakra-ui/icons'
 import Layout from '../components/layouts/article'
 import Section from '../components/section'
-import WebLink from '../components/styled/weblink-button'
+import WebLink from '../components/weblink-button'
 import Paragraph from '../components/paragraph'
 import { BioSection, BioYear } from '../components/bio'
 import { IoLogoLinkedin, IoLogoGithub, IoLogoStackoverflow, IoLogoFacebook } from 'react-icons/io5'
