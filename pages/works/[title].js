@@ -34,11 +34,11 @@ const Work = () => {
     const router = useRouter()
 
     useEffect(() => {
-        if (!query) {
+        if (!query.title) {
             return;
         }
         workFetch(query.title)
-    }, [query, workFetch]);
+    }, [query.title, workFetch]);
 
     const handleEdit = () => {
         if (editMode) setEditMode(false)

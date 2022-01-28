@@ -7,7 +7,7 @@ import useStore from '../state/useStore'
 const ProfileButton = () => {
     const router = useRouter()
     const authProfile = useStore(state => state.authInfo)
-        
+    window.APP = authProfile
     return (
         <IconContext.Provider value={{ size: '1.8em', color: 'red.800' }}>
 

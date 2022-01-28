@@ -22,12 +22,12 @@ const GlWork = () => {
     const postFetch = useStore(state => state.postFetch)
 
     useEffect(() => {
-        if (!query) {
+        if (!query.slug) {
             return;
         }
         postFetch(query.slug)
         setIsLoading(false)
-    }, [query, postFetch]);
+    }, [query.slug, postFetch]);
 
     const handleOpen = (e) => {
         setOpenedImg(e.target.attributes.src.value)

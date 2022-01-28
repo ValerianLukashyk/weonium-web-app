@@ -10,6 +10,7 @@ import {
   Box,
   Button,
   Link,
+  Divider,
   Stack,
   Heading,
   Flex,
@@ -87,7 +88,7 @@ const Navbar = props => {
               <Box ml={2} display={{ base: 'none', md: 'inline-flex' }}>
                 <Tooltip label='Comming soon'>
                   <div>
-                    <Button mr={4} isDisabled onClick={() => router.push('/register')} colorScheme={'blue'} ><IoFingerPrintOutline />&nbsp;Register</Button>
+                    <Button mr={4} isDisabled onClick={() => router.push('/register')} colorScheme={'red'} ><IoFingerPrintOutline />&nbsp;Register</Button>
                   </div>
                 </Tooltip>
                 <Login />
@@ -116,8 +117,9 @@ const Navbar = props => {
                     <MenuItem as={Link}>WebGL</MenuItem>
                   </NextLink>
                   {authInfo.isAuth ? (<>
-                    <MenuItem as={<ProfileButton />}>My Profile</MenuItem>
-                    <MenuItem as={<Logout />}>Logout</MenuItem>
+                  <Divider/>
+                    <MenuItem ><ProfileButton /></MenuItem>
+                    <MenuItem as={Link}>Logout</MenuItem>
                   </>
                   ) : (<>
                     <NextLink href="/register" passHref>

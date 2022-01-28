@@ -71,7 +71,7 @@ const GlWorks = () => {
                             {glWorks ?
                                 (
                                     glWorks.map((work, index) => (
-                                        <PostGridItem key={index} slug={work.slug} title={work.title} text={work.description} thumbnail={work.screenshots[0]} />
+                                        <PostGridItem w={["100%", "75%", "47%"]} key={index} slug={work.slug} title={work.title} text={work.description} thumbnail={work.screenshots[0]} />
                                     ))
                                 ) : (
                                     <p>

@@ -150,6 +150,12 @@ const useStore = create(set => ({
         theme: 'dark',
         toggleTheme: () => set((state) => ({ styles: { theme: state.styles.theme === 'dark' ? 'light' : 'dark' } })),
 
+    },
+    // TODO: Make store part of a Contacts send message
+    // CONTACT ME
+    sended: false,
+    fetchSended: ()=> {
+
     }
 }))
 

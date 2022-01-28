@@ -20,7 +20,7 @@ export const WorkGridItem = ({ slug, title, thumbnail }) => (
     <Box w='100%' align='center'>
         <NextLink href={`/works/${slug}`}>
             <LinkBox cursor='pointer'>
-                <Image width='230' height='130' src={process.env.NEXT_PUBLIC_SERVER_URL+':'+process.env.NEXT_PUBLIC_SERVER_PORT+thumbnail} alt={title} className='grid-item-thumbnail' />
+                <Image width={['320', '500', '230']} height={['180', '380', '130']} src={process.env.NEXT_PUBLIC_SERVER_URL+':'+process.env.NEXT_PUBLIC_SERVER_PORT+thumbnail} alt={title} className='grid-item-thumbnail' />
                 <LinkOverlay href={`/works/${title.toLowerCase()}`}>
                     <Text mt={2} fontSize={20}>
                         {title}
@@ -36,7 +36,7 @@ export const PostGridItem = ({ slug, children, title, thumbnail }) => {
         <Box w='100%' align='center' >
             <NextLink href={`/glworks/${slug}`}>
                 <LinkBox cursor='pointer'>
-                    <Image  src={process.env.NEXT_PUBLIC_SERVER_URL+':'+process.env.NEXT_PUBLIC_SERVER_PORT+thumbnail} alt={title} className='grid-item-thumbnail' />
+                    <Image  width={['320', '500', '230']} height={['180', '380', '130']} src={process.env.NEXT_PUBLIC_SERVER_URL+':'+process.env.NEXT_PUBLIC_SERVER_PORT+thumbnail} alt={title} className='grid-item-thumbnail' />
                     <LinkOverlay href={`/glworks/${title.toLowerCase()}`}>
                         <Text mt={2} fontSize={20}>
                             {title}
@@ -53,8 +53,7 @@ export const GridItemStyle = () => (
     <Global styles={`
         .grid-item-thumbnail {
             border-radius: 12px;
-            width: 233px;
-            height: 150px;
+            
             object-fit: cover;
             object-position: top;
         }

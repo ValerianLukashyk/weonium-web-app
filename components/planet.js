@@ -313,8 +313,14 @@ const Planet = () => {
           m.material.opacity = 0.6
         }
       }
-
+      // var t = []
       const animate = () => {
+        // t.unshift(now);
+        // if (t.length > 10) {
+        //     var t0 = t.pop();
+        //     var fps = Math.floor(1000 * 10 / (now - t0));
+        //     // console.log(fps, now)
+        // }
         requestAnimationFrame(animate)
         time += 0.01
         frame = frame <= 200 ? frame + 1 : frame

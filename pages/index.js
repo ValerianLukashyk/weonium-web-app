@@ -1,26 +1,19 @@
 import NextLink from 'next/link'
 import {
-  Container,
-  Box,
-  Heading,
-  Image,
-  Button,
-  Link,
-  Icon,
-  List,
-  ListItem,
-  useColorModeValue
+  Container, Box, Flex, Heading, Image, Button, Icon, List, ListItem, useColorModeValue
 } from '@chakra-ui/react'
 import { ChevronRightIcon } from '@chakra-ui/icons'
 import Layout from '../components/layouts/article'
 import Section from '../components/section'
+import WebLink from '../components/styled/weblink-button'
 import Paragraph from '../components/paragraph'
 import { BioSection, BioYear } from '../components/bio'
 import { IoLogoLinkedin, IoLogoGithub, IoLogoStackoverflow, IoLogoFacebook } from 'react-icons/io5'
-
+import { TiHtml5, TiCss3 } from 'react-icons/ti'
+import { SiJavascript, SiReact, SiNextdotjs, SiNodedotjs, SiWebgl, SiThreedotjs } from 'react-icons/si'
+import HireButtons from '../components/hire-buttons'
 
 const Page = () => {
-
   return (
     <Layout>
       <Container maxW='2xl'>
@@ -39,6 +32,7 @@ const Page = () => {
               Valerian Lukashyk
             </Heading>
             <p>Digital Buddha (Full-stack Interactive Developer)</p>
+            <HireButtons w={["full", 320, 350]} my={5} bg={"orange.600"} color="red.800" />
           </Box>
           <Box
             flexShrink={0}
@@ -63,13 +57,19 @@ const Page = () => {
             Work
           </Heading>
           <Paragraph>
-          I am a freelance and a full-stack developer based in Ukraine (L&apos;viv) with a passion for building interactive websites. In addition to interactive websites I am expert in creating SPA with React(Next.js) and have an intermediate skill in building back-end part with Node.js. When I&apos;m not writing code I spend time in my audio recording studio.
+            I am a freelance and a full-stack developer based in Ukraine (L&apos;viv) with a passion for building interactive websites. In addition to interactive websites I am expert in creating SPA with React(Next.js) and have an intermediate skill in building back-end part with Node.js. When I&apos;m not writing code I spend time in my audio recording studio.
           </Paragraph>
-          <Box align='center' my={4}>
+          <Box align='center' justify="space-between" my={4}>
             <NextLink href="/works">
               <Button
-                rightIcon={<ChevronRightIcon />} colorScheme='teal'
+                rightIcon={<ChevronRightIcon />} colorScheme='teal' mx={5} my={3}
               >My Portfolio
+              </Button>
+            </NextLink>
+            <NextLink href="/glworks">
+              <Button
+                rightIcon={<ChevronRightIcon />} colorScheme='red' mx={5} my={3}
+              >My GL-Portfolio
               </Button>
             </NextLink>
           </Box>
@@ -97,10 +97,25 @@ const Page = () => {
         </Section>
         <Section delay={0.3}>
           <Heading as='h3' variant='section-title'>
+            My specs
+          </Heading>
+          <Flex style={{ gap: 10, flexWrap: 'wrap' }}>
+            <Icon color="red.300" w={16} h={16} as={TiHtml5} />
+            <Icon color="blue.500" w={16} h={16} as={TiCss3} />
+            <Icon color="yellow.300" w={16} h={16} as={SiJavascript} />
+            <Icon color="blue.300" w={16} h={16} as={SiReact} />
+            <Icon color="green.300" w={16} h={16} as={SiNextdotjs} />
+            <Icon color="green.700" w={16} h={16} as={SiNodedotjs} />
+            <Icon color="red.700" w={16} h={16} as={SiWebgl} />
+            <Icon color="whiteAlpha.800" w={16} h={16} as={SiThreedotjs} />
+          </Flex>
+        </Section>
+        <Section delay={0.3}>
+          <Heading as='h3' variant='section-title'>
             I ❤
           </Heading>
           <Paragraph>
-            Music, 
+            Music,
             Coding,
             Art,
             Traveling
@@ -110,42 +125,52 @@ const Page = () => {
           <Heading as='h3' variant='section-title'>
             On the web
           </Heading>
-          <List spacing={2} mb={4}>
-            <ListItem>
-              <Link href='https://facebook.com/lukashyk.v' target='_blank'>
-                <Button p={5} lineHeight={1} variant='ghost' colorScheme='facebook' leftIcon={<Icon as={IoLogoFacebook} />}>
-                  @lukashyk.v
-                </Button>
-              </Link>
+          <List d="flex" style={{ justifyContent: 'space-between', flexWrap: 'wrap' }} mb={4}>
+            <ListItem m={1} >
+              <WebLink
+                name="Facebook"
+                link="https://facebook.com/lukashyk.v"
+                profilename="@lukashyk.v"
+                color="blue"
+                icon={<Icon w={12} h={12} as={IoLogoFacebook} />}
+              />
             </ListItem>
-            <ListItem>
-              <Link href='https://linkedin.com/valerian.lukashyk' target='_blank'>
-                <Button p={5} lineHeight={1} variant='ghost' colorScheme='linkedin' leftIcon={<Icon as={IoLogoLinkedin} />}>
-                  @valerian.lukashyk
-                </Button>
-              </Link>
+            <ListItem m={1}>
+              <WebLink
+                fontSize={14}
+                name="Linkedin"
+                link="https://linkedin.com/valerian.lukashyk"
+                profilename="@valerian.lukashyk"
+                color="linkedin"
+                icon={<Icon w={12} h={12} as={IoLogoLinkedin} />}
+              />
             </ListItem>
-            <ListItem>
-              <Link href='https://github.com/ValerianLukashyk' target='_blank'>
-                <Button p={5} lineHeight={1} variant='ghost' colorScheme='#161B22' leftIcon={<Icon as={IoLogoGithub} />}>
-                  @ValerianLukashyk
-                </Button>
-              </Link>
+            <ListItem m={1}>
+              <WebLink
+                fontSize={14}
+                name="Github"
+                link="https://github.com/ValerianLukashyk"
+                profilename="@ValerianLukashyk"
+                color={"green"}
+                icon={<Icon w={12} h={12} as={IoLogoGithub} />}
+              />
             </ListItem>
-            <ListItem>
-              <Link href='https://stackoverflow.com/story/v.lukashyk' target='_blank'>
-                <Button p={5} lineHeight={1} variant='ghost' colorScheme='stackoverflow' leftIcon={<Icon as={IoLogoStackoverflow} />}>
-                  @v.lukashyk
-                </Button>
-              </Link>
+            <ListItem m={1}>
+              <WebLink
+                name="Stackoverflow"
+                link="https://stackoverflow.com/story/v.lukashyk"
+                profilename="@v.lukashyk"
+                color={"orange"}
+                icon={<Icon w={12} h={12} as={IoLogoStackoverflow} />}
+              />
             </ListItem>
-
           </List>
-
         </Section>
       </Container>
     </Layout>
   )
 }
+
+
 
 export default Page

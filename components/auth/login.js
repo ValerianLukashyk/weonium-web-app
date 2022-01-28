@@ -14,6 +14,7 @@ import {
     FormErrorMessage,
     FormHelperText,
     Modal,
+    Tooltip,
     ModalOverlay,
     ModalContent,
     ModalHeader,
@@ -63,7 +64,7 @@ const Login = () => {
 
     return (
         <>
-            <Button mr={4} onClick={onOpen}><><IoLockClosed />&nbsp;Login</></Button>
+            <Button colorScheme="blue" mr={4} onClick={onOpen}><><IoLockClosed />&nbsp;Login</></Button>
 
             <Modal isOpen={isOpen} onClose={onClose} isCentered>
                 <ModalOverlay />
@@ -162,15 +163,21 @@ const Login = () => {
                             >
                                 Google
                             </Button>
-                            <Button
-                                onClick={() => { window.location = process.env.NEXT_PUBLIC_SERVER_URL + ':' + process.env.NEXT_PUBLIC_SERVER_PORT + '/auth/github' }}
-                                variant='solid'
-                                mb={6}
-                                colorScheme={'orange'}
-                                leftIcon={<IoLogoGithub />}
-                            >
-                                GitHub
-                            </Button>
+                            <Tooltip label='Comming soon'>
+                                <div>
+                                    <Button
+                                        onClick={() => { window.location = process.env.NEXT_PUBLIC_SERVER_URL + ':' + process.env.NEXT_PUBLIC_SERVER_PORT + '/auth/github' }}
+                                        variant='solid'
+                                        mb={6}
+                                        isDisabled
+                                        colorScheme={'orange'}
+                                        leftIcon={<IoLogoGithub />}
+                                    >
+                                        GitHub
+                                    </Button>
+                                </div>
+                            </Tooltip>
+
                         </Center>
 
                     </ModalBody>

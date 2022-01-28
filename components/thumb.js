@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Box, Spinner, Image } from "@chakra-ui/react";
 
-const Thumb = ({ file}) => {
+const Thumb = ({ file }) => {
     const [loading, setLoading] = useState(false)
     const [thumb, setThumb] = useState(undefined)
 
     useEffect(() => {
         if (!file) { return; }
-        
+
         if (file.type.startsWith("image")) {
             console.log(file)
             setLoading(true)
@@ -17,6 +17,7 @@ const Thumb = ({ file}) => {
 
                 setThumb(reader.result)
                 setLoading(false)
+                console.log(btoa(reader.result))
             };
 
             reader.readAsDataURL(file);
@@ -26,6 +27,9 @@ const Thumb = ({ file}) => {
         }
     }, [file])
 
+    useEffect(() => {
+        console.log(thumb)
+    }, [thumb])
     return (
         <Box display='flex' alignItems='center' justifyContent="center" width={'120px'} height={'120px'}>
             {
