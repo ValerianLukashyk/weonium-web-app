@@ -57,7 +57,7 @@ const Page = () => {
             Work
           </Heading>
           <Paragraph>
-            I am a freelance and a full-stack developer based in Ukraine (L&apos;viv) with a passion for building interactive websites. In addition to interactive websites I am expert in creating SPA with React(Next.js) and have an intermediate skill in building back-end part with Node.js. When I&apos;m not writing code I spend time in my audio recording studio.
+            I am a freelance and a full-stack developer based in Ukraine (L&apos;viv) with a passion for building interactive websites. I&apos;m using Three.js library and GL Shader Language for adding interactivity to 3D objects. In addition I am expert in Js-frameworks like React.js(Next.js) and Vue.js. More than 1 year I&apos;m learning to write back-end with Node.js. When I&apos;m not writing code I spend time in my audio recording studio.
           </Paragraph>
           <Box align='center' justify="space-between" my={4}>
             <NextLink href="/works">

@@ -13,6 +13,7 @@ import Loading from '../utils/loading'
 const GlWorks = () => {
     const [isLoading, setIsLoading] = useState(true)
     const isAuth = useStore(state => state.authInfo.isAuth)
+    const superUser = useStore(state => state.authInfo.superuser)
     const glWorks = useStore(state => state.posts)
     const getAllGlWorks = useStore(state => state.getAllPosts)
 
@@ -57,7 +58,7 @@ const GlWorks = () => {
                         <Heading as='h3' fontSize={20} mb={4} mt={4}>
                             Latest WebGL projects
                         </Heading>
-                        {isAuth && (
+                        {isAuth && superUser && (
                             <ModalWindow callbackHook={data => handleSubmit(data)} isCentered iValues={values} fields={glFields} title='Add New WebGL project' icon={<AddIcon />} isRound={true} />
                         )
                         }

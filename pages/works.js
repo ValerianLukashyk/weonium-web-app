@@ -13,6 +13,7 @@ import { workFields, values } from '../libs/formsFields'
 const Works = () => {
     const [loaded, setLoaded] = useState(true)
     const isAuth = useStore(state => state.authInfo.isAuth)
+    const superUser = useStore(state => state.authInfo.superuser)
     const works = useStore(state => state.works)
     const getAllWorks = useStore(state => state.getAllWorks)
 
@@ -64,7 +65,7 @@ const Works = () => {
                         Works
                     </Heading>
 
-                    {isAuth && <ModalWindow title='Add new Work' callbackHook={(data) => handleSubmit(data)} fields={workFields} iValues={values} isCentered icon={<AddIcon />} isRound={true} />}
+                    {isAuth && superUser && <ModalWindow title='Add new Work' callbackHook={(data) => handleSubmit(data)} fields={workFields} iValues={values} isCentered icon={<AddIcon />} isRound={true} />}
                 </Flex>
                 <Divider mb={6} />
                 <Section delay={0.2}>
