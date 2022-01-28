@@ -25,6 +25,7 @@ const Work = () => {
     const [hovered, setHovered] = useState(false)
     const { isOpen, onOpen, onClose } = useDisclosure()
     const isAuth = useStore(state => state.authInfo.isAuth)
+    const superUser = useStore(state => state.authInfo.superuser)
     const work = useStore(state => state.currentWork)
     const workFetch = useStore(state => state.workFetch)
     const isActive = useStore(state => state.isDragActive)
@@ -76,7 +77,7 @@ const Work = () => {
                         {work.title}
                         <Badge ml={2}>{work.period}</Badge>
                     </Title>
-                    {isAuth && !editMode && <Box>
+                    {isAuth && superUser && !editMode && <Box>
                         <IconButton
                             mr={1}
                             isRound={true}

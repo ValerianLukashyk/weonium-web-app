@@ -12,6 +12,7 @@ import Loading from '../../utils/loading'
 
 const GlWork = () => {
     const isAuth = useStore(state => state.authInfo.isAuth)
+    const superUser = useStore(state => state.authInfo.superuser)
     const post = useStore(state => state.post)
     const postFetch = useStore(state => state.postFetch)
     const [isLoading, setIsLoading] = useState(true)
@@ -61,7 +62,7 @@ const GlWork = () => {
                             {post && post.title}
                         </TitleGL>
                         {
-                            isAuth && !editMode &&
+                            isAuth && superUser && !editMode &&
                             <Box>
                                 <IconButton
                                     mr={1}
