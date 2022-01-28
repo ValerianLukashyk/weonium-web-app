@@ -42,7 +42,7 @@ const Footer = (props) => {
                         <HireButtons />
                     </Box>
                     <Box display={{base: 'block'}}>
-                        <Text fontWeight={900} color="whiteAlpha.200" fontSize={20}>2022</Text>
+                        <Text fontWeight={900} color="whiteAlpha.200" fontSize={40}>2022</Text>
                     </Box>
                 </Flex>
             </Container>

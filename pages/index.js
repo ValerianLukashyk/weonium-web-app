@@ -32,7 +32,7 @@ const Page = () => {
               Valerian Lukashyk
             </Heading>
             <p>Digital Buddha (Full-stack Interactive Developer)</p>
-            <HireButtons w={["full", 320, 350]} my={5} bg={"orange.600"} color="red.800" />
+            <HireButtons w={["full", 320, 350]} my={5} />
           </Box>
           <Box
             flexShrink={0}

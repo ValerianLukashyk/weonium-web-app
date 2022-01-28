@@ -34,6 +34,7 @@ const Contact = () => {
         bot.post('/sendMessage', options)
             .then(res => {
                 console.log(res)
+                // TODO: Implement Adding to Database Sending Timeout 1-5 min
                 // server.post('/auth/sendMessage', )
                 setSended(true)
             })

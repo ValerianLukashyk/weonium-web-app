@@ -25,7 +25,7 @@ const Planet = () => {
   const [settings] = useState({
     pointSize: 2310,
     freq: 10,
-    ampl: 3,
+    ampl: 4,
     maxDist: 2,
     opacity: 1,
     colorProgress: 0,
@@ -322,7 +322,7 @@ const Planet = () => {
         //     // console.log(fps, now)
         // }
         requestAnimationFrame(animate)
-        time += 0.01
+        time += 0.02
         frame = frame <= 200 ? frame + 1 : frame
         const p = initialCameraPosition
         const rotSpeed = -easeOutCirc(frame / 200) * Math.PI
