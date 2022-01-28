@@ -24,7 +24,7 @@ const HireButtons = (props) => {
                     _hover={{ transform: 'scale(1.1)', background: 'yellow.300' }}
                     aria-label='Search database'
                     rightIcon={<Icon hover={hovered} />}
-                    color={'red.300'}
+                    color={'red.500'}
                     fontWeight={900}
                     h={50}
                     border={'1px solid red'}

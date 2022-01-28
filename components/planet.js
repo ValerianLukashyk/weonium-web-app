@@ -313,16 +313,19 @@ const Planet = () => {
           m.material.opacity = 0.6
         }
       }
-      // var t = []
-      const animate = () => {
-        // t.unshift(now);
-        // if (t.length > 10) {
-        //     var t0 = t.pop();
-        //     var fps = Math.floor(1000 * 10 / (now - t0));
-        //     // console.log(fps, now)
-        // }
+      const t = []
+      let curFps
+      const animate = (now) => {
+        t.unshift(now);
+
+        if (t.length > 10) {
+          const t0 = t.pop();
+          const fps = Math.floor(1000 * 10 / (now - t0));
+          curFps = fps
+          // console.log(fps)
+        }
         requestAnimationFrame(animate)
-        time += 0.02
+        time += curFps <= 60 ? 0.012 : 0.009
         frame = frame <= 200 ? frame + 1 : frame
         const p = initialCameraPosition
         const rotSpeed = -easeOutCirc(frame / 200) * Math.PI
