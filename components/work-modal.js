@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import {
     IconButton,
     Modal,
@@ -21,7 +20,7 @@ const WorkModal = ({ title = 'Add New Post', icon, isRound = false, ...restProps
     const { isOpen, onOpen, onClose } = useDisclosure()
 
     const handleSubmit = (e) => {
-        e.preventDefault();
+        e.preventDefault()
         fetch("http://localhost:5000/works", {
             method: "POST",
             body: formData,

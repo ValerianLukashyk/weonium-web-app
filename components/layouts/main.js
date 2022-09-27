@@ -5,21 +5,9 @@ import { Box, Container, useColorModeValue } from '@chakra-ui/react'
 import Planet from '../planet'
 import Footer from '../footer'
 import Contact from '../contact'
-import { useEffect } from 'react'
 
 const Main = ({ children, router, }) => {
   const color = useColorModeValue('#f0e7db', '#202023')
-
-  useEffect(() => {
-    fetch('https://www.googletagmanager.com/gtag/js?id=UA-218854758-1')
-    window.dataLayer = window.dataLayer || []
-    const gtag = () => { 
-      dataLayer.push(arguments) 
-    }
-    gtag('js', new Date());
-
-    gtag('config', 'UA-218854758-1');
-  }, [])
 
   return (
     <Box as="main">

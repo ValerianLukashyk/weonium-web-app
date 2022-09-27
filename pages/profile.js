@@ -2,7 +2,6 @@ import { Container, Checkbox, Tooltip, Image, Flex, Box, Heading, Divider, useCo
 import Section from '../components/section'
 import Layout from '../components/layouts/article'
 import useStore from '../state/useStore'
-import Paragraph from '../components/paragraph'
 import { server } from '../components/api/api'
 
 const Profile = () => {

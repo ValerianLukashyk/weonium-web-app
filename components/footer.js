@@ -10,7 +10,7 @@ import CoffeeBuy from './buymeacoffee'
 import MotionTitle from './3d-title'
 import {useState, useEffect, useRef} from 'react'
 
-const FooterYear = (props) => {
+const FooterYear = () => {
     // const {width, height} = props
     // const [pos, setPos] = useState({x: Math.round(Math.random()*width), y: Math.round(Math.random() * height)})
     // const [scale, setScale] = useState(1)
