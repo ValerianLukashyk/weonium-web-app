@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import {  useState } from 'react';
 import { useRouter } from 'next/router';
 import { server } from '../api/api'
 import {
@@ -20,7 +20,6 @@ import {
     ModalHeader,
     ModalBody,
     ModalCloseButton,
-    useDisclosure,
     useColorModeValue
 } from '@chakra-ui/react'
 import { Form, Field, Formik } from 'formik'
@@ -30,10 +29,8 @@ import NextLink from 'next/link'
 const Login = () => {
     const [error, setError] = useState()
     const router = useRouter()
-    const { isOpen, onOpen, onClose } = useDisclosure()
     const clr = useColorModeValue('whiteAlpha.900', 'whiteAlpha.900')
 
-    const { events } = useRouter();
 
     const handleSubmit = async (values) => {
         await server.post('/auth/login', values)
@@ -51,22 +48,13 @@ const Login = () => {
             })
     }
 
-    useEffect(() => {
-        const handleClose = () => {
-            onClose()
-        }
-        events.on('routeChangeStart', handleClose);
-        return () => {
-            events.off('routeChangeStart', handleClose);
-        };
-
-    }, [events, onClose]);
-
     return (
         <>
-            <Button colorScheme="blue" mr={4} onClick={onOpen}><><IoLockClosed />&nbsp;Login</></Button>
+            <NextLink href={'/?login=true'} as={'./login'}>
+                <Button colorScheme="blue" mr={4}><><IoLockClosed />&nbsp;Login</></Button>
+            </NextLink>
 
-            <Modal isOpen={isOpen} onClose={onClose} isCentered>
+            <Modal isOpen={router.query.login} onClose={() => router.back(-1)} isCentered>
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader>Login</ModalHeader>

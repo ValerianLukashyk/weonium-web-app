@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import {
     IconButton, Box, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, useDisclosure, FormControl,
-    FormLabel,Icon,
+    FormLabel, Icon,
     FormErrorMessage,
     Text, Textarea,
     Button, Input, useColorModeValue
@@ -10,7 +10,7 @@ import { AiOutlineMessage } from 'react-icons/ai'
 import { BiMessageRoundedCheck } from 'react-icons/bi'
 import { motion } from 'framer-motion'
 import { Form, Field, Formik } from 'formik'
-import {  bot } from './api/api'
+import { bot } from './api/api'
 
 const MotionIconButton = motion(IconButton)
 
@@ -25,24 +25,24 @@ const Contact = () => {
 
     const handleSubmit = (values) => {
         const emodgi = ['🧑‍🦰', '🧑🏻‍🦱', '🧔🏽', '👴🏿', '👨‍🦳', '👩🏻‍🦰', '🧑‍🦰', '🧑🏻‍🦱']
-        
+
         const options = {
             chat_id: process.env.NEXT_PUBLIC_TELEGRAM_CHAT_ID_PRIVATE,
             parse_mode: 'HTML',
             text: `📨 <b>You have 1 new message</b> 📨\n\n${emodgi[Math.round(Math.random() * emodgi.length)] + " " + values.name} (${values.email})\n\n🗞 ${values.message} `,
         }
         bot.post('/sendMessage', options)
-            .then(res => {
-                console.log(res)
+            .then(() => {
                 // TODO: Implement Adding to Database Sending Timeout 1-5 min
                 // server.post('/auth/sendMessage', )
                 setSended(true)
             })
             .catch(e => {
                 setError(e)
-                console.log(e)})
+
+            })
     }
-    
+
     return (
         <Box>
             <MotionIconButton
@@ -144,10 +144,10 @@ const Contact = () => {
                                 </Form>
                             )}
                         </Formik>
-                        
+
                     </ModalBody> : (
                         <ModalBody display={'flex'} justifyContent={'center'} flexDir={"column"} alignItems={'center'}>
-                            <Icon as={BiMessageRoundedCheck} w={56} h={56}/>
+                            <Icon as={BiMessageRoundedCheck} w={56} h={56} />
                             <Text py={5} fontSize={20}>I&rsquo;ll message you soon...</Text>
                         </ModalBody>
                     )}

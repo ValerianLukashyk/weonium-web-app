@@ -6,10 +6,9 @@ const Thumb = ({ file }) => {
     const [thumb, setThumb] = useState(undefined)
 
     useEffect(() => {
-        if (!file) { return; }
+        if (!file) { return }
 
         if (file.type.startsWith("image")) {
-            console.log(file)
             setLoading(true)
             let reader = new FileReader();
 
@@ -17,7 +16,6 @@ const Thumb = ({ file }) => {
 
                 setThumb(reader.result)
                 setLoading(false)
-                console.log(btoa(reader.result))
             };
 
             reader.readAsDataURL(file);
@@ -27,9 +25,7 @@ const Thumb = ({ file }) => {
         }
     }, [file])
 
-    useEffect(() => {
-        console.log(thumb)
-    }, [thumb])
+    
     return (
         <Box display='flex' alignItems='center' justifyContent="center" width={'120px'} height={'120px'}>
             {
@@ -45,12 +41,6 @@ const Thumb = ({ file }) => {
                             height={'100px'}
                             width={'100px'}
                         />}
-                        {/* {video &&
-                            <video controls autoPlay loop width={1200} height={700}>
-                                <source type="video/mp4" src={thumb} />
-                                Your browser does not support the video tag.
-                            </video>
-                        } */}
                     </>
                 )
             }

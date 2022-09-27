@@ -15,7 +15,6 @@ const Profile = () => {
         for (let i = 0; i < e.target.files.length; i++) {
             formData.append('images', e.target.files[i]);
         }
-        console.log(e)
         server.post(`/auth/photo-upload/${authProfile._id}`, formData)
             .then(() => {
                 fetchAuthInfo()
@@ -58,11 +57,7 @@ const Profile = () => {
                                 <input onChange={photoUpload} name="photo" id='photo' type="file" accept=".jpg, .jpeg, .png" style={{ display: 'none' }} />
                             </label>
                         </Flex>
-
-
-
-                        <Paragraph >{authProfile.email} </Paragraph>
-                        <Checkbox mt={3}>Receive newslatter</Checkbox>
+                        <Checkbox mt={5}>Receive notification about new works</Checkbox>
                     </Box>
                 </Section>
             </Container>

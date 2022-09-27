@@ -37,7 +37,6 @@ const Work = () => {
         if (!title) {
             return;
         }
-        console.log(title)
         workFetch(title)
     }, [title, workFetch]);
 

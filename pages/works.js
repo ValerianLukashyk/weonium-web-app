@@ -17,8 +17,6 @@ const Works = () => {
     const works = useStore(state => state.works)
     const getAllWorks = useStore(state => state.getAllWorks)
 
-    works && console.log(works)
-
 
     const handleSubmit = async (values) => {
         const formData = new FormData();

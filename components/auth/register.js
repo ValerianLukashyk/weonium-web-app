@@ -19,7 +19,6 @@ const RegisterForm = () => {
         setIsLoading(true)
         await server.post('/auth/register', values)
             .then(function (res) {
-                console.log(res)
                 if (res.status === 200) {
                     setConfirm(true)
                     setIsLoading(false)

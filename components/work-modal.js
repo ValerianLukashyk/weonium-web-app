@@ -21,7 +21,6 @@ const WorkModal = ({ title = 'Add New Post', icon, isRound = false, ...restProps
     const { isOpen, onOpen, onClose } = useDisclosure()
 
     const handleSubmit = (e) => {
-        console.log(e.target);
         e.preventDefault();
         fetch("http://localhost:5000/works", {
             method: "POST",
@@ -32,27 +31,18 @@ const WorkModal = ({ title = 'Add New Post', icon, isRound = false, ...restProps
             }
         })
             .then(response => console.log(response))
-        // .then(response => response.json())
-
-        // .then(json => console.log(json));
-        // const res = await fetch(`http://localhost:5000`)
-        // const data = await res.json()
+        
     }
     const handleChange = (e) => {
-        console.log('change', e.target)
         setFormData(e.target)
 
     }
     const handleOnFileChange = (e) => {
-        console.log('file change', e.target)
         let files = e.target.files;
         setFormDataImages(files)
     }
 
-    useEffect(() => {
-        console.log(formData)
-
-    }, [formData])
+    
 
     return (
         <>

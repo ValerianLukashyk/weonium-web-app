@@ -20,21 +20,23 @@ const HireButtons = (props) => {
             <Link href='https://www.upwork.com/freelancers/~0175a80d54377ec0d9' target='_blank'>
                 <MotionButton
                     bg={buttonTheme}
-                    style={{ transition: 'transform 0.1s' }}
-                    _hover={{ transform: 'scale(1.1)', background: 'yellow.300' }}
+                    style={{ transition: 'all 0.2s',marginRight: 8, minWidth: 144 }}
+                    _hover={{  background: 'yellow.300' }}
                     aria-label='Search database'
                     rightIcon={<Icon hover={hovered} />}
                     color={'red.500'}
                     fontWeight={900}
                     h={50}
-                    border={'1px solid red'}
+                    // border={'1px solid red'}
                     animate={{
-                        borderWidth: [0, 2, 3, 4, 3, 2, 0],
+                        // borderWidth: [0, 2, 3, 4, 3, 2, 0],
+                        scale: [1, 1.04, 1.06, 1.08, 1.10, 1.07, 1],
+                        rotate: [0, 0, 7, -7, 7, -7, 0],
                     }}
                     transition={{
-                        duration: 0.5,
-                        ease: "linear",
-                        times: [0, 0.2, 0.3, 0.4, 0.5, 0.6, 0.8],
+                        duration: 1,
+                        ease: "easeInOut",
+                        times: [0, 0.3, 0.6, 0.9, 1.2, 1.6, 1.8],
                         repeat: Infinity,
                         repeatDelay: 0
                     }}

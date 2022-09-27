@@ -17,6 +17,7 @@ import HireButtons from '../components/hire-buttons'
 const Page = () => {
   return (
     <Layout>
+      
       <Container maxW='2xl'>
         <Box
           borderRadius="lg"

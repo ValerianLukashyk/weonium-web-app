@@ -16,7 +16,6 @@ const EmailConfirm = () => {
         if (confirmationCode) {
             server.get(`/auth/confirm/${confirmationCode}`)
                 .then(function (res) {
-                    console.log(res)
                     setMessage(res.data.message)
                     setIsConfirmed(true)
                 })

@@ -17,7 +17,6 @@ const LoginRedirect = ({ href }) => {
                 server.get('/auth/me')
                     .then((res) => {
                         if (res.status === 200) {
-                            console.log(res.data)
                             setAuthInfo(res.data)
                         }
                     })

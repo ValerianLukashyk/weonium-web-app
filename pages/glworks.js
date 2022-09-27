@@ -17,14 +17,13 @@ const GlWorks = () => {
     const glWorks = useStore(state => state.posts)
     const getAllGlWorks = useStore(state => state.getAllPosts)
 
-    const handleSubmit = async (fValues) => {
+    const handleSubmit = async (values) => {
         const formData = new FormData();
-        console.log(fValues)
-        formData.append('title', fValues.title);
-        formData.append('description', fValues.description);
-        formData.append('url', fValues.url);
-        for (let i = 0; i < fValues.files.length; i++) {
-            formData.append('images', fValues.files[i]);
+        formData.append('title', values.title);
+        formData.append('description', values.description);
+        formData.append('url', values.url);
+        for (let i = 0; i < values.files.length; i++) {
+            formData.append('images', values.files[i]);
         }
         setIsLoading(true)
         server.post('/posts', formData, {
@@ -34,7 +33,6 @@ const GlWorks = () => {
         })
             .then((res) => {
                 if (res.status === 200) {
-                    console.log('done')
                     getAllGlWorks()
                     setIsLoading(false)
                 }
@@ -71,7 +69,7 @@ const GlWorks = () => {
                         <SimpleGrid columns={[1, 1, 2]} gap={6}>
                             {glWorks ?
                                 (
-                                    glWorks.map((work, index) => (
+                                    [...glWorks].reverse().map((work, index) => (
                                         <PostGridItem w={["100%", "75%", "47%"]} key={index} slug={work.slug} title={work.title} text={work.description} thumbnail={work.screenshots[0]} />
                                     ))
                                 ) : (
