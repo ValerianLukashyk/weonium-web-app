@@ -24,7 +24,7 @@ const LoginRedirect = ({ href }) => {
                         console.log(error);
                     })
                     .then(() => router.push(href || `/profile`))
-            }, 500)
+            }, 100)
 
         }
     }, [token, href, router, setAuthInfo])
