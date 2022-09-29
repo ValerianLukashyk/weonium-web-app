@@ -1,12 +1,10 @@
+*.local
 node_modules
 .next
 .idea
+.vscode
 _backup_temp
 dist
 .vercel
-*.local
-.env.local
-.vscode
-_backup_temp
-.env.development_back
-.env.production_back
+
+
