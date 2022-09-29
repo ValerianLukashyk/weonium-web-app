@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Official website of web-developing studio 'WeOnium'",
   "scripts": {
-    "dev": "next dev -H 0.0.0.0 -p 80",
+    "dev": "next dev -H 0.0.0.0 -p 880",
     "build": "next build",
     "sitemap": "next-sitemap --config sitemap.js",
     "prettier": "prettier -write .",
