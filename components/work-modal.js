@@ -51,7 +51,7 @@ const WorkModal = ({ title = 'Add New Post', icon, isRound = false, ...restProps
                 icon={icon}
                 onClick={onOpen}
             ></IconButton>
-            <Modal motionPreset='slideInBottom' size='xl' {...restProps} isOpen={isOpen} onClose={onClose}>
+            <Modal closeOnEsc closeOnOverlayClick autoFocus scrollBehavior='inside' motionPreset='slideInBottom' size='xl' {...restProps} isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader>{title}</ModalHeader>

@@ -70,7 +70,7 @@ const Navbar = props => {
           mt={{ base: 4, md: 0 }}
         >
           <LinkItem href="/works" path={path}>
-            Works
+            FULLSTACK
           </LinkItem>
           <LinkItem href="/glworks" path={path}>
             WebGL
@@ -85,10 +85,10 @@ const Navbar = props => {
                 <Logout />
               </Box>
             ) : (
-              <Box ml={2} display={{ base: 'none', md: 'inline-flex' }}>
-                <Tooltip label='Register new account'>
+              <Box ml={1} display={{ base: 'none', md: 'inline-flex' }}>
+                <Tooltip label='No Access'>
                   <div>
-                    <Button mr={4} onClick={() => router.push('/register')} colorScheme={'red'} ><IoFingerPrintOutline />&nbsp;Register</Button>
+                    <Button disabled mr={4} onClick={() => router.push('/register')} colorScheme={'red'} ><IoFingerPrintOutline />&nbsp;Register</Button>
                   </div>
                 </Tooltip>
                 <Login />
@@ -122,7 +122,7 @@ const Navbar = props => {
                     <MenuItem as={Link}>Logout</MenuItem>
                   </>
                   ) : (<>
-                    <NextLink href="/register" passHref>
+                    <NextLink  href="/register" passHref>
                       <Button mx={4}><IoFingerPrintOutline />&nbsp;Register</Button>
                     </NextLink>
                     <Login />

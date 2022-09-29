@@ -1,5 +1,4 @@
 import NextLink from 'next/link'
-import Script from 'next/script'
 import {
   Container, Box, Flex, Heading, Image, Button, Icon, List, ListItem, useColorModeValue
 } from '@chakra-ui/react'
@@ -65,13 +64,13 @@ const Page = () => {
             <NextLink href="/works">
               <Button
                 rightIcon={<ChevronRightIcon />} colorScheme='teal' mx={5} my={3}
-              >My Portfolio
+              >FullStack Portfolio
               </Button>
             </NextLink>
             <NextLink href="/glworks">
               <Button
                 rightIcon={<ChevronRightIcon />} colorScheme='red' mx={5} my={3}
-              >My GL-Portfolio
+              >WebGL Portfolio
               </Button>
             </NextLink>
           </Box>
@@ -117,8 +116,8 @@ const Page = () => {
             I ❤
           </Heading>
           <Paragraph>
-            Music,
             Coding,
+            Music,
             Art,
             Traveling
           </Paragraph>
@@ -170,19 +169,6 @@ const Page = () => {
         </Section>
       </Container>
       
-      <Script
-        src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_ANALYTICS_TAG}`}
-        strategy="afterInteractive"
-      />
-      <Script id="google-analytics" strategy="afterInteractive">
-        {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){window.dataLayer.push(arguments);}
-          gtag('js', new Date());
-
-          gtag('config', '${process.env.NEXT_PUBLIC_ANALYTICS_TAG}');
-        `}
-      </Script>
     </Layout>
   )
 }
