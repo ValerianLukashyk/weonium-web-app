@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import TagManager from 'react-gtm-module';
+// import TagManager from 'react-gtm-module';
 import useStore from '../state/useStore'
 import { ChakraProvider } from '@chakra-ui/react'
 import Layout from '../components/layouts/main'
@@ -11,9 +11,9 @@ import { AnimatePresence } from 'framer-motion'
 const Website = ({ Component, pageProps, router }) => {
   const fetchAuthInfo = useStore(state => state.fetchAuthInfo)
 
-  useEffect(() => {
-    TagManager.initialize({ gtmId: process.env.NEXT_PUBLIC_GOOGLE_TAGS_MANAGER });
-  }, [])
+  // useEffect(() => {
+  //   TagManager.initialize({ gtmId: process.env.NEXT_PUBLIC_GOOGLE_TAGS_MANAGER });
+  // }, [])
 
   useEffect(() => {
     fetchAuthInfo()
