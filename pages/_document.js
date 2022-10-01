@@ -5,7 +5,7 @@ import theme from '../libs/theme'
 
 
 export default class Document extends NextDocument {
-  
+
   render() {
     return (
       <Html lang="en">
@@ -17,7 +17,7 @@ export default class Document extends NextDocument {
               new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
               j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-              })(window,document,'script','dataLayer','GTM-NTGRH5D');
+              })(window,document,'script','dataLayer',${process.env.NEXT_PUBLIC_GOOGLE_TAGS_MANAGER});
           `,
             }}
           />
@@ -25,7 +25,7 @@ export default class Document extends NextDocument {
         <body>
           <noscript dangerouslySetInnerHTML={{
             __html: `
-            <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NTGRH5D"
+            <iframe src="https://www.googletagmanager.com/ns.html?id=${process.env.NEXT_PUBLIC_GOOGLE_TAGS_MANAGER}"
               height="0" width="0" style="display:none;visibility:hidden"></iframe>
             `
           }} />

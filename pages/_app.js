@@ -11,15 +11,9 @@ import { AnimatePresence } from 'framer-motion'
 const Website = ({ Component, pageProps, router }) => {
   const fetchAuthInfo = useStore(state => state.fetchAuthInfo)
 
-  // useEffect(() => {
-  //   TagManager.initialize({ gtmId: process.env.NEXT_PUBLIC_GOOGLE_TAGS_MANAGER });
-  // }, [])
-
   useEffect(() => {
     fetchAuthInfo()
   }, [fetchAuthInfo])
-
-
 
   return (
     <ChakraProvider theme={theme}>
