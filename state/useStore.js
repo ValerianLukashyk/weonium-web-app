@@ -10,6 +10,20 @@ function getCookie(name) {
 const useStore = create(set => ({
     loading: false,
     setLoading: value => set(() => ({ loading: value })),
+    // WEB3 Auth Section /  /  /  /  /  /  /
+    isConnected: false,
+    connectedWallet: null,
+    hiddenWallet: null,
+    setOnline: (value, address) => {
+        set(() => ({ isConnected: value }))
+        if (address) {
+            const startingPart = address.slice(0, 4)
+            const finishPart = address.slice(-4)
+            const hidden = `${startingPart}...${finishPart}`
+            set(() => ({ connectedWallet: address }))
+            set(() => ({ hiddenWallet: hidden }))
+        }
+    },
     //Auth Section / / / / / / / / / / / / /
     authInfo: {
         _id: '',

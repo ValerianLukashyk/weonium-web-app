@@ -24,6 +24,7 @@ import {
 } from '@chakra-ui/react'
 import { HamburgerIcon } from '@chakra-ui/icons'
 import ThemeToggleButton from './theme-toggle-button'
+import Web3Connector from './web3/web3'
 // import { IoFingerPrintOutline } from 'react-icons/io5'
 
 const Navbar = props => {
@@ -95,7 +96,8 @@ const Navbar = props => {
                             >
                                 <Tooltip label="⛔️Only for admins">
                                     <div>
-                                    <Login />
+                                    <Web3Connector />
+                                    {/* <Login /> */}
                                         {/* <Button
                                             disabled
                                             mr={4}

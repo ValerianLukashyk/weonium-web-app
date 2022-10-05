@@ -33,6 +33,8 @@
         "react-icons": "^4.3.1",
         "react-resize-detector": "^6.7.6",
         "three": "^0.134.0",
+        "web3": "^1.8.0",
+        "web3modal": "^1.9.9",
         "yup": "^0.23.0",
         "zustand": "^3.6.5"
     },
