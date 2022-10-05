@@ -9,422 +9,428 @@ import { fragment as fr, vertex as vx } from './shaders/shaders'
 import gsap from 'gsap'
 
 function easeOutCirc(x) {
-  return Math.sqrt(1 - Math.pow(x - 1, 4))
+    return Math.sqrt(1 - Math.pow(x - 1, 4))
 }
 
-
 const Planet = () => {
+    // set STATE
+    const refContainer = useRef()
 
-  // set STATE
-  const refContainer = useRef()
+    const [loading, setLoading] = useState(true)
+    const [renderer, setRenderer] = useState(null)
+    const [_camera, setCamera] = useState()
 
-  const [loading, setLoading] = useState(true)
-  const [renderer, setRenderer] = useState(null)
-  const [_camera, setCamera] = useState()
+    const [settings] = useState({
+        pointSize: 2310,
+        freq: 10,
+        ampl: 4,
+        maxDist: 2,
+        opacity: 1,
+        colorProgress: 0,
+        color: {
+            red: 1,
+            green: 1,
+            blue: 1
+        },
+        activeColor: 1,
+        colorMode: null,
+        clicked: false
+    })
 
-  const [settings] = useState({
-    pointSize: 2310,
-    freq: 10,
-    ampl: 4,
-    maxDist: 2,
-    opacity: 1,
-    colorProgress: 0,
-    color: {
-      red: 1,
-      green: 1,
-      blue: 1,
-    },
-    activeColor: 1,
-    colorMode: null,
-    clicked: false,
-  })
+    const [target] = useState(new THREE.Vector3(0, 0, 0))
+    const [initialCameraPosition] = useState(
+        // new THREE.Vector3(20 * Math.sin(0.5 * Math.PI), 10, 20 * Math.cos(0.2 * Math.PI))
 
-  const [target] = useState(new THREE.Vector3(0, 0, 0))
-  const [initialCameraPosition] = useState(
-    // new THREE.Vector3(20 * Math.sin(0.5 * Math.PI), 10, 20 * Math.cos(0.2 * Math.PI))
+        new THREE.Vector3(0, 300, 1200)
+    )
+    const [scene] = useState(new THREE.Scene())
+    const [dispScene] = useState(new THREE.Scene())
+    // dispScene.background = new THREE.Color('black')
+    const [meshesScene] = useState(new THREE.Scene())
 
-    new THREE.Vector3(0, 300, 1200)
-  )
-  const [scene] = useState(new THREE.Scene())
-  const [dispScene] = useState(new THREE.Scene())
-  // dispScene.background = new THREE.Color('black')
-  const [meshesScene] = useState(new THREE.Scene())
+    const [_controls] = useState()
 
-  const [_controls] = useState()
+    const [meshes] = useState([])
 
-  const [meshes] = useState([])
-
-
-  const [mat] = useState(new THREE.ShaderMaterial(
-    {
-      side: THREE.DoubleSide,
-      fragmentShader: fr,
-      vertexShader: vx,
-      uniforms: {
-        uuTime: { value: 0 },
-        uDisplacement: { value: null },
-        uTexture: { value: null },
-        resolution: { value: new THREE.Vector2() },
-      },
-    }
-  ))
-
-  const [material] = useState(new THREE.ShaderMaterial(
-    {
-      side: THREE.DoubleSide,
-      fragmentShader: fragment,
-      vertexShader: vertex,
-      uniforms: {
-        uTime: { value: 0 },
-        pointSize: { value: settings.pointSize },
-        opacity: { value: 1 },
-        pointText: { value: new THREE.TextureLoader().load('/texture/point.svg') },
-        freq: { value: 0 },
-        ampl: { value: 0 },
-        maxDist: { value: 0 },
-        progress: { value: 1 },
-        colorProgress: { value: 0 },
-        uColor: { value: { x: 1, y: 1, z: 1 } }
-      },
-      transparent: true,
-      blending: THREE.NormalBlending,
-      depthTest: false,
-      depthWrite: false
-
-    }
-  ))
-
-  const [_textureA, setRtTextureA] = useState()
-  const [_textureB, setRtTextureB] = useState()
-
-  const [mouse] = useState(new THREE.Vector2(0, 0))
-  const [prevMouse] = useState(new THREE.Vector2(0, 0))
-
-  const { colorMode } = useColorMode()
-
-  useEffect(() => {
-    settings.colorMode = colorMode
-  }, [colorMode, settings])
-
-
-  // SET RESIZE FUNCTION
-  const handleWindowResize = useCallback(() => {
-
-    const { current: container } = refContainer
-    if (container && renderer) {
-      const scW = container.clientWidth
-      const scH = container.clientHeight
-
-      mat.uniforms.resolution.value.x = scW * window.devicePixelRatio;
-      mat.uniforms.resolution.value.y = scH * window.devicePixelRatio;
-
-      renderer.setSize(scW, scH)
-
-    }
-  }, [renderer, mat])
-
-
-  // SET MOUSE POSITION TO STATE
-  const mouseEvents = (e) => {
-    const { current: container } = refContainer
-    const rect = container.getBoundingClientRect();
-    const width = window.innerWidth
-    mouse.x = -(e.clientX - width / 2) * window.devicePixelRatio
-    mouse.y = -(e.clientY - rect.top - container.clientHeight / 2) * window.devicePixelRatio
-
-    // if (settings.clicked) meshesScene.children[0].rotateY(Math.PI * 2 * mouse.x)
-
-  }
-
-  // SET ANIMATION ON CLICK
-  const handleClick = (e) => {
-    if (e.type === 'mousedown' || e.type === 'touchstart') {
-      settings.clicked = true
-    } else if (e.type === 'mouseup' || e.type === 'touchend') {
-      settings.clicked = false
-    }
-
-  }
-
-  // SET ALL TIME ANIMATION
-  const frameRender = (time) => {
-    meshesScene.children[0].rotation.y = time / 16;
-    meshesScene.children[1].rotation.y = -time / 16;
-  }
-
-  // START EVERYTHING
-  /* eslint-disable react-hooks/exhaustive-deps */
-  useEffect(() => {
-    const { current: container } = refContainer
-    if (container && !renderer) {
-      const scW = container.clientWidth * window.devicePixelRatio
-      const scH = container.clientHeight * window.devicePixelRatio
-      mat.uniforms.resolution.value.x = scW;
-      mat.uniforms.resolution.value.y = scH;
-      mat.uniformsNeedUpdate = true
-
-
-      const glRenderer = new THREE.WebGLRenderer({
-        antialias: true,
-        alpha: true
-      })
-      glRenderer.setPixelRatio(window.devicePixelRatio)
-      glRenderer.setSize(container.clientWidth, container.clientHeight)
-      glRenderer.outputEncoding = THREE.sRGBEncoding
-      container.appendChild(glRenderer.domElement)
-      setRenderer(glRenderer)
-
-      const scale = scH * 0.5
-      const camera = new THREE.OrthographicCamera(
-        -scale,
-        scale,
-        scale,
-        -scale,
-        0,
-        200000
-      )
-      camera.position.set(0, 300, 1500)
-      camera.lookAt(target)
-      setCamera(camera)
-
-      // SET RenderTargets
-      const textureA = new THREE.WebGLRenderTarget(scW, scH, {
-        depthBuffer: false,
-        stencilBuffer: false,
-        minFilter: THREE.LinearFilter,
-        magFilter: THREE.LinearFilter,
-        format: THREE.RGBAFormat
-      })
-
-      setRtTextureA(textureA)
-      const textureB = new THREE.WebGLRenderTarget(scW, scH, {
-        depthBuffer: false,
-        stencilBuffer: false,
-        minFilter: THREE.LinearFilter,
-        magFilter: THREE.LinearFilter,
-        format: THREE.RGBAFormat
-      })
-
-      setRtTextureB(textureB)
-
-
-      // SET Orbit Controls
-      const controls = new OrbitControls(camera, glRenderer.domElement)
-      controls.enableZoom = false
-      controls.enablePan = false
-      controls.rotateSpeed = 0
-      controls.target = target
-      // setControls(controls)
-
-
-      const geometry = new THREE.PlaneGeometry(64 * window.devicePixelRatio, 64 * window.devicePixelRatio, 1, 1);
-      const max = 54
-      let frame = 0
-      let time = 0
-      let currentWave = 0
-      let color = {
-        red: 1,
-        green: 1,
-        blue: 1,
-      }
-      // SET A RIPPLE'S MESHES
-      for (let i = 0; i < max; i++) {
-        let m = new THREE.MeshBasicMaterial({
-          map: new THREE.TextureLoader().load('/texture/burash01.png'),
-          transparent: true,
-          side: THREE.DoubleSide,
-          blending: THREE.AdditiveBlending,
-          depthTest: false,
-          depthWrite: false,
-        })
-
-        let mesh = new THREE.Mesh(geometry, m)
-        mesh.visible = false
-        mesh.rotation.z = Math.PI * Math.random()
-        scene.add(mesh)
-        meshes.push(mesh)
-      }
-
-      const geometryFullScr = new THREE.PlaneGeometry(scW * 1.4, scH * 1.4, 1, 1);
-      const displacementScreen = new THREE.Mesh(geometryFullScr, mat)
-
-      dispScene.add(displacementScreen)
-
-      loadGLTFModel(meshesScene, scW, scH, material).then(() => {
-
-        meshesScene.children[0].scale.x = 0.7
-        meshesScene.children[0].scale.y = 0.7
-        meshesScene.children[0].scale.z = 0.7
-
-        startAnim()
-      })
-
-      const startAnim = () => {
-        gsap.from(meshesScene.children[0].scale, {
-          y: 0,
-          x: 0,
-          z: 0,
-          delay: 0.3,
-          duration: 1.5,
-        })
-        gsap.from(settings, {
-          opacity: 0.05,
-          delay: 1.0,
-          duration: 1.5,
-        })
-      }
-
-      const trackRipples = () => {
-        trackMousePos()
-        meshes.forEach(mesh => {
-          if (mesh.visible) {
-
-            mesh.rotation.z += 0.02
-            mesh.material.opacity *= 0.96
-            if (mesh.material.opacity < 0.002) {
-              mesh.visible = false
+    const [mat] = useState(
+        new THREE.ShaderMaterial({
+            side: THREE.DoubleSide,
+            fragmentShader: fr,
+            vertexShader: vx,
+            uniforms: {
+                uuTime: { value: 0 },
+                uDisplacement: { value: null },
+                uTexture: { value: null },
+                resolution: { value: new THREE.Vector2() }
             }
-            mesh.scale.x = 0.969 * mesh.scale.x + 0.05
-            // mesh.scale.x = 1.01 * mesh.scale.x
-            mesh.scale.y = mesh.scale.x
-          }
-
         })
-      }
+    )
 
-      const trackMousePos = () => {
-        if (Math.abs(mouse.x - prevMouse.x) < 1 || Math.abs(mouse.y - prevMouse.y) < 1) {
-        } else {
-          setNewWave()
-          currentWave = (currentWave + 1) % max
+    const [material] = useState(
+        new THREE.ShaderMaterial({
+            side: THREE.DoubleSide,
+            fragmentShader: fragment,
+            vertexShader: vertex,
+            uniforms: {
+                uTime: { value: 0 },
+                pointSize: { value: settings.pointSize },
+                opacity: { value: 1 },
+                pointText: {
+                    value: new THREE.TextureLoader().load('/texture/point.svg')
+                },
+                freq: { value: 0 },
+                ampl: { value: 0 },
+                maxDist: { value: 0 },
+                progress: { value: 1 },
+                colorProgress: { value: 0 },
+                uColor: { value: { x: 1, y: 1, z: 1 } }
+            },
+            transparent: true,
+            blending: THREE.NormalBlending,
+            depthTest: false,
+            depthWrite: false
+        })
+    )
+
+    const [_textureA, setRtTextureA] = useState()
+    const [_textureB, setRtTextureB] = useState()
+
+    const [mouse] = useState(new THREE.Vector2(0, 0))
+    const [prevMouse] = useState(new THREE.Vector2(0, 0))
+
+    const { colorMode } = useColorMode()
+
+    useEffect(() => {
+        settings.colorMode = colorMode
+    }, [colorMode, settings])
+
+    // SET RESIZE FUNCTION
+    const handleWindowResize = useCallback(() => {
+        const { current: container } = refContainer
+        if (container && renderer) {
+            const scW = container.clientWidth
+            const scH = container.clientHeight
+
+            mat.uniforms.resolution.value.x = scW * window.devicePixelRatio
+            mat.uniforms.resolution.value.y = scH * window.devicePixelRatio
+
+            renderer.setSize(scW, scH)
         }
-        prevMouse.x = mouse.x
-        prevMouse.y = mouse.y
-      }
+    }, [renderer, mat])
 
-      const setNewWave = () => {
-        if (meshes) {
+    // SET MOUSE POSITION TO STATE
+    const mouseEvents = e => {
+        const { current: container } = refContainer
+        const rect = container.getBoundingClientRect()
+        const width = window.innerWidth
+        mouse.x = -(e.clientX - width / 2) * window.devicePixelRatio
+        mouse.y =
+            -(e.clientY - rect.top - container.clientHeight / 2) *
+            window.devicePixelRatio
 
-          let m = meshes[currentWave]
-          m.visible = true
-          m.position.x = mouse.x
-          m.position.y = mouse.y
-          m.scale.x = m.scale.y = 1.1
-          m.material.opacity = 0.6
-        }
-      }
-      const t = []
-      let curFps
-      const animate = (now) => {
-        t.unshift(now);
-
-        if (t.length > 10) {
-          const t0 = t.pop();
-          const fps = Math.floor(1000 * 10 / (now - t0));
-          curFps = fps
-          // console.log(fps)
-        }
-        requestAnimationFrame(animate)
-        time += curFps <= 60 ? 0.012 : 0.009
-        frame = frame <= 200 ? frame + 1 : frame
-        const p = initialCameraPosition
-        const rotSpeed = -easeOutCirc(frame / 200) * Math.PI
-
-        material.uniforms.pointSize.value = settings.pointSize * (Math.sin(time) + 2) / 4
-        material.uniforms.progress.value = (Math.sin(time) + 1) / 2
-        material.uniforms.freq.value = settings.freq
-        material.uniforms.ampl.value = settings.ampl
-        material.uniforms.maxDist.value = settings.maxDist
-
-        if (frame <= 200) {
-          camera.position.x =
-            p.x * Math.cos(rotSpeed) + p.z * Math.sin(rotSpeed)
-          camera.position.z =
-            p.z * Math.cos(rotSpeed) - p.x * Math.sin(rotSpeed)
-          camera.lookAt(target)
-        } else {
-          // controls.update()
-        }
-
-        material.uniforms.uTime.value = time
-
-        trackRipples()
-
-        glRenderer.setRenderTarget(textureB)
-        glRenderer.render(scene, camera);
-        textureB.texture.encoding = THREE.sRGBEncoding;
-
-        mat.uniforms.uDisplacement.value = textureB.texture
-        glRenderer.setRenderTarget(textureA)
-        glRenderer.render(meshesScene, camera)
-        textureA.texture.encoding = THREE.sRGBEncoding;
-        mat.uniforms.uTexture.value = textureA.texture
-
-        glRenderer.setRenderTarget(null)
-        glRenderer.clear()
-        glRenderer.render(dispScene, camera);
-
-        frameRender(time, color)
-      }
-
-      // START LOOP
-      animate()
-      setLoading(false)
-
-      return () => {
-        glRenderer.dispose()
-      }
+        // if (settings.clicked) meshesScene.children[0].rotateY(Math.PI * 2 * mouse.x)
     }
-  }, [mat, renderer, meshes, mouse, prevMouse, material, settings])
 
-  // START RESIZE EVENTS
-  useEffect(() => {
-    window.addEventListener('resize', handleWindowResize, false)
-
-    return () => {
-      window.removeEventListener('resize', handleWindowResize, false)
+    // SET ANIMATION ON CLICK
+    const handleClick = e => {
+        if (e.type === 'mousedown' || e.type === 'touchstart') {
+            settings.clicked = true
+        } else if (e.type === 'mouseup' || e.type === 'touchend') {
+            settings.clicked = false
+        }
     }
-  }, [handleWindowResize])
 
-  // START MOUSE EVENTS
-  useEffect(() => {
-    refContainer.current.addEventListener('mousemove', mouseEvents, false)
-    return () => {
-      refContainer.current.removeEventListener('mousemove', mouseEvents, false)
+    // SET ALL TIME ANIMATION
+    const frameRender = time => {
+        meshesScene.children[0].rotation.y = time / 16
+        meshesScene.children[1].rotation.y = -time / 16
     }
-  }, [refContainer])
 
+    // START EVERYTHING
+    /* eslint-disable react-hooks/exhaustive-deps */
+    useEffect(() => {
+        const { current: container } = refContainer
+        if (container && !renderer) {
+            const scW = container.clientWidth * window.devicePixelRatio
+            const scH = container.clientHeight * window.devicePixelRatio
+            mat.uniforms.resolution.value.x = scW
+            mat.uniforms.resolution.value.y = scH
+            mat.uniformsNeedUpdate = true
 
-  return (
-    <Center>
-      <Box
-        onMouseDown={handleClick}
-        onMouseUp={handleClick}
-        ref={refContainer}
-        className="planet"
-        cursor={'pointer'}
-        // m="0 -100px 50px -100px"
-        at={['-20px', '-60px', '-120px']}
-        mb={['20px', '20px', '20px']}
-        mt={['0', '0', '0']}
-        // mt={['20px', '50px', '0']}
-        w={[280, 480, 640]}
-        h={[280, 480, 640]}
-        position="relative"
-      >
-        {loading && (
-          <Spinner
-            size="xl"
-            position="absolute"
-            left="50%"
-            top="50%"
-            ml="calc(0px - var(--spinner-size) / 2)"
-            mt="calc(0px - var(--spinner-size))"
-          />
-        )}
-      </Box>
-    </Center>
-  )
+            const glRenderer = new THREE.WebGLRenderer({
+                antialias: true,
+                alpha: true
+            })
+            glRenderer.setPixelRatio(window.devicePixelRatio)
+            glRenderer.setSize(container.clientWidth, container.clientHeight)
+            glRenderer.outputEncoding = THREE.sRGBEncoding
+            container.appendChild(glRenderer.domElement)
+            setRenderer(glRenderer)
+
+            const scale = scH * 0.5
+            const camera = new THREE.OrthographicCamera(
+                -scale,
+                scale,
+                scale,
+                -scale,
+                0,
+                200000
+            )
+            camera.position.set(0, 300, 1500)
+            camera.lookAt(target)
+            setCamera(camera)
+
+            // SET RenderTargets
+            const textureA = new THREE.WebGLRenderTarget(scW, scH, {
+                depthBuffer: false,
+                stencilBuffer: false,
+                minFilter: THREE.LinearFilter,
+                magFilter: THREE.LinearFilter,
+                format: THREE.RGBAFormat
+            })
+
+            setRtTextureA(textureA)
+            const textureB = new THREE.WebGLRenderTarget(scW, scH, {
+                depthBuffer: false,
+                stencilBuffer: false,
+                minFilter: THREE.LinearFilter,
+                magFilter: THREE.LinearFilter,
+                format: THREE.RGBAFormat
+            })
+
+            setRtTextureB(textureB)
+
+            // SET Orbit Controls
+            const controls = new OrbitControls(camera, glRenderer.domElement)
+            controls.enableZoom = false
+            controls.enablePan = false
+            controls.rotateSpeed = 0
+            controls.target = target
+            // setControls(controls)
+
+            const geometry = new THREE.PlaneGeometry(
+                64 * window.devicePixelRatio,
+                64 * window.devicePixelRatio,
+                1,
+                1
+            )
+            const max = 54
+            let frame = 0
+            let time = 0
+            let currentWave = 0
+            let color = {
+                red: 1,
+                green: 1,
+                blue: 1
+            }
+            // SET A RIPPLE'S MESHES
+            for (let i = 0; i < max; i++) {
+                let m = new THREE.MeshBasicMaterial({
+                    map: new THREE.TextureLoader().load(
+                        '/texture/burash01.png'
+                    ),
+                    transparent: true,
+                    side: THREE.DoubleSide,
+                    blending: THREE.AdditiveBlending,
+                    depthTest: false,
+                    depthWrite: false
+                })
+
+                let mesh = new THREE.Mesh(geometry, m)
+                mesh.visible = false
+                mesh.rotation.z = Math.PI * Math.random()
+                scene.add(mesh)
+                meshes.push(mesh)
+            }
+
+            const geometryFullScr = new THREE.PlaneGeometry(
+                scW * 1.4,
+                scH * 1.4,
+                1,
+                1
+            )
+            const displacementScreen = new THREE.Mesh(geometryFullScr, mat)
+
+            dispScene.add(displacementScreen)
+
+            loadGLTFModel(meshesScene, scW, scH, material).then(() => {
+                meshesScene.children[0].scale.x = 0.7
+                meshesScene.children[0].scale.y = 0.7
+                meshesScene.children[0].scale.z = 0.7
+
+                startAnim()
+            })
+
+            const startAnim = () => {
+                gsap.from(meshesScene.children[0].scale, {
+                    y: 0,
+                    x: 0,
+                    z: 0,
+                    delay: 0.3,
+                    duration: 1.5
+                })
+                gsap.from(settings, {
+                    opacity: 0.05,
+                    delay: 1.0,
+                    duration: 1.5
+                })
+            }
+
+            const trackRipples = () => {
+                trackMousePos()
+                meshes.forEach(mesh => {
+                    if (mesh.visible) {
+                        mesh.rotation.z += 0.02
+                        mesh.material.opacity *= 0.96
+                        if (mesh.material.opacity < 0.002) {
+                            mesh.visible = false
+                        }
+                        mesh.scale.x = 0.969 * mesh.scale.x + 0.05
+                        // mesh.scale.x = 1.01 * mesh.scale.x
+                        mesh.scale.y = mesh.scale.x
+                    }
+                })
+            }
+
+            const trackMousePos = () => {
+                if (
+                    Math.abs(mouse.x - prevMouse.x) < 1 ||
+                    Math.abs(mouse.y - prevMouse.y) < 1
+                ) {
+                } else {
+                    setNewWave()
+                    currentWave = (currentWave + 1) % max
+                }
+                prevMouse.x = mouse.x
+                prevMouse.y = mouse.y
+            }
+
+            const setNewWave = () => {
+                if (meshes) {
+                    let m = meshes[currentWave]
+                    m.visible = true
+                    m.position.x = mouse.x
+                    m.position.y = mouse.y
+                    m.scale.x = m.scale.y = 1.1
+                    m.material.opacity = 0.6
+                }
+            }
+            const t = []
+            let curFps
+            const animate = now => {
+                t.unshift(now)
+
+                if (t.length > 10) {
+                    const t0 = t.pop()
+                    const fps = Math.floor((1000 * 10) / (now - t0))
+                    curFps = fps
+                    // console.log(fps)
+                }
+                requestAnimationFrame(animate)
+                time += curFps <= 60 ? 0.012 : 0.009
+                frame = frame <= 200 ? frame + 1 : frame
+                const p = initialCameraPosition
+                const rotSpeed = -easeOutCirc(frame / 200) * Math.PI
+
+                material.uniforms.pointSize.value =
+                    (settings.pointSize * (Math.sin(time) + 2)) / 4
+                material.uniforms.progress.value = (Math.sin(time) + 1) / 2
+                material.uniforms.freq.value = settings.freq
+                material.uniforms.ampl.value = settings.ampl
+                material.uniforms.maxDist.value = settings.maxDist
+
+                if (frame <= 200) {
+                    camera.position.x =
+                        p.x * Math.cos(rotSpeed) + p.z * Math.sin(rotSpeed)
+                    camera.position.z =
+                        p.z * Math.cos(rotSpeed) - p.x * Math.sin(rotSpeed)
+                    camera.lookAt(target)
+                } else {
+                    // controls.update()
+                }
+
+                material.uniforms.uTime.value = time
+
+                trackRipples()
+
+                glRenderer.setRenderTarget(textureB)
+                glRenderer.render(scene, camera)
+                textureB.texture.encoding = THREE.sRGBEncoding
+
+                mat.uniforms.uDisplacement.value = textureB.texture
+                glRenderer.setRenderTarget(textureA)
+                glRenderer.render(meshesScene, camera)
+                textureA.texture.encoding = THREE.sRGBEncoding
+                mat.uniforms.uTexture.value = textureA.texture
+
+                glRenderer.setRenderTarget(null)
+                glRenderer.clear()
+                glRenderer.render(dispScene, camera)
+
+                frameRender(time, color)
+            }
+
+            // START LOOP
+            animate()
+            setLoading(false)
+
+            return () => {
+                glRenderer.dispose()
+            }
+        }
+    }, [mat, renderer, meshes, mouse, prevMouse, material, settings])
+
+    // START RESIZE EVENTS
+    useEffect(() => {
+        window.addEventListener('resize', handleWindowResize, false)
+
+        return () => {
+            window.removeEventListener('resize', handleWindowResize, false)
+        }
+    }, [handleWindowResize])
+
+    // START MOUSE EVENTS
+    useEffect(() => {
+        refContainer.current.addEventListener('mousemove', mouseEvents, false)
+        return () => {
+            refContainer.current.removeEventListener(
+                'mousemove',
+                mouseEvents,
+                false
+            )
+        }
+    }, [refContainer])
+
+    return (
+        <Center>
+            <Box
+                onMouseDown={handleClick}
+                onMouseUp={handleClick}
+                ref={refContainer}
+                className="planet"
+                cursor={'pointer'}
+                // m="0 -100px 50px -100px"
+                at={['-20px', '-60px', '-120px']}
+                mb={['20px', '20px', '20px']}
+                mt={['0', '0', '0']}
+                // mt={['20px', '50px', '0']}
+                w={[280, 480, 640]}
+                h={[280, 480, 640]}
+                position="relative"
+            >
+                {loading && (
+                    <Spinner
+                        size="xl"
+                        position="absolute"
+                        left="50%"
+                        top="50%"
+                        ml="calc(0px - var(--spinner-size) / 2)"
+                        mt="calc(0px - var(--spinner-size))"
+                    />
+                )}
+            </Box>
+        </Center>
+    )
 }
 
 export default Planet

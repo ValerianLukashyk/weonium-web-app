@@ -1,19 +1,13 @@
-import {
-    Container,
-    Box,
-    Heading,
-    Divider
-} from '@chakra-ui/react'
+import { Container, Box, Heading, Divider } from '@chakra-ui/react'
 import RegisterForm from '../components/auth/register'
 import Section from '../components/section'
 import Layout from '../components/layouts/article'
 
 const Register = () => {
-
     return (
         <Layout>
             <Container>
-                <Heading as='h3' fontSize={20} mb={4}>
+                <Heading as="h3" fontSize={20} mb={4}>
                     Register new Account
                 </Heading>
                 <Section>

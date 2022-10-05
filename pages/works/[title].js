@@ -1,6 +1,29 @@
 import { useState, useEffect } from 'react'
 import {
-    Container, Badge, Link, List, ListItem, Flex, IconButton, Divider, Box, Input, Textarea, Spacer, Button, Stack, InputGroup, InputLeftAddon, FormLabel, Modal, ModalOverlay, ModalContent, Image, ModalBody, ModalCloseButton, useDisclosure,
+    Container,
+    Badge,
+    Link,
+    List,
+    ListItem,
+    Flex,
+    IconButton,
+    Divider,
+    Box,
+    Input,
+    Textarea,
+    Spacer,
+    Button,
+    Stack,
+    InputGroup,
+    InputLeftAddon,
+    FormLabel,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    Image,
+    ModalBody,
+    ModalCloseButton,
+    useDisclosure
 } from '@chakra-ui/react'
 import { ExternalLinkIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons'
 import { Title, WorkImage, Meta } from '../../components/work'
@@ -9,14 +32,13 @@ import Layout from '../../components/layouts/article'
 import useStore from '../../state/useStore'
 // import useQuery from '../../libs/useQuery'
 import { server } from '../../components/api/api'
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/router'
 import Loading from '../../utils/loading'
-import { Formik } from 'formik';
+import { Formik } from 'formik'
 import Dropzone from 'react-dropzone'
 import Thumb from '../../components/thumb'
 import { values } from '../../utils/formValues'
 import DragText from '../../components/styled/drag-text'
-
 
 const Work = () => {
     const [loaded, setLoaded] = useState(true)
@@ -32,29 +54,29 @@ const Work = () => {
     const toggleDragActive = useStore(state => state.toggleDragActive)
     const setFormDataImages = useStore(state => state.setFormDataImages)
     const router = useRouter()
-    const {title} = router.query
+    const { title } = router.query
     useEffect(() => {
         if (!title) {
-            return;
+            return
         }
         workFetch(title)
-    }, [title, workFetch]);
+    }, [title, workFetch])
 
     const handleEdit = () => {
         if (editMode) setEditMode(false)
         else setEditMode(true)
     }
-    const handleOpen = (e) => {
+    const handleOpen = e => {
         setOpenedImg(e.target.attributes.src.value)
         onOpen()
     }
 
     const handleDelete = () => {
         setLoaded(false)
-        server.delete(`/works/${query.title}`)
-            .then((res) => {
+        server
+            .delete(`/works/${query.title}`)
+            .then(res => {
                 if (res.status === 200) {
-
                     router.back()
                 }
             })
@@ -66,33 +88,31 @@ const Work = () => {
         else setHovered(true)
     }
 
-
-
     return (
         <Layout title={work.title}>
             <Container>
-                <Flex justify='space-between'>
+                <Flex justify="space-between">
                     <Title lineHeight={2}>
                         {work.title}
                         <Badge ml={2}>{work.period}</Badge>
                     </Title>
-                    {isAuth && superUser && !editMode && <Box>
-                        <IconButton
-                            mr={1}
-                            isRound={true}
-                            aria-label="Edit Item"
-                            icon={<EditIcon />}
-                            onClick={handleEdit}
-                        />
-                        <IconButton
-
-                            isRound={true}
-                            aria-label="Remove Item"
-                            icon={<DeleteIcon />}
-                            onClick={handleDelete}
-                        />
-                    </Box>}
-
+                    {isAuth && superUser && !editMode && (
+                        <Box>
+                            <IconButton
+                                mr={1}
+                                isRound={true}
+                                aria-label="Edit Item"
+                                icon={<EditIcon />}
+                                onClick={handleEdit}
+                            />
+                            <IconButton
+                                isRound={true}
+                                aria-label="Remove Item"
+                                icon={<DeleteIcon />}
+                                onClick={handleDelete}
+                            />
+                        </Box>
+                    )}
                 </Flex>
                 <Divider my={4} />
                 {editMode ? (
@@ -101,11 +121,10 @@ const Work = () => {
                             initialValues={values}
                             onSubmit={(values, actions) => {
                                 setTimeout(() => {
-                                    alert(JSON.stringify(values, null, 2));
-                                    actions.setSubmitting(false);
-                                }, 1000);
+                                    alert(JSON.stringify(values, null, 2))
+                                    actions.setSubmitting(false)
+                                }, 1000)
                             }}
-
                         >
                             {props => (
                                 <form onSubmit={props.handleSubmit}>
@@ -144,9 +163,9 @@ const Work = () => {
                                             />
                                         </InputGroup>
                                         <InputGroup>
-                                            <InputLeftAddon >
+                                            <InputLeftAddon>
                                                 <Meta>Stack</Meta>
-                                            </InputLeftAddon >
+                                            </InputLeftAddon>
                                             <Input
                                                 type="text"
                                                 onChange={props.handleChange}
@@ -156,60 +175,150 @@ const Work = () => {
                                             />
                                         </InputGroup>
 
-                                        <FormLabel style={{ marginTop: 8 }} htmlFor='images'>Images</FormLabel>
+                                        <FormLabel
+                                            style={{ marginTop: 8 }}
+                                            htmlFor="images"
+                                        >
+                                            Images
+                                        </FormLabel>
                                         <Dropzone
-                                            name='files'
+                                            name="files"
                                             accept="image/*"
-                                            onDrop={async (acceptedFiles) => {
-                                                if (acceptedFiles.length === 0) { return; }
+                                            onDrop={async acceptedFiles => {
+                                                if (
+                                                    acceptedFiles.length === 0
+                                                ) {
+                                                    return
+                                                }
 
-                                                props.setFieldValue("files", props.values.files.concat(acceptedFiles))
+                                                props.setFieldValue(
+                                                    'files',
+                                                    props.values.files.concat(
+                                                        acceptedFiles
+                                                    )
+                                                )
 
                                                 let files = []
                                                 files.concat(acceptedFiles)
                                                 setFormDataImages(files)
                                             }}
                                         >
-                                            {({ getRootProps, getInputProps, isDragActive, isDragReject }) => {
+                                            {({
+                                                getRootProps,
+                                                getInputProps,
+                                                isDragActive,
+                                                isDragReject
+                                            }) => {
                                                 let message
                                                 if (isDragActive) {
                                                     message = 'Drop here...'
                                                     toggleDragActive(true)
-                                                }
-
-                                                else if (isDragReject) {
-                                                    message = 'This format is not supported'
+                                                } else if (isDragReject) {
+                                                    message =
+                                                        'This format is not supported'
                                                     toggleDragActive(true)
-                                                }
-
-                                                else if (props.values.files.length === 0) {
+                                                } else if (
+                                                    props.values.files
+                                                        .length === 0
+                                                ) {
                                                     message = 'Drag file here!'
                                                     toggleDragActive(true)
-                                                }
-                                                else {
-                                                    if (isActive) toggleDragActive(false)
-                                                    else if (!isActive) toggleDragActive(false)
+                                                } else {
+                                                    if (isActive)
+                                                        toggleDragActive(false)
+                                                    else if (!isActive)
+                                                        toggleDragActive(false)
                                                 }
 
                                                 return (
-                                                    <Box transition='all 0.2s' height={'100%'} minH={50} position='relative' border={'1px dashed'} borderColor={hovered ? 'yellow' : 'inherit'} borderRadius={8} onMouseEnter={toggleHover} onMouseLeave={toggleHover} {...getRootProps()}>
-                                                        <input type="file" name="files" multiple id="files" {...getInputProps()} />
-                                                        <Flex justify='flex-start' wrap='wrap' >
-                                                            {work.screenshots && work.screenshots.map(img, i => (
-                                                                <Box display='flex' alignItems='center' justifyContent="center" width={'120px'} height={'120px'}>
-                                                                    <Image
-                                                                        key={i}
-                                                                        src={img}
-                                                                        alt='thumbnails'
-                                                                        className="img-thumbnail mt-2 thumb-screen"
-                                                                        height={'100px'}
-                                                                        width={'100px'}
-                                                                    />
-                                                                </Box>
-                                                            ))}
-                                                            {props.values.files && props.values.files.map((file, i) => (<Thumb key={i} file={file} />))}
+                                                    <Box
+                                                        transition="all 0.2s"
+                                                        height={'100%'}
+                                                        minH={50}
+                                                        position="relative"
+                                                        border={'1px dashed'}
+                                                        borderColor={
+                                                            hovered
+                                                                ? 'yellow'
+                                                                : 'inherit'
+                                                        }
+                                                        borderRadius={8}
+                                                        onMouseEnter={
+                                                            toggleHover
+                                                        }
+                                                        onMouseLeave={
+                                                            toggleHover
+                                                        }
+                                                        {...getRootProps()}
+                                                    >
+                                                        <input
+                                                            type="file"
+                                                            name="files"
+                                                            multiple
+                                                            id="files"
+                                                            {...getInputProps()}
+                                                        />
+                                                        <Flex
+                                                            justify="flex-start"
+                                                            wrap="wrap"
+                                                        >
+                                                            {work.screenshots &&
+                                                                work.screenshots.map(
+                                                                    img,
+                                                                    i => (
+                                                                        <Box
+                                                                            display="flex"
+                                                                            alignItems="center"
+                                                                            justifyContent="center"
+                                                                            width={
+                                                                                '120px'
+                                                                            }
+                                                                            height={
+                                                                                '120px'
+                                                                            }
+                                                                        >
+                                                                            <Image
+                                                                                key={
+                                                                                    i
+                                                                                }
+                                                                                src={
+                                                                                    img
+                                                                                }
+                                                                                alt="thumbnails"
+                                                                                className="img-thumbnail mt-2 thumb-screen"
+                                                                                height={
+                                                                                    '100px'
+                                                                                }
+                                                                                width={
+                                                                                    '100px'
+                                                                                }
+                                                                            />
+                                                                        </Box>
+                                                                    )
+                                                                )}
+                                                            {props.values
+                                                                .files &&
+                                                                props.values.files.map(
+                                                                    (
+                                                                        file,
+                                                                        i
+                                                                    ) => (
+                                                                        <Thumb
+                                                                            key={
+                                                                                i
+                                                                            }
+                                                                            file={
+                                                                                file
+                                                                            }
+                                                                        />
+                                                                    )
+                                                                )}
                                                         </Flex>
-                                                        {isActive && <DragText>{message}</DragText>}
+                                                        {isActive && (
+                                                            <DragText>
+                                                                {message}
+                                                            </DragText>
+                                                        )}
                                                     </Box>
                                                 )
                                             }}
@@ -217,67 +326,94 @@ const Work = () => {
                                     </Stack>
                                     {/* {props.errors.name && <div id="feedback">{props.errors.name}</div>} */}
                                     <Flex mt={4}>
-                                        <Button bg='blue.400' w={'48%'} type="submit">Update</Button>
+                                        <Button
+                                            bg="blue.400"
+                                            w={'48%'}
+                                            type="submit"
+                                        >
+                                            Update
+                                        </Button>
                                         <Spacer />
-                                        <Button onClick={() => setEditMode(false)} bg='red.400' w={'48%'} >Cancel</Button>
+                                        <Button
+                                            onClick={() => setEditMode(false)}
+                                            bg="red.400"
+                                            w={'48%'}
+                                        >
+                                            Cancel
+                                        </Button>
                                     </Flex>
-
                                 </form>
                             )}
                         </Formik>
-
-
                     </Box>
                 ) : (
                     <Box>
                         {loaded ? (
                             <Box>
-                                <P>
-                                    {work.description}
-                                </P>
+                                <P>{work.description}</P>
                                 <List ml={4} my={4}>
                                     <ListItem>
                                         <Meta>Website</Meta>
 
                                         <Link href={work.url}>
                                             {work.url}
-                                            <ExternalLinkIcon mx='2px' />
+                                            <ExternalLinkIcon mx="2px" />
                                         </Link>
-
-
                                     </ListItem>
                                     <ListItem>
                                         <Meta>Stack</Meta>
-                                        <span>
-                                            {work.stack}
-                                        </span>
+                                        <span>{work.stack}</span>
                                     </ListItem>
                                 </List>
-                                {
-                                    work.screenshots && [...work.screenshots].reverse().map(
-                                        (img, i) => {
+                                {work.screenshots &&
+                                    [...work.screenshots]
+                                        .reverse()
+                                        .map((img, i) => {
                                             return (
                                                 <Box key={i}>
-                                                    < WorkImage key={i} src={process.env.NEXT_PUBLIC_SERVER_URL + ':' + process.env.NEXT_PUBLIC_SERVER_PORT + img} alt='SweetGlass' clk={handleOpen} />
+                                                    <WorkImage
+                                                        key={i}
+                                                        src={
+                                                            process.env
+                                                                .NEXT_PUBLIC_SERVER_URL +
+                                                            ':' +
+                                                            process.env
+                                                                .NEXT_PUBLIC_SERVER_PORT +
+                                                            img
+                                                        }
+                                                        alt="SweetGlass"
+                                                        clk={handleOpen}
+                                                    />
                                                 </Box>
                                             )
-                                        }
-                                    )
-
-                                }
+                                        })}
                                 {work.screenshots && (
-                                    <Modal onClose={onClose} size='full' isOpen={isOpen} >
+                                    <Modal
+                                        onClose={onClose}
+                                        size="full"
+                                        isOpen={isOpen}
+                                    >
                                         <ModalOverlay />
                                         <ModalContent>
-                                            <ModalCloseButton position='fixed' w={50} h={50} right={50} top={4} />
+                                            <ModalCloseButton
+                                                position="fixed"
+                                                w={50}
+                                                h={50}
+                                                right={50}
+                                                top={4}
+                                            />
                                             <ModalBody>
-                                                <Image onDoubleClick={onClose} w='full' alt={'screenshot main'} src={openedImg} />
+                                                <Image
+                                                    onDoubleClick={onClose}
+                                                    w="full"
+                                                    alt={'screenshot main'}
+                                                    src={openedImg}
+                                                />
                                             </ModalBody>
                                         </ModalContent>
                                     </Modal>
                                 )}
                                 <Box>
-
                                     {/* TODO: Complete Video Uploading */}
 
                                     {/* <form method='post' action='http://localhost:5000/uploadVideo'>
@@ -316,17 +452,14 @@ const Work = () => {
                                     </video> */}
                                 </Box>
                             </Box>
-                        ) :
-                            (
-                                <Loading />
-                            )
-                        }
+                        ) : (
+                            <Loading />
+                        )}
                     </Box>
                 )}
             </Container>
         </Layout>
     )
 }
-
 
 export default Work

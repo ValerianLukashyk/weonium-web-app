@@ -6,5 +6,4 @@ export const values = {
     stack: '',
     files: [],
     videos: []
-
 }

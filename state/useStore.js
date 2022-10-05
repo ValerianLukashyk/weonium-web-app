@@ -2,55 +2,54 @@ import create from 'zustand'
 import { server } from '../components/api/api'
 
 function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
+    const value = `; ${document.cookie}`
+    const parts = value.split(`; ${name}=`)
+    if (parts.length === 2) return parts.pop().split(';').shift()
 }
-
 
 const useStore = create(set => ({
     loading: false,
-    setLoading: (value) => set(() => ({ loading: value })),
+    setLoading: value => set(() => ({ loading: value })),
     //Auth Section / / / / / / / / / / / / /
     authInfo: {
-        _id: "",
-        localId: "",
-        given_name: "",
-        family_name: "",
-        displayName: "",
-        email: "",
-        password: "",
-        date: "",
+        _id: '',
+        localId: '',
+        given_name: '',
+        family_name: '',
+        displayName: '',
+        email: '',
+        password: '',
+        date: '',
         isAuth: false,
-        token: "",
+        token: '',
         picture: null,
         superuser: false,
-        status: "",
+        status: '',
         language: 'eng',
-        provider: "",
-        date: "",
-        confirmationCode: "",
-
+        provider: '',
+        date: '',
+        confirmationCode: ''
     },
     fetchAuthInfo: async () => {
         const token = getCookie('token')
-        if(!token) return
-        server.defaults.headers.common["auth-token"] = token
-        server.get('/auth/me')
-            .then((res) => {
+        if (!token) return
+        server.defaults.headers.common['auth-token'] = token
+        server
+            .get('/auth/me')
+            .then(res => {
                 res.data && set({ authInfo: res.data })
             })
-            .catch(() => console.log("Not authorized"))
+            .catch(() => console.log('Not authorized'))
     },
-    setAuthInfo: (user) => set(() => ({ authInfo: user })),
-    setProfilePicture: (photo) => set(() => ({ authInfo: {picture: photo} })),
-    setTempAuthInfo: (user) => set(() => ({ authInfo: { name: user.name, email: user.email } })),
+    setAuthInfo: user => set(() => ({ authInfo: user })),
+    setProfilePicture: photo => set(() => ({ authInfo: { picture: photo } })),
+    setTempAuthInfo: user =>
+        set(() => ({ authInfo: { name: user.name, email: user.email } })),
     setIsAuth: () => set(() => ({ authInfo: { isAuth: true } })),
     setNotIsAuth: () => set(() => ({ authInfo: { isAuth: false } })),
 
-    
     time: 0,
-    setTime: () => set((state) => ({ time: state.time + 0.01 })),
+    setTime: () => set(state => ({ time: state.time + 0.01 })),
     resetTime: set(() => ({ time: 0 })),
 
     //TODO: RENAME TO WEBGL WORKS
@@ -59,7 +58,8 @@ const useStore = create(set => ({
     getAllPosts: async () => {
         // const token = getCookie('token')
         // server.defaults.headers.common["auth-token"] = token
-        server.get('/posts')
+        server
+            .get('/posts')
             .then(res => {
                 set({ posts: res.data })
             })
@@ -68,7 +68,7 @@ const useStore = create(set => ({
     post: {},
     postFetch: async slug => {
         const token = getCookie('token')
-        server.defaults.headers.common["auth-token"] = token
+        server.defaults.headers.common['auth-token'] = token
         server(`/posts/${slug}`)
             .then(res => {
                 set({ post: res.data })
@@ -76,8 +76,7 @@ const useStore = create(set => ({
             .catch(err => console.log(err))
     },
     showButtons: false,
-    onPostHover: () => set((value) => ({ showButtons: value })),
-
+    onPostHover: () => set(value => ({ showButtons: value })),
 
     // WORKS SECTION / / / / / / / / / / / / / / / /
     currentWork: {
@@ -86,12 +85,12 @@ const useStore = create(set => ({
         description: '',
         url: '',
         stack: '',
-        files: [],
+        files: []
     },
     // setCurrentWork: (data) => set(() => ({ currentWork: data })),
     workFetch: async title => {
         const token = getCookie('token')
-        server.defaults.headers.common["auth-token"] = token
+        server.defaults.headers.common['auth-token'] = token
         server(`/works/${title}`)
             .then(res => {
                 set({ currentWork: res.data })
@@ -118,11 +117,12 @@ const useStore = create(set => ({
         stack: '',
         screenshots: []
     },
-    setNewWorkScreen: (data) => set(() => ({ newWorkForm: { screenshots: data } })),
-    setNewWorkForm: (data) => set(() => ({ newWorkForm: { data } })),
+    setNewWorkScreen: data =>
+        set(() => ({ newWorkForm: { screenshots: data } })),
+    setNewWorkForm: data => set(() => ({ newWorkForm: { data } })),
     updatingWork: {},
-    updateWork: (data) => {
-        const work = new Map();
+    updateWork: data => {
+        const work = new Map()
         for (const [key, value] of Object.entries(data)) {
             work[key] = value
         }
@@ -133,28 +133,30 @@ const useStore = create(set => ({
 
     // ERROR SECTION / / / / / / / / / / / / / / / /
     errors: null,
-    setErrors: (error) => set(() => ({ errors: error })),
+    setErrors: error => set(() => ({ errors: error })),
     clearErrors: () => set(() => ({ errors: null })),
 
     // Submit form
     formData: null,
-    setFormData: (data) => set(() => ({ formData: { [data.name]: data.value } })),
-    setFormDataImages: (data) => set(() => ({ formData: { images: data } })),
+    setFormData: data => set(() => ({ formData: { [data.name]: data.value } })),
+    setFormDataImages: data => set(() => ({ formData: { images: data } })),
 
     // UploadForm
     isDragActive: false,
-    toggleDragActive: (value) => set(() => ({ isDragActive: value })),
-
+    toggleDragActive: value => set(() => ({ isDragActive: value })),
 
     // STYLES
     styles: {
         theme: 'dark',
-        toggleTheme: () => set((state) => ({ styles: { theme: state.styles.theme === 'dark' ? 'light' : 'dark' } })),
-
-    },
+        toggleTheme: () =>
+            set(state => ({
+                styles: {
+                    theme: state.styles.theme === 'dark' ? 'light' : 'dark'
+                }
+            }))
+    }
     // TODO: Make store part of a Contacts send message
     // CONTACT ME
-    
 }))
 
 export default useStore

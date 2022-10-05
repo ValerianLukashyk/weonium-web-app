@@ -17,28 +17,29 @@ const GlWorks = () => {
     const glWorks = useStore(state => state.posts)
     const getAllGlWorks = useStore(state => state.getAllPosts)
 
-    const handleSubmit = async (values) => {
-        const formData = new FormData();
-        formData.append('title', values.title);
-        formData.append('description', values.description);
-        formData.append('url', values.url);
+    const handleSubmit = async values => {
+        const formData = new FormData()
+        formData.append('title', values.title)
+        formData.append('description', values.description)
+        formData.append('url', values.url)
         for (let i = 0; i < values.files.length; i++) {
-            formData.append('images', values.files[i]);
+            formData.append('images', values.files[i])
         }
         setIsLoading(true)
-        server.post('/posts', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        })
-            .then((res) => {
+        server
+            .post('/posts', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+            .then(res => {
                 if (res.status === 200) {
                     getAllGlWorks()
                     setIsLoading(false)
                 }
             })
-            .catch((error) => {
-                console.log(error);
+            .catch(error => {
+                console.log(error)
             })
     }
 
@@ -48,39 +49,52 @@ const GlWorks = () => {
     }, [getAllGlWorks, setIsLoading])
 
     return (
-        <Layout title='WebGL projects'>
-            {isLoading ?
-                <Loading /> :
+        <Layout title="WebGL projects">
+            {isLoading ? (
+                <Loading />
+            ) : (
                 <Container>
-                    <Flex justify='space-between' align='center'>
-                        <Heading as='h3' fontSize={20} mb={4} mt={4}>
+                    <Flex justify="space-between" align="center">
+                        <Heading as="h3" fontSize={20} mb={4} mt={4}>
                             Latest WebGL projects
                         </Heading>
                         {isAuth && superUser && (
-                            <ModalWindow callbackHook={data => handleSubmit(data)} isCentered iValues={values} fields={glFields} title='Add New WebGL project' icon={<AddIcon />} isRound={true} />
-                        )
-                        }
+                            <ModalWindow
+                                callbackHook={data => handleSubmit(data)}
+                                isCentered
+                                iValues={values}
+                                fields={glFields}
+                                title="Add New WebGL project"
+                                icon={<AddIcon />}
+                                isRound={true}
+                            />
+                        )}
                     </Flex>
 
                     <Divider mb={6} />
 
-
                     <Section delay={0.2}>
                         <SimpleGrid columns={[1, 1, 2]} gap={6}>
-                            {glWorks ?
-                                (
-                                    [...glWorks].reverse().map((work, index) => (
-                                        <PostGridItem w={["100%", "75%", "47%"]} key={index} slug={work.slug} title={work.title} text={work.description} thumbnail={work.screenshots[0]} />
+                            {glWorks ? (
+                                [...glWorks]
+                                    .reverse()
+                                    .map((work, index) => (
+                                        <PostGridItem
+                                            w={['100%', '75%', '47%']}
+                                            key={index}
+                                            slug={work.slug}
+                                            title={work.title}
+                                            text={work.description}
+                                            thumbnail={work.screenshots[0]}
+                                        />
                                     ))
-                                ) : (
-                                    <p>
-                                        No WebGL Works yet
-                                    </p>
-                                )
-                            }
+                            ) : (
+                                <p>No WebGL Works yet</p>
+                            )}
                         </SimpleGrid>
                     </Section>
-                </Container>}
+                </Container>
+            )}
         </Layout>
     )
 }

@@ -1,8 +1,4 @@
-import {
-    ModalContent,
-    ModalHeader,
-    ModalCloseButton,
-} from '@chakra-ui/react'
+import { ModalContent, ModalHeader, ModalCloseButton } from '@chakra-ui/react'
 
 const CustomContent = props => {
     const { body, title } = props

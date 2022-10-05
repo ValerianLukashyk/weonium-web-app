@@ -1,51 +1,50 @@
 {
-  "name": "weonium-app",
-  "version": "1.0.0",
-  "description": "Official website of web-developing studio 'WeOnium'",
-  "scripts": {
-    "dev": "next dev -H 0.0.0.0 -p 880",
-    "build": "next build",
-    "sitemap": "next-sitemap --config sitemap.js",
-    "prettier": "prettier -write .",
-    "lint": "next lint"
-  },
-  "keywords": [],
-  "author": "Valerian Lukashyk, Weonium, <weonium@gmail.com>",
-  "license": "MIT",
-  "dependencies": {
-    "@chakra-ui/icons": "^1.0.17",
-    "@chakra-ui/react": "^1.6.12",
-    "@emotion/react": "^11.5.0",
-    "@emotion/styled": "^11.3.0",
-    "axios": "^0.24.0",
-    "dropzone": "^6.0.0-beta.2",
-    "formik": "^2.2.9",
-    "framer-motion": "^5.2.1",
-    "gsap": "^3.8.0",
-    "lodash": "^4.17.21",
-    "next": "^12.0.3",
-    "next-cookies": "^2.0.3",
-    "next-sitemap": "^2.0.7",
-    "prop-types": "^15.7.2",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-dropzone": "^11.4.2",
-    "react-gtm-module": "^2.0.11",
-    "react-icons": "^4.3.1",
-    "react-resize-detector": "^6.7.6",
-    "three": "^0.134.0",
-    "yup": "^0.23.0",
-    "zustand": "^3.6.5"
-  },
-  "devDependencies": {
-    "cz-conventional-changelog": "^3.3.0",
-    "eslint": "^7.32.0",
-    "eslint-config-next": "^12.0.3",
-    "prettier": "^0.0.1"
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
+    "name": "weonium-app",
+    "version": "1.0.0",
+    "description": "Official website of web-developing studio 'WeOnium'",
+    "scripts": {
+        "dev": "next dev -H 0.0.0.0 -p 3000",
+        "build": "next build",
+        "sitemap": "next-sitemap --config sitemap.js",
+        "prettier": "prettier -write .",
+        "lint": "next lint"
+    },
+    "keywords": [],
+    "author": "Valerian Lukashyk, Weonium, <weonium@gmail.com>",
+    "license": "MIT",
+    "dependencies": {
+        "@chakra-ui/icons": "^1.0.17",
+        "@chakra-ui/react": "^1.6.12",
+        "@emotion/react": "^11.5.0",
+        "@emotion/styled": "^11.3.0",
+        "axios": "^0.24.0",
+        "dropzone": "^6.0.0-beta.2",
+        "formik": "^2.2.9",
+        "framer-motion": "^5.2.1",
+        "gsap": "^3.8.0",
+        "lodash": "^4.17.21",
+        "next": "^12.0.3",
+        "next-cookies": "^2.0.3",
+        "next-sitemap": "^2.0.7",
+        "prop-types": "^15.7.2",
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2",
+        "react-dropzone": "^11.4.2",
+        "react-icons": "^4.3.1",
+        "react-resize-detector": "^6.7.6",
+        "three": "^0.134.0",
+        "yup": "^0.23.0",
+        "zustand": "^3.6.5"
+    },
+    "devDependencies": {
+        "cz-conventional-changelog": "^3.3.0",
+        "eslint": "^7.32.0",
+        "eslint-config-next": "^12.0.3",
+        "prettier": "2.7.1"
+    },
+    "config": {
+        "commitizen": {
+            "path": "./node_modules/cz-conventional-changelog"
+        }
     }
-  }
 }

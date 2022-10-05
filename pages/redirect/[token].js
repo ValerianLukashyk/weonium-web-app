@@ -11,27 +11,26 @@ const LoginRedirect = ({ href }) => {
     useEffect(() => {
         if (token) {
             localStorage.setItem('token', token)
-            document.cookie = `token=${token}; path=/`;
-            server.defaults.headers.common["auth-token"] = localStorage.getItem('token');
+            document.cookie = `token=${token}; path=/`
+            server.defaults.headers.common['auth-token'] =
+                localStorage.getItem('token')
             setTimeout(() => {
-                server.get('/auth/me')
-                    .then((res) => {
+                server
+                    .get('/auth/me')
+                    .then(res => {
                         if (res.status === 200) {
                             setAuthInfo(res.data)
                         }
                     })
                     .catch(function (error) {
-                        console.log(error);
+                        console.log(error)
                     })
                     .then(() => router.push(href || `/profile`))
             }, 100)
-
         }
     }, [token, href, router, setAuthInfo])
 
-    return (
-        <>Redirecting to your profile...</>
-    )
+    return <>Redirecting to your profile...</>
 }
 
 export default LoginRedirect

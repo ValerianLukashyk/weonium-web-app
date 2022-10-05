@@ -4,47 +4,55 @@ import { ChevronRightIcon } from '@chakra-ui/icons'
 
 export const Title = ({ children }) => (
     <Box>
-        <NextLink href='/works'>
+        <NextLink href="/works">
             <Link>Works</Link>
         </NextLink>
-
 
         <span>
             &nbsp;
             <ChevronRightIcon />
             &nbsp;
         </span>
-        <Heading display='inline-block' as='h3' fontSize={20} mb={4}>
+        <Heading display="inline-block" as="h3" fontSize={20} mb={4}>
             {children}
         </Heading>
     </Box>
 )
 export const TitleGL = ({ children }) => (
     <Box>
-        <NextLink href='/glworks'>
+        <NextLink href="/glworks">
             <Link>WebGL Works</Link>
         </NextLink>
-
 
         <span>
             &nbsp;
             <ChevronRightIcon />
             &nbsp;
         </span>
-        <Heading display='inline-block' as='h3' fontSize={20} mb={4}>
+        <Heading display="inline-block" as="h3" fontSize={20} mb={4}>
             {children}
         </Heading>
     </Box>
 )
 
-export const WorkImage = (props) => {
+export const WorkImage = props => {
     const { src, alt, clk } = props
 
-    return <Image onClick={clk} cursor={'pointer'} borderRadius='lg' w='full' src={src} alt={alt} mb={4} />
+    return (
+        <Image
+            onClick={clk}
+            cursor={'pointer'}
+            borderRadius="lg"
+            w="full"
+            src={src}
+            alt={alt}
+            mb={4}
+        />
+    )
 }
 
 export const Meta = ({ children }) => (
-    <Badge colorScheme='green' mr={2} >
+    <Badge colorScheme="green" mr={2}>
         {children}
     </Badge>
 )
